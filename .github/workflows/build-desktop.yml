@@ -1,5 +1,5 @@
 # Build unsigned Windows + macOS installers (manual or on version tags).
-# macOS runner is used only here — no local Mac required.
+# Each OS runner downloads its own native binaries (never mix .exe into Mac).
 name: Build Desktop
 
 on:
@@ -9,7 +9,6 @@ on:
       - 'v*'
 
 env:
-  # Unsigned community builds (no Apple / Windows cert required)
   CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
 jobs:
@@ -30,18 +29,48 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Fetch Windows binaries (yt-dlp + ffmpeg)
+      - name: Fetch Windows binaries (yt-dlp + ffmpeg + Real-ESRGAN)
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path bin | Out-Null
+
           Invoke-WebRequest -Uri "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe" -OutFile "bin/yt-dlp.exe"
+
           $ff = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
           Invoke-WebRequest -Uri $ff -OutFile ffmpeg.zip
           Expand-Archive -Path ffmpeg.zip -DestinationPath ffmpeg-tmp -Force
           $ffdir = Get-ChildItem -Path ffmpeg-tmp -Directory | Select-Object -First 1
           Copy-Item "$($ffdir.FullName)/bin/ffmpeg.exe" bin/ffmpeg.exe
           Copy-Item "$($ffdir.FullName)/bin/ffprobe.exe" bin/ffprobe.exe
-          Get-ChildItem bin
+
+          # Official Real-ESRGAN ncnn Windows build (includes models)
+          $esr = "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip"
+          Invoke-WebRequest -Uri $esr -OutFile esrgan.zip
+          Expand-Archive -Path esrgan.zip -DestinationPath esrgan-tmp -Force
+          $esdir = Get-ChildItem -Path esrgan-tmp -Directory -Recurse -ErrorAction SilentlyContinue | Where-Object { Test-Path (Join-Path $_.FullName 'realesrgan-ncnn-vulkan.exe') } | Select-Object -First 1
+          if (-not $esdir) {
+            $esdir = Get-ChildItem -Path esrgan-tmp -Directory | Select-Object -First 1
+          }
+          if (Test-Path "$($esdir.FullName)/realesrgan-ncnn-vulkan.exe") {
+            Copy-Item "$($esdir.FullName)/realesrgan-ncnn-vulkan.exe" bin/realesrgan-ncnn-vulkan.exe
+          } else {
+            Get-ChildItem -Path esrgan-tmp -Recurse -Filter "realesrgan-ncnn-vulkan.exe" | Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName bin/realesrgan-ncnn-vulkan.exe }
+          }
+          if (Test-Path "$($esdir.FullName)/models") {
+            New-Item -ItemType Directory -Force -Path bin/models | Out-Null
+            Copy-Item "$($esdir.FullName)/models/*" bin/models/ -Recurse -Force
+          } else {
+            $m = Get-ChildItem -Path esrgan-tmp -Recurse -Directory -Filter models | Select-Object -First 1
+            if ($m) {
+              New-Item -ItemType Directory -Force -Path bin/models | Out-Null
+              Copy-Item "$($m.FullName)/*" bin/models/ -Recurse -Force
+            }
+          }
+          # MSVC runtime sometimes needed by ncnn builds
+          Get-ChildItem -Path esrgan-tmp -Recurse -Filter "vcomp140.dll" | Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName bin/vcomp140.dll -Force }
+
+          Write-Host "=== bin ==="
+          Get-ChildItem bin -Recurse | Select-Object FullName
 
       - name: Build Windows installer
         run: npm run build:win
@@ -61,7 +90,7 @@ jobs:
   build-macos:
     name: macOS DMG
     runs-on: macos-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,22 +104,64 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Fetch macOS binaries (yt-dlp + ffmpeg)
+      - name: Fetch macOS binaries (yt-dlp + ffmpeg + Real-ESRGAN)
         run: |
-          mkdir -p bin
+          set -euo pipefail
+          mkdir -p bin models_tmp
+
+          # yt-dlp (universal / macos binary)
           curl -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos" -o bin/yt-dlp
           chmod +x bin/yt-dlp
+
+          # ffmpeg from Homebrew (native for runner arch)
           brew install ffmpeg
           cp "$(brew --prefix)/bin/ffmpeg" bin/ffmpeg
           cp "$(brew --prefix)/bin/ffprobe" bin/ffprobe
           chmod +x bin/ffmpeg bin/ffprobe
+
+          # Official Real-ESRGAN ncnn macOS build (includes models)
+          # https://github.com/xinntao/Real-ESRGAN/releases
+          ESR_URL="https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip"
+          curl -L "$ESR_URL" -o esrgan-macos.zip
+          unzip -q esrgan-macos.zip -d esrgan-tmp
+
+          # Locate binary (layout varies by release zip)
+          ESR_BIN="$(find esrgan-tmp -type f -name 'realesrgan-ncnn-vulkan' | head -n 1)"
+          if [ -z "$ESR_BIN" ]; then
+            echo "Real-ESRGAN macOS binary not found in zip" >&2
+            find esrgan-tmp -type f | head -n 50
+            exit 1
+          fi
+          cp "$ESR_BIN" bin/realesrgan-ncnn-vulkan
+          chmod +x bin/realesrgan-ncnn-vulkan
+
+          # Models next to binary or under models/
+          ESR_DIR="$(dirname "$ESR_BIN")"
+          mkdir -p bin/models
+          if [ -d "$ESR_DIR/models" ]; then
+            cp -R "$ESR_DIR/models/." bin/models/
+          else
+            MODELS_DIR="$(find esrgan-tmp -type d -name models | head -n 1 || true)"
+            if [ -n "$MODELS_DIR" ]; then
+              cp -R "$MODELS_DIR/." bin/models/
+            fi
+          fi
+
+          # Also copy any loose model files beside the binary
+          for f in "$ESR_DIR"/*.bin "$ESR_DIR"/*.param; do
+            [ -f "$f" ] && cp "$f" bin/models/ || true
+          done
+
+          echo "=== bin ==="
           ls -la bin
+          echo "=== models ==="
+          ls -la bin/models | head -n 30
+          file bin/realesrgan-ncnn-vulkan bin/yt-dlp bin/ffmpeg || true
 
       - name: Build macOS DMG (unsigned)
         run: npm run build:mac
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Explicitly skip code signing
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
 
       - name: Upload macOS artifacts

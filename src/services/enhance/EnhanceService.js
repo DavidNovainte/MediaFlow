@@ -77,11 +77,25 @@ class EnhanceService {
         info.isAvailable = fs.existsSync(exePath);
 
         // UI engine ids: cugan / esrgan / gfpgan (not binary basenames)
-        const downloadUrls = {
-            gfpgan: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip',
-            esrgan: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip',
-            cugan: 'https://github.com/nihui/realcugan-ncnn-vulkan/releases/download/20220728/realcugan-ncnn-vulkan-20220728-windows.zip'
-        };
+        // Platform-native ncnn builds (Windows zip vs macOS zip). Never mix .exe onto Mac.
+        const isMac = process.platform === 'darwin';
+        const downloadUrls = isMac
+            ? {
+                  gfpgan:
+                      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip',
+                  esrgan:
+                      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip',
+                  cugan:
+                      'https://github.com/nihui/realcugan-ncnn-vulkan/releases/download/20220728/realcugan-ncnn-vulkan-20220728-macos.zip'
+              }
+            : {
+                  gfpgan:
+                      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip',
+                  esrgan:
+                      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip',
+                  cugan:
+                      'https://github.com/nihui/realcugan-ncnn-vulkan/releases/download/20220728/realcugan-ncnn-vulkan-20220728-windows.zip'
+              };
         info.downloadUrl = downloadUrls[engineId] || '';
 
         return info;

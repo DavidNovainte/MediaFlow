@@ -72,3 +72,10 @@ Builds are **unsigned** (no Apple/Windows certificate). macOS users may need:
 System Settings → Privacy & Security → Open Anyway
 
 Tag a release (`v2.3.5`) to build automatically, or use workflow_dispatch anytime.
+
+### Platform binaries
+
+- **Windows** packages: `.exe` tools + Real-ESRGAN Windows zip models
+- **macOS** packages: macOS binaries only (`yt-dlp`, `ffmpeg`, `realesrgan-ncnn-vulkan`) + shared `models/`
+- CI downloads the correct platform zip on each runner — never ship Windows `.exe` inside a Mac app
+
