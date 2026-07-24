@@ -73,7 +73,10 @@
                         "yt-dlp"
                     ]
                 }
-            ]
+            ],
+            "hardenedRuntime": false,
+            "gatekeeperAssess": false,
+            "identity": null
         },
         "nsis": {
             "oneClick": false,

@@ -59,3 +59,16 @@ If you enable updates, host your own `latest.yml` / generic provider and documen
 npm run export:community
 # output path: see scripts/community-manifest.json → defaultOutDir
 ```
+
+## CI desktop builds (Windows + macOS)
+
+GitHub Actions workflow: `.github/workflows/build-desktop.yml`
+
+1. Open the repo on GitHub → **Actions** → **Build Desktop** → **Run workflow**
+2. Wait for both jobs (Windows NSIS + macOS DMG)
+3. Download artifacts from the run summary
+
+Builds are **unsigned** (no Apple/Windows certificate). macOS users may need:
+System Settings → Privacy & Security → Open Anyway
+
+Tag a release (`v2.3.5`) to build automatically, or use workflow_dispatch anytime.

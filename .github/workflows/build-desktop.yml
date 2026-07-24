@@ -1,0 +1,105 @@
+# Build unsigned Windows + macOS installers (manual or on version tags).
+# macOS runner is used only here — no local Mac required.
+name: Build Desktop
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  # Unsigned community builds (no Apple / Windows cert required)
+  CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+jobs:
+  build-windows:
+    name: Windows NSIS
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch Windows binaries (yt-dlp + ffmpeg)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path bin | Out-Null
+          Invoke-WebRequest -Uri "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe" -OutFile "bin/yt-dlp.exe"
+          $ff = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
+          Invoke-WebRequest -Uri $ff -OutFile ffmpeg.zip
+          Expand-Archive -Path ffmpeg.zip -DestinationPath ffmpeg-tmp -Force
+          $ffdir = Get-ChildItem -Path ffmpeg-tmp -Directory | Select-Object -First 1
+          Copy-Item "$($ffdir.FullName)/bin/ffmpeg.exe" bin/ffmpeg.exe
+          Copy-Item "$($ffdir.FullName)/bin/ffprobe.exe" bin/ffprobe.exe
+          Get-ChildItem bin
+
+      - name: Build Windows installer
+        run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mediaflow-community-windows
+          path: |
+            dist/*.exe
+            dist/*.yml
+            dist/*.blockmap
+          if-no-files-found: error
+
+  build-macos:
+    name: macOS DMG
+    runs-on: macos-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch macOS binaries (yt-dlp + ffmpeg)
+        run: |
+          mkdir -p bin
+          curl -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos" -o bin/yt-dlp
+          chmod +x bin/yt-dlp
+          brew install ffmpeg
+          cp "$(brew --prefix)/bin/ffmpeg" bin/ffmpeg
+          cp "$(brew --prefix)/bin/ffprobe" bin/ffprobe
+          chmod +x bin/ffmpeg bin/ffprobe
+          ls -la bin
+
+      - name: Build macOS DMG (unsigned)
+        run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Explicitly skip code signing
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mediaflow-community-macos
+          path: |
+            dist/*.dmg
+            dist/*.zip
+            dist/*.yml
+            dist/*.blockmap
+          if-no-files-found: error
