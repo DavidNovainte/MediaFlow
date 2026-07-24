@@ -1,0 +1,229 @@
+/* =========================================
+   Bottom Action Bar - Premium Design
+   ========================================= */
+
+/* Action Buttons Container */
+.compress-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.compress-actions .btn {
+    height: 52px;
+    /* Taller, more clickable */
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    padding: 0 12px;
+}
+
+/* Save Current Button - Secondary */
+#btn-save-current {
+    flex: 1;
+    background: var(--fill-subtle);
+    border: 1px solid var(--fill-muted);
+    color: var(--text-secondary);
+    backdrop-filter: blur(10px);
+}
+
+#btn-save-current:hover {
+    background: var(--fill-muted);
+    border-color: var(--fill-strong);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Primary Action Button - Hero Style */
+#btn-compress-images {
+    flex: 1.5;
+    background: linear-gradient(135deg, #4d82c9 0%, #3d6eb8 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(77, 130, 201, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#btn-compress-images::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+}
+
+#btn-compress-images::after {
+    /* Shine effect */
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+#btn-compress-images:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(77, 130, 201, 0.5), 0 0 0 1px var(--fill-hover) inset;
+}
+
+#btn-compress-images:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#btn-compress-images svg {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#btn-compress-images:hover svg {
+    transform: scale(1.1) rotate(-10deg) translateX(2px);
+}
+
+/* Pixelflow Fixed Footer */
+.pixelflow-footer {
+    position: fixed;
+    bottom: 0;
+    left: calc(var(--sidebar-width, 240px) + 20px);
+    right: 20px;
+    height: 70px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 2000 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+    pointer-events: auto !important;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 调整左侧工具栏样式以适应 footer */
+.footer-left .toolbar-btn {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.footer-left .toolbar-btn:hover {
+    background: var(--fill-hover);
+    color: var(--text-primary);
+}
+
+.footer-left .toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--fill-hover);
+    margin: 0 4px;
+}
+
+.footer-left .toolbar-size-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 1px solid var(--fill-hover);
+}
+
+/* 调整右侧按钮样式 */
+.footer-right .btn {
+    height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+}
+
+.footer-right #btn-compress-images {
+    min-width: 160px;
+}
+
+/* 抠图模型弹出菜单 */
+.rembg-context-menu {
+    position: absolute;
+    bottom: 50px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--fill-strong);
+    border-radius: 8px;
+    padding: 6px 0;
+    min-width: 160px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+}
+
+.rembg-context-menu.hidden {
+    display: none;
+}
+
+.rembg-context-menu .menu-title {
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--fill-hover);
+    margin-bottom: 4px;
+}
+
+.rembg-context-menu .menu-item {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rembg-context-menu .menu-item:hover {
+    background: var(--fill-muted);
+    color: var(--text-primary);
+}
+
+.rembg-context-menu .menu-item.active {
+    color: var(--accent-primary);
+}
+
+.rembg-context-menu .menu-item.active::before {
+    content: '✓';
+    font-size: 10px;
+    margin-right: 4px;
+}

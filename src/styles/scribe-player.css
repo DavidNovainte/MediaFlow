@@ -1,0 +1,212 @@
+/* Scribe Media Player Styles
+ * Prefer embedded-mode (in document flow above transcript).
+ * Fallback dock sits at bottom so it does not cover result header / AI tools.
+ */
+.scribe-player-container {
+    position: fixed;
+    top: auto;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(640px, calc(100% - 48px));
+    background: var(--bg-card, rgba(30, 30, 30, 0.96));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid var(--border-color, var(--fill-hover));
+    border-radius: var(--ws-control-radius, 8px);
+    padding: 10px 40px 10px 16px; /* room for in-bar close */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 200;
+    box-shadow: 0 8px 24px var(--overlay-scrim, rgba(0, 0, 0, 0.35));
+    box-sizing: border-box;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Embedded: part of result layout — never overlays AI 润色 / 原文 */
+.scribe-player-container.embedded-mode {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 12px 0;
+    z-index: 5;
+    box-shadow: none;
+}
+
+.scribe-player-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(8px);
+}
+
+.scribe-player-container.embedded-mode.hidden {
+    transform: none;
+    display: none;
+}
+
+/* Close stays inside the bar (no floating chip outside that blocks clicks) */
+.player-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: var(--ws-control-radius, 8px);
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted, #aaa);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+    z-index: 10;
+    padding: 0;
+}
+
+.player-close-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    transform: translateY(-50%);
+}
+
+/* Progress Bar */
+.player-progress-container {
+    width: 100%;
+    height: 6px;
+    background: var(--fill-hover);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+.player-progress-fill {
+    height: 100%;
+    background: var(--primary-color, #4a90e2);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.player-progress-container:hover .player-progress-fill {
+    background: var(--primary-light, #6aa5e8);
+}
+
+/* Controls Row */
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-left,
+.player-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary, #e1e1e1);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-btn:hover {
+    background: var(--fill-hover, rgba(255, 255, 255, 0.08));
+    transform: none;
+    color: var(--text-primary, #e1e1e1);
+}
+
+.player-btn:active {
+    transform: none;
+}
+
+.player-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.player-time {
+    font-family: monospace;
+    font-size: 13px;
+    color: var(--text-secondary, #aaaaaa);
+    min-width: 100px;
+    text-align: center;
+}
+
+/* Volume Control */
+.player-volume-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+    width: 100px;
+}
+
+.player-volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, var(--accent-primary, #3d6eb8) 0%, rgba(255, 255, 255, 0.2) 100%);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.player-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(77, 130, 201, 0.5);
+    transition: transform 0.15s ease;
+}
+
+.player-volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* Speed Menu */
+.player-speed-btn {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-secondary);
+    min-width: 30px;
+}
+
+.player-speed-btn:hover {
+    color: #fff;
+}
+
+/* Highlight Active Segment in Editor */
+.transcript-segment.active {
+    background: rgba(74, 144, 226, 0.15) !important;
+    border-left: 3px solid var(--primary-color, #4a90e2);
+    /* padding-left adjustments handled by border push? No, border is usually inside? 
+       Using border-left requires box-sizing or layout shift consideration.
+       Let's stick to bg color and maybe outline.
+    */
+}

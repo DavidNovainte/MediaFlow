@@ -1,0 +1,61 @@
+/**
+ * ui-tokens.css — frozen MediaFlow workspace design tokens
+ * Load after main.css. Do not invent per-page sizes; use these.
+ * Spec: UI_SPEC.md
+ */
+
+:root {
+    /* Layout chrome */
+    --ws-header-height: 40px;
+    --ws-control-height: 32px;
+    --ws-control-height-sm: 28px;
+    --ws-control-height-lg: 36px;
+    --ws-inspector-width: 320px;
+    --ws-footer-height: 70px;
+    --ws-footer-clearance: 84px;
+    --ws-segment-radius: 10px;
+    --ws-control-radius: 8px;
+    --ws-gap: 8px;
+    --ws-transition: 0.12s ease;
+
+    /* Type scale (only these four for chrome / forms) */
+    --ws-font-meta: 11px;   /* hints, badges, captions */
+    --ws-font-ui: 12px;     /* toolbar, tabs, controls */
+    --ws-font-label: 12px;  /* inspector labels (alias of ui) */
+    --ws-font-body: 13px;   /* settings body, denser prose */
+    --ws-font-title: 15px;  /* compact page / section titles */
+
+    /* Mono CTA (pair with theme) */
+    --ws-cta-bg: #18181b;
+    --ws-cta-fg: #fafafa;
+    --ws-cta-bg-hover: #27272a;
+    --ws-segment-active-bg: #18181b;
+    --ws-segment-active-fg: #fafafa;
+
+    /* Soft icon/tool active (no solid white fill / no neon glow) */
+    --ws-icon-active-bg: rgba(77, 130, 201, 0.16);
+    --ws-icon-active-fg: #60a5fa;
+    --ws-icon-active-border: rgba(77, 130, 201, 0.35);
+    --ws-icon-active-bg-hover: rgba(77, 130, 201, 0.24);
+    --ws-icon-active-glow: none;
+}
+
+html[data-theme="dark"] {
+    --ws-cta-bg: #fafafa;
+    --ws-cta-fg: #18181b;
+    --ws-cta-bg-hover: #e4e4e7;
+    /* Dark active segment: light chip + dark ink (readable) */
+    --ws-segment-active-bg: #fafafa;
+    --ws-segment-active-fg: #18181b;
+    --ws-icon-active-bg: rgba(77, 130, 201, 0.16);
+    --ws-icon-active-fg: #60a5fa;
+    --ws-icon-active-border: rgba(77, 130, 201, 0.35);
+    --ws-icon-active-bg-hover: rgba(77, 130, 201, 0.24);
+}
+
+html[data-theme="light"] {
+    --ws-icon-active-bg: rgba(37, 99, 235, 0.12);
+    --ws-icon-active-fg: #2563eb;
+    --ws-icon-active-border: rgba(37, 99, 235, 0.28);
+    --ws-icon-active-bg-hover: rgba(37, 99, 235, 0.18);
+}

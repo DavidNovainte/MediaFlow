@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "Auf MediaFlow Pro upgraden",
+    "subtitle": "Kostenlos: Einzel-Capture, Transkription, Komprimierung. Pro: Enhance-Engines, Batch, Creator, Editor, Untertitel und Mobile.",
+    "plans": {
+      "free": {
+        "name": "Kostenlos",
+        "price": "0",
+        "period": "",
+        "desc": "Kernfunktionen zum Einstieg"
+      },
+      "lifetime": {
+        "name": "Pro Lifetime",
+        "price": "19.99",
+        "period": "einmalig",
+        "badge": "EINMALIG",
+        "desc": "Einmal zahlen, erweiterte Workflows freischalten"
+      },
+      "monthly": {
+        "name": "Legacy Pro (Monatlich)"
+      },
+      "annual": {
+        "name": "Legacy Pro (Jahrlich)"
+      },
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "Kernfunktionen - für immer kostenlos"
+      }
+    },
+    "features": {
+      "free_download": "Einzelne Medien erfassen und exportieren",
+      "free_transcribe": "Grundlegende lokale Transkription",
+      "free_compress": "Bildkomprimierung und Konvertierung",
+      "free_limit": "Unbegrenzte Einzeldownloads",
+      "free_history": "Basis-Verlauf",
+      "pro_batch": "Parallele Batch-Erfassung und Warteschlange",
+      "pro_enhance": "AI-Enhance-Engines (lokal Real-ESRGAN / CUGAN)",
+      "pro_creator": "Creator-Workspace und erweiterte Medien-Workflows",
+      "pro_subtitle": "Untertitel, Übersetzung, Dubbing und Export",
+      "pro_sync": "Mobile-Sync und Gerätebrücke",
+      "pro_support": "Unterstützt zukünftige Updates und die unabhängige Entwicklung",
+      "pro_editor": "Multi-Track-Videoeditor",
+      "free_enhance": "AI-Enhance-Seite (Pro zum Ausführen)"
+    },
+    "actions": {
+      "buy": "Pro Lifetime kaufen",
+      "current": "Aktueller Plan",
+      "activate": "Hier aktivieren",
+      "buyAnother": "Weitere Lizenz kaufen",
+      "enterNewKey": "Aktivierungscode eingeben"
+    },
+    "footer": {
+      "trust": "Sichere Zahlung",
+      "haveKey": "Du hast bereits einen Aktivierungscode?",
+      "oneTime": "Einmaliger Kauf"
+    },
+    "status": {
+      "activated": "PRO aktiviert",
+      "thanks": "Danke fur deine Unterstutzung. Alle Premium-Funktionen sind freigeschaltet.",
+      "email": "E-Mail:",
+      "expiry": "Gultig bis:",
+      "expiry_lifetime": "Lebenslang",
+      "subscription_active": "Zugang aktiv",
+      "days_remaining": "({{days}} Tage verbleibend)",
+      "thanksTitle": "Danke fur deine Unterstutzung. Alle Premium-Funktionen sind freigeschaltet."
+    },
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "Einzel-Link-Erfassung - unbegrenzt",
+      "community2": "Lokale Transkription · Bildkompression",
+      "community3": "Verlauf - Einstellungen und Kern-Engines",
+      "proTitle": "Pro",
+      "pro1": "Batch · Warteschlange · Erweiterung · AI-Enhance-Engines",
+      "pro2": "Creator-Tools - Timeline-Editor",
+      "pro3": "Untertitel - Mobile-Bruecke"
+    },
+    "boundaryNote": "Hinweis: Gratis-Tools ohne Lizenz. Pro-Seiten oder geschützte Engines zeigen Upgrade."
+  }
+}

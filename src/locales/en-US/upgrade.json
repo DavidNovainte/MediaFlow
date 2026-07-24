@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "Upgrade to MediaFlow Pro",
+    "subtitle": "Free: single capture, transcribe, compress. Pro unlocks enhance engines, batch, Creator, Editor, subtitles & mobile.",
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "Single-link capture · unlimited",
+      "community2": "Local transcribe · image compress",
+      "community3": "History · settings & core engines",
+      "proTitle": "Pro",
+      "pro1": "Batch · queue · browser extension · AI enhance engines",
+      "pro2": "Creator tools · timeline editor",
+      "pro3": "Subtitles · mobile bridge"
+    },
+    "plans": {
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "Core tools — free forever"
+      },
+      "free": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "Core tools — free forever"
+      },
+      "lifetime": {
+        "name": "Pro Lifetime",
+        "price": "19.99",
+        "period": "one-time",
+        "badge": "ONE-TIME",
+        "desc": "Pay once and unlock all advanced workflows"
+      },
+      "monthly": {
+        "name": "Legacy Monthly Pro"
+      },
+      "annual": {
+        "name": "Legacy Annual Pro"
+      }
+    },
+    "features": {
+      "free_download": "Single media capture",
+      "free_transcribe": "Local transcription",
+      "free_compress": "Image compress",
+      "free_enhance": "AI enhance page (Pro to run engines)",
+      "free_limit": "Unlimited single downloads",
+      "free_history": "History",
+      "pro_batch": "Batch · queue · extension",
+      "pro_enhance": "AI enhance engines (local Real-ESRGAN / CUGAN)",
+      "pro_creator": "Creator tools",
+      "pro_editor": "Timeline editor",
+      "pro_subtitle": "Subtitles & dubbing",
+      "pro_sync": "Mobile bridge",
+      "pro_support": "Support future updates"
+    },
+    "actions": {
+      "buy": "Get Pro Lifetime",
+      "current": "Current Plan",
+      "activate": "Activate it here",
+      "buyAnother": "Buy another license",
+      "enterNewKey": "Enter activation code"
+    },
+    "footer": {
+      "trust": "Secure payment",
+      "haveKey": "Already have an activation code?",
+      "oneTime": "One-time purchase"
+    },
+    "status": {
+      "activated": "Pro Lifetime",
+      "thanksTitle": "Thank you — Pro is fully unlocked",
+      "thanks": "All advanced workflows are available. Review your license details anytime here.",
+      "email": "Email",
+      "expiry": "Valid until",
+      "expiry_lifetime": "Lifetime",
+      "subscription_active": "Access Active",
+      "days_remaining": "({{days}} days remaining)"
+    },
+    "boundaryNote": "Tip: Free tools work without a license. Opening a Pro page or running gated engines shows Upgrade."
+  }
+}

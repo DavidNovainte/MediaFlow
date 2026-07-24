@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "歸檔歷史",
+    "clear": "清空記錄",
+    "confirmClear": "確定要清空所有歷史記錄嗎？",
+    "confirmDelete": "確定要刪除此條記錄嗎？",
+    "historyCleared": "歷史記錄已清空",
+    "searchPlaceholder": "搜尋影片標題...",
+    "noResults": "未找到符合項目",
+    "noResultsTitle": "未找到符合項目",
+    "noResultsDesc": "試試搜尋其他關鍵字吧",
+    "clearSearchBtn": "重置搜尋",
+    "empty": "暫無歸檔記錄",
+    "emptyTitle": "暫無歷史記錄",
+    "emptyDesc": "您歸檔的媒體將會出現在這裡，<br>方便您隨時回顧和管理。",
+    "goDownload": "去歸檔第一個影片",
+    "openFile": "播放",
+    "openFolder": "開啟資料夾",
+    "copyLink": "複製連結",
+    "shareMobile": "分享到手機",
+    "showQRCode": "顯示 QR Code",
+    "delete": "刪除",
+    "fileDeleted": "檔案已刪除",
+    "deletedTag": "已刪除",
+    "qrTip": "📱 用手機掃描 QR Code 同步檔案",
+    "close": "關閉",
+    "filter": {
+      "allPlatforms": "全部平台",
+      "other": "其他",
+      "allTime": "全部時間",
+      "today": "今天",
+      "week": "本週",
+      "month": "本月"
+    },
+    "batch": {
+      "selectAll": "全選",
+      "selected": "已選 {count} 個",
+      "delete": "批次刪除",
+      "copy": "複製檔案",
+      "confirmDelete": "確定刪除選取的 {count} 個記錄嗎？",
+      "deleteSuccess": "已成功刪除",
+      "noLocalFile": "選取的記錄沒有本地檔案",
+      "copySuccess": "已複製 {count} 個檔案，可直接貼上到其他資料夾",
+      "copyFail": "複製失敗"
+    },
+    "stats": {
+      "filtered": "顯示 {filtered} / {total} 條記錄",
+      "total": "共 {total} 條記錄"
+    },
+    "qrProOnly": "展示二维码 / 手机分享为 Pro 功能，请升級后使用。",
+    "showQRCodePro": "展示二维码 · Pro"
+  }
+}

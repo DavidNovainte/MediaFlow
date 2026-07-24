@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "升级到 MediaFlow Pro",
+    "subtitle": "免费：单链采集、转写、压图。Pro 解锁 AI 增强引擎、批量队列、Creator、剪辑、字幕与手机互联。",
+    "compare": {
+      "communityTitle": "社区版",
+      "community1": "单链接采集 · 不限次数",
+      "community2": "本地转写 · 图片压缩",
+      "community3": "历史 · 设置与核心引擎",
+      "proTitle": "Pro",
+      "pro1": "批量 · 队列 · 浏览器插件 · AI 增强引擎",
+      "pro2": "快捷视频工具 · 多轨剪辑",
+      "pro3": "字幕工作流 · 手机互联"
+    },
+    "plans": {
+      "community": {
+        "name": "社区版",
+        "price": "0",
+        "period": "",
+        "desc": "核心工具，长期可用"
+      },
+      "free": {
+        "name": "社区版",
+        "price": "0",
+        "period": "",
+        "desc": "核心工具，长期可用"
+      },
+      "lifetime": {
+        "name": "Pro 终身版",
+        "price": "19.99",
+        "period": "一次买断",
+        "badge": "一次买断",
+        "desc": "一次付费，解锁全部高级工作流"
+      },
+      "monthly": {
+        "name": "旧版月度 Pro"
+      },
+      "annual": {
+        "name": "旧版年度 Pro"
+      }
+    },
+    "features": {
+      "free_download": "单链接媒体采集",
+      "free_transcribe": "本地转写",
+      "free_compress": "图片压缩",
+      "free_enhance": "AI 增强页面（运行引擎需 Pro）",
+      "free_limit": "单链接不限次数",
+      "free_history": "历史记录",
+      "pro_batch": "批量 · 队列 · 浏览器插件",
+      "pro_enhance": "AI 增强引擎（本地 Real-ESRGAN / CUGAN）",
+      "pro_creator": "快捷视频工具",
+      "pro_editor": "多轨时间线剪辑",
+      "pro_subtitle": "字幕翻译与配音",
+      "pro_sync": "手机 / 电脑互联",
+      "pro_support": "支持后续更新"
+    },
+    "actions": {
+      "buy": "购买 Pro 终身版",
+      "current": "当前版本",
+      "activate": "在这里激活",
+      "buyAnother": "购买另一份授权",
+      "enterNewKey": "输入激活码"
+    },
+    "footer": {
+      "trust": "安全支付",
+      "haveKey": "已经有激活码？",
+      "oneTime": "一次买断"
+    },
+    "status": {
+      "activated": "Pro 终身版",
+      "thanksTitle": "感谢支持，Pro 已全部解锁",
+      "thanks": "你已解锁全部高级功能，可随时在此查看授权信息。",
+      "email": "邮箱",
+      "expiry": "有效期",
+      "expiry_lifetime": "终身有效",
+      "subscription_active": "权益有效",
+      "days_remaining": "（剩余 {{days}} 天）"
+    },
+    "boundaryNote": "说明：免费工具无需许可证即可用；打开 Pro 页或运行受门控的引擎会提示升级。"
+  }
+}

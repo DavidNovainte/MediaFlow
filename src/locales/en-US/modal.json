@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "Confirmation",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "defaultMessage": "Are you sure you want to proceed?",
+    "promptTitle": "Input",
+    "confirmBtn": "Confirm",
+    "cancelBtn": "Cancel"
+  }
+}

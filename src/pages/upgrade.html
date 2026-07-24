@@ -1,0 +1,178 @@
+<section class="page" id="page-upgrade">
+    <div id="upgrade-not-activated">
+        <div class="upgrade-container">
+            <div class="upgrade-header">
+                <h1 data-i18n="upgrade.title">Upgrade to MediaFlow Pro</h1>
+                <p data-i18n="upgrade.subtitle">Community core tools stay free. One purchase unlocks Pro workflows for life.</p>
+                <p class="upgrade-boundary-note" data-i18n="upgrade.boundaryNote">Tip: Free tools work without a license. Opening a Pro page or running gated engines shows Upgrade.</p>
+                <div id="license-status-container" class="license-status-inline hidden">
+                    <div id="license-status-badge" class="badge">Community</div>
+                    <div id="license-info-text"></div>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card plan-free-ui">
+                    <div class="plan-name" data-i18n="upgrade.plans.community.name">Community</div>
+                    <div class="plan-price">
+                        <div class="price-amount-wrapper">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount" data-i18n="upgrade.plans.community.price">0</span>
+                        </div>
+                        <span class="price-savings" data-i18n="upgrade.plans.community.desc">Core tools — free forever</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="plan-check" aria-hidden="true"></span><span data-i18n="upgrade.features.free_download">Single media capture</span></li>
+                        <li><span class="plan-check" aria-hidden="true"></span><span data-i18n="upgrade.features.free_transcribe">Local transcription</span></li>
+                        <li><span class="plan-check" aria-hidden="true"></span><span data-i18n="upgrade.features.free_compress">Image compress</span></li>
+                        <li><span class="plan-check" aria-hidden="true"></span><span data-i18n="upgrade.features.free_enhance">AI enhance</span></li>
+                        <li><span class="plan-check" aria-hidden="true"></span><span data-i18n="upgrade.features.free_history">History</span></li>
+                    </ul>
+                    <button class="btn btn-price btn-secondary" disabled data-i18n="upgrade.actions.current">Current edition</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="card-badge" data-i18n="upgrade.plans.lifetime.badge">ONE-TIME</div>
+                    <div class="plan-name" data-i18n="upgrade.plans.lifetime.name">Pro Lifetime</div>
+                    <div class="plan-price">
+                        <div class="price-amount-wrapper">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount" data-i18n="upgrade.plans.lifetime.price">19.99</span>
+                            <span class="price-period" data-i18n="upgrade.plans.lifetime.period">one-time</span>
+                        </div>
+                        <span class="price-savings" data-i18n="upgrade.plans.lifetime.desc">Unlock all advanced workflows</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li class="premium"><span class="plan-check pro" aria-hidden="true"></span><span data-i18n="upgrade.features.pro_batch">Batch + queue + extension</span></li>
+                        <li class="premium"><span class="plan-check pro" aria-hidden="true"></span><span data-i18n="upgrade.features.pro_creator">Creator tools</span></li>
+                        <li class="premium"><span class="plan-check pro" aria-hidden="true"></span><span data-i18n="upgrade.features.pro_editor">Timeline editor</span></li>
+                        <li class="premium"><span class="plan-check pro" aria-hidden="true"></span><span data-i18n="upgrade.features.pro_subtitle">Subtitles &amp; dubbing</span></li>
+                        <li class="premium"><span class="plan-check pro" aria-hidden="true"></span><span data-i18n="upgrade.features.pro_sync">Mobile bridge</span></li>
+                    </ul>
+                    <button class="btn btn-price btn-upgrade" id="btn-buy-lifetime" data-i18n="upgrade.actions.buy">Get Pro Lifetime</button>
+                </div>
+            </div>
+
+            <div class="upgrade-footer">
+                <div class="activate-link">
+                    <span data-i18n="upgrade.footer.haveKey">Already have an activation code?</span>
+                    <button class="btn-text-link" id="btn-show-activate" data-i18n="upgrade.actions.activate">Activate it here</button>
+                </div>
+                <div class="trust-badges">
+                    <span class="trust-item" data-i18n="upgrade.footer.trust">Secure payment</span>
+                    <span class="trust-dot" aria-hidden="true">·</span>
+                    <span class="trust-item" data-i18n="upgrade.footer.oneTime">One-time purchase</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="upgrade-activated" class="hidden">
+        <div class="upgrade-container">
+            <div class="pro-status-container">
+                <div class="pro-badge-glow">
+                    <i class="fas fa-crown"></i>
+                    <span id="pro-plan-name" data-i18n="upgrade.status.activated">Pro activated</span>
+                </div>
+                <h2 class="pro-status-title" data-i18n="upgrade.status.thanksTitle">感谢支持，Pro 已全部解锁</h2>
+                <p class="pro-status-lead" data-i18n="upgrade.status.thanks">
+                    Thank you for your support! You've unlocked all premium features.
+                </p>
+                <div class="pro-unlocked-row" aria-hidden="true">
+                    <div class="pro-unlocked-chip"><i class="fas fa-check"></i><span data-i18n="upgrade.features.pro_batch">Batch + queue</span></div>
+                    <div class="pro-unlocked-chip"><i class="fas fa-check"></i><span data-i18n="upgrade.features.pro_editor">Timeline editor</span></div>
+                    <div class="pro-unlocked-chip"><i class="fas fa-check"></i><span data-i18n="upgrade.features.pro_subtitle">Subtitles &amp; dubbing</span></div>
+                </div>
+                <div class="pro-details-list">
+                    <div class="pro-detail-item">
+                        <span class="detail-label" data-i18n="upgrade.status.email">Email</span>
+                        <span class="detail-value" id="pro-email">-</span>
+                    </div>
+                    <div class="pro-detail-item">
+                        <span class="detail-label" data-i18n="upgrade.status.expiry">Valid Until</span>
+                        <span class="detail-value" id="pro-expiry">Lifetime</span>
+                    </div>
+                </div>
+
+                <details id="license-diagnostics-panel" class="license-diagnostics">
+                    <summary>License diagnostics</summary>
+                    <div class="license-diagnostics-grid">
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Plan type</span>
+                            <span class="license-diagnostics-value" id="license-plan-type">-</span>
+                        </div>
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Variant ID</span>
+                            <span class="license-diagnostics-value" id="license-variant-id">-</span>
+                        </div>
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Product name</span>
+                            <span class="license-diagnostics-value" id="license-product-name">-</span>
+                        </div>
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Server expiry</span>
+                            <span class="license-diagnostics-value" id="license-expiry-raw">-</span>
+                        </div>
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Estimated expiry</span>
+                            <span class="license-diagnostics-value" id="license-estimated-expiry">-</span>
+                        </div>
+                        <div class="license-diagnostics-row">
+                            <span class="license-diagnostics-label">Activated at</span>
+                            <span class="license-diagnostics-value" id="license-activated-at">-</span>
+                        </div>
+                    </div>
+                </details>
+
+                <div class="pro-actions-v2">
+                    <button id="btn-renew-show" class="btn-renew-primary">
+                        <i class="fas fa-arrow-up-right-from-square"></i>
+                        <span data-i18n="upgrade.actions.buyAnother">Buy another license</span>
+                    </button>
+
+                    <div class="secondary-actions">
+                        <button id="btn-activate-new" class="btn-link-secondary">
+                            <span data-i18n="upgrade.actions.enterNewKey">Enter activation code</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="license-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header" style="justify-content: center; position: relative; padding-top: 10px;">
+                <h3 data-i18n="common.license.activation.title" style="font-size: 20px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Activate Pro License</h3>
+                <button id="btn-close-license-modal" class="btn-icon" style="position: absolute; right: 0; top: 8px;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top: 10px;">
+                <p class="modal-desc" style="text-align: center; margin-bottom: 24px; opacity: 0.8;" data-i18n="common.license.activation.desc">Enter your license key to unlock all premium features.</p>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--text-primary);" data-i18n="common.license.activation.keyLabel">Activation Code</label>
+                    <textarea id="input-license-key"
+                        data-i18n-placeholder="common.license.activation.keyPlaceholder"
+                        placeholder="Enter Activation Code" class="form-input"
+                        style="height: 60px; line-height: 1.6; letter-spacing: 0.5px;"></textarea>
+                </div>
+
+                <div id="license-error-msg" class="error-msg hidden"></div>
+
+                <div class="hwid-section-v2">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 12px; font-weight: 600; color: var(--text-muted);" data-i18n="common.license.activation.hwidLabel">Device ID (HWID)</span>
+                    </div>
+                    <div class="hwid-row-v2">
+                        <input type="text" id="input-hwid" readonly class="form-input-sm-v2">
+                        <button id="btn-copy-hwid" class="btn-copy-v2" title="Copy"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer license-modal-actions">
+                <button type="button" id="btn-cancel-license" class="btn-text" data-i18n="common.actions.cancel">取消</button>
+                <button type="button" id="btn-submit-license" class="btn-primary" data-i18n="common.license.activation.submit">立即激活</button>
+            </div>
+        </div>
+    </div>
+</section>

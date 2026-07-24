@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Bem-vindo ao MediaFlow",
+    "welcomeBody": "Capture média offline, transcreva áudio e comprima imagens — nível gratuito incluído. O Pro desbloqueia lote, editor, legendas e mais.",
+    "downloadTitle": "A sua primeira captura",
+    "downloadBody": "Cole um URL de vídeo público na página Transferir → Analisar → Capturar. A captura de uma única ligação é gratuita; defina a pasta de gravação nas Definições a qualquer momento.",
+    "clipboardTitle": "Vigilância da área de transferência (opcional)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick capture. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "Ativar deteção de ligações da área de transferência",
+    "enginesTitle": "Instalar motores principais",
+    "enginesBody": "Ferramentas em falta: {{list}}. Abra Definições → Motores principais para corrigir ou reinstale a aplicação.",
+    "doneTitle": "Está pronto",
+    "doneBody": "Comece com uma única transferência. Explore as ferramentas avançadas quando precisar — algumas são experimentais.",
+    "next": "Seguinte",
+    "skip": "Saltar",
+    "getStarted": "Começar"
+  }
+}

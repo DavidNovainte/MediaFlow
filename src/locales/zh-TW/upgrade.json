@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "升級到 MediaFlow Pro",
+    "subtitle": "核心功能維持免費，一次買斷即可解鎖進階工作流程。",
+    "plans": {
+      "free": {
+        "name": "免費版",
+        "price": "0",
+        "period": "",
+        "desc": "先使用核心功能"
+      },
+      "lifetime": {
+        "name": "Pro 終身版",
+        "price": "19.99",
+        "period": "一次買斷",
+        "badge": "一次買斷",
+        "desc": "一次付費，解鎖進階工作流程"
+      },
+      "monthly": {
+        "name": "舊版月度 Pro"
+      },
+      "annual": {
+        "name": "舊版年度 Pro"
+      },
+      "community": {
+        "name": "社区版",
+        "price": "0",
+        "period": "",
+        "desc": "核心工具，长期可用"
+      }
+    },
+    "features": {
+      "free_download": "單個媒體擷取與匯出",
+      "free_transcribe": "基礎本地轉寫工具",
+      "free_compress": "圖片壓縮與轉換",
+      "free_limit": "單連結無限下載",
+      "free_history": "基礎歷史記錄管理",
+      "pro_batch": "並行批次擷取與佇列工具",
+      "pro_enhance": "AI 放大與畫質增強工作台",
+      "pro_creator": "創作者工作台與進階媒體流程",
+      "pro_subtitle": "字幕翻譯、配音與匯出工具",
+      "pro_sync": "手機互聯與裝置橋接",
+      "pro_support": "支持後續更新與獨立開發",
+      "pro_editor": "多軌影片精修編輯器",
+      "free_enhance": "AI 畫質增強"
+    },
+    "actions": {
+      "buy": "購買 Pro 終身版",
+      "current": "目前版本",
+      "activate": "在這裡啟用",
+      "buyAnother": "購買另一份授權",
+      "enterNewKey": "輸入啟用碼"
+    },
+    "footer": {
+      "trust": "安全支付",
+      "haveKey": "已經有啟用碼？",
+      "oneTime": "一次買斷"
+    },
+    "status": {
+      "activated": "Pro 已啟用",
+      "thanks": "感謝支持，你已解鎖全部進階功能。",
+      "email": "信箱：",
+      "expiry": "有效期：",
+      "expiry_lifetime": "終身有效",
+      "subscription_active": "權益有效",
+      "days_remaining": "（剩餘 {{days}} 天）",
+      "thanksTitle": "感謝支持，你已解鎖全部進階功能。"
+    },
+    "compare": {
+      "communityTitle": "社区版",
+      "community1": "單連結擷取 · 不限次数",
+      "community2": "本地轉寫 · 图片壓縮 · AI 畫質增強",
+      "community3": "历史 · 設定与核心引擎",
+      "proTitle": "Pro",
+      "pro1": "批次 · 佇列 · 瀏覽器插件",
+      "pro2": "快捷影片工具 · 多轨剪輯",
+      "pro3": "字幕工作流 · 手機互聯"
+    },
+    "boundaryNote": "說明：免費工具无需授權即可用；開啟 Pro 页或运行受门控的引擎会提示升級。"
+  }
+}

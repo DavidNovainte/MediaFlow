@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "tools": "Ferramentas",
+    "toggleSidebar": "Barra Lateral (Ctrl+B)",
+    "download": "Capturar Media",
+    "transcribe": "Transcrever Áudio/Vídeo",
+    "compress": "Compressão de Imagem",
+    "enhance": "Melhoria de Imagem AI",
+    "creator": "Ferramentas rápidas",
+    "editor": "Editor de timeline",
+    "subtitle": "Tradução de Legendas",
+    "mobile": "Ligação Telemóvel/PC",
+    "upgrade": "Atualizar para Pro",
+    "history": "Histórico",
+    "settings": "Definições",
+    "groupVideo": "Fluxo de vídeo",
+    "groupAdvanced": "Avançado",
+    "creatorHint": "One-shot",
+    "editorHint": "Multipista",
+    "experimental": "Lab",
+    "groupAdvancedExpand": "Mostrar avançado",
+    "groupAdvancedCollapse": "Ocultar avançado",
+    "extension": "Extensão do navegador",
+    "upgradeActive": "Pro active",
+    "upgradeActiveHint": "Ver licença"
+  }
+}

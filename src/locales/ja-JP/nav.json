@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "tools": "ツール",
+    "toggleSidebar": "サイドバー (Ctrl+B)",
+    "download": "メディアキャプチャ",
+    "transcribe": "音声・動画の文字起こし",
+    "compress": "画像圧縮",
+    "enhance": "AI 画质向上",
+    "creator": "クイック動画ツール",
+    "editor": "タイムライン編集",
+    "subtitle": "字幕翻訳",
+    "mobile": "モバイル/PC 連携",
+    "upgrade": "Pro にアップグレード",
+    "history": "履歴",
+    "settings": "設定",
+    "groupVideo": "動画ワークフロー",
+    "groupAdvanced": "上級",
+    "creatorHint": "ワンショット",
+    "editorHint": "マルチトラック",
+    "experimental": "実験",
+    "groupAdvancedExpand": "詳細を表示",
+    "groupAdvancedCollapse": "詳細を非表示",
+    "extension": "ブラウザ拡張",
+    "upgradeActive": "Pro active",
+    "upgradeActiveHint": "ライセンスを表示"
+  }
+}

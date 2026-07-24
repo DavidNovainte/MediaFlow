@@ -1,0 +1,265 @@
+<!-- 视频下载页面 -->
+<section class="page active" id="page-download">
+    <!-- 批量下载设置模态框 -->
+    
+    <!-- 🆕 Hero Section -->
+    <div class="hero-section">
+        <div class="hero-background"></div>
+
+        <div class="hero-content">
+            <div class="hero-tagline">
+                <div class="hero-icon">⚡</div>
+                <h2 class="hero-title" data-i18n="download.heroTitle">粘贴链接，保存到本地</h2>
+                <p class="hero-subtitle" data-i18n="download.heroSubtitle">支持主流平台公开内容 · 保存后可压缩 / 转文字 / 做字幕
+                </p>
+            </div>
+
+            <!-- URL 输入区 -->
+            <div class="hero-input-wrapper">
+                <div id="single-input-area" class="input-group hero-input-group">
+                    <input type="text" id="video-url" class="input-field hero-input" placeholder="粘贴视频或音频链接…"
+                        data-i18n-placeholder="download.placeholder">
+                    <button id="btn-check" class="btn btn-primary btn-hero">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <span data-i18n="download.check">⚡ 立即解析</span>
+                    </button>
+                </div>
+
+                <!-- 快捷操作 -->
+                <div class="hero-quick-actions">
+                    <button id="btn-paste-clipboard" class="btn btn-text">
+                        <span data-i18n="download.pasteClipboard">📋 从剪贴板粘贴</span>
+                    </button>
+                    <button id="btn-open-local" class="btn btn-text">
+                        <span data-i18n="download.openFile">📂 打开本地文件</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+        <!-- Community: mode switch removed (single capture only) -->
+
+
+     <!-- End of batch-input-area -->
+
+    
+    
+
+
+    <!-- 下载进度 -->
+    <div id="download-progress" class="download-progress hidden">
+        <div class="progress-header">
+            <span class="progress-title" id="progress-title"></span>
+            <span class="progress-percent" id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <!-- 实时速度波动图 -->
+        <div class="progress-chart-container" id="speed-chart-container">
+            <canvas id="speed-chart"></canvas>
+        </div>
+        <div class="progress-footer">
+            <div class="progress-stats">
+                <span class="progress-speed" id="progress-speed"></span>
+                <span class="progress-eta" id="progress-eta"></span>
+            </div>
+            <div class="progress-controls" style="display: flex; gap: 8px;">
+                <button id="btn-pause" class="btn btn-secondary" data-i18n="download.pause">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                    <span data-i18n="download.pause">暂停</span>
+                </button>
+                <button id="btn-cancel" class="btn btn-secondary" data-i18n="download.cancel">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                    <span data-i18n="download.cancel">取消</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="download-video-info" class="video-info hidden">
+        <div class="video-thumbnail">
+            <img id="video-thumbnail" src="" alt="Thumbnail" referrerpolicy="no-referrer">
+            <div class="video-duration" id="video-duration"></div>
+        </div>
+        <div class="video-details">
+            <h3 class="video-title" id="video-title"></h3>
+            <div class="video-meta">
+                <div id="platform-badge" class="meta-item platform">
+                    <i id="platform-icon" class="fab fa-play-circle"></i>
+                    <span id="platform-name"></span>
+                </div>
+                <div class="meta-item author">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="video-author"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下载选项 -->
+    <div id="download-options" class="download-options hidden">
+        <!-- 格式选择 (放在前面) -->
+        <div class="option-group">
+            <label class="option-label" data-i18n="download.format">格式</label>
+            <div class="format-buttons" id="format-buttons">
+                <button class="format-btn active" data-format="video" data-i18n="download.formatVideo">🎬
+                    视频</button>
+                <button class="format-btn" data-format="audio" data-i18n="download.formatAudio">🎵 音频</button>
+            </div>
+        </div>
+
+        <!-- 视频画质选择 -->
+        <div class="option-group" id="video-quality-group">
+            <label class="option-label" data-i18n="download.quality">画质</label>
+            <div class="quality-buttons" id="quality-buttons">
+                <button class="quality-btn" data-quality="144">144p</button>
+                <button class="quality-btn" data-quality="360">360p</button>
+                <button class="quality-btn" data-quality="480">480p</button>
+                <button class="quality-btn active" data-quality="720">720p</button>
+                <button class="quality-btn" data-quality="1080">1080p</button>
+                <button class="quality-btn" data-quality="2160">4K</button>
+            </div>
+        </div>
+
+        <!-- 音频质量选择 (默认隐藏) -->
+        <div class="option-group hidden" id="audio-quality-group">
+            <label class="option-label" data-i18n="download.audioBitrate">音质</label>
+            <div class="quality-buttons" id="audio-buttons">
+                <button class="audio-btn" data-bitrate="320">320 kbps</button>
+                <button class="audio-btn active" data-bitrate="256">256 kbps</button>
+                <button class="audio-btn" data-bitrate="192">192 kbps</button>
+                <button class="audio-btn" data-bitrate="128">128 kbps</button>
+            </div>
+        </div>
+
+        <!-- 音频格式选择 (默认隐藏) -->
+        <div class="option-group hidden" id="audio-format-group">
+            <label class="option-label" data-i18n="download.audioFormat">格式</label>
+            <div class="format-buttons" id="audio-format-buttons">
+                <button class="audio-format-btn active" data-ext="mp3">MP3</button>
+                <button class="audio-format-btn" data-ext="m4a">M4A</button>
+                <button class="audio-format-btn" data-ext="wav">WAV</button>
+                <button class="audio-format-btn" data-ext="flac">FLAC</button>
+            </div>
+        </div>
+
+        <!-- 下载选项复选框行 (合并优化布局) -->
+        <div class="option-group checkbox-row">
+            <label class="checkbox-label">
+                <input type="checkbox" id="download-thumbnail">
+                <span data-i18n="download.saveThumbnail">下载视频封面</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="download-subtitles">
+                <span data-i18n="download.saveSubtitles">下载字幕</span>
+            </label>
+        </div>
+
+        <!-- 精准剪辑 (Phase 4) -->
+        <div class="option-group hidden" id="trim-group">
+            <div class="option-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="option-label" style="margin-bottom: 0;" data-i18n="download.trimTitle">精准剪辑 (Trim)</label>
+                <span class="trim-info-text" id="trim-duration-label"
+                    style="font-size: 12px; color: var(--accent-primary); font-weight: 500;"
+                    data-i18n="download.trimFull">全长下载</span>
+            </div>
+            <div class="trim-control">
+                <div class="trim-slider-wrapper">
+                    <div class="trim-track"></div>
+                    <div class="trim-range-fill" id="trim-range-fill"></div>
+                    <input type="range" id="trim-start" class="trim-handle" min="0" max="100" value="0">
+                    <input type="range" id="trim-end" class="trim-handle" min="0" max="100" value="100">
+                </div>
+                <div class="trim-time-labels"
+                    style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-muted); font-family: monospace;">
+                    <span id="trim-start-time">00:00</span>
+                    <span id="trim-end-time">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-actions">
+            <button type="button" id="btn-download" class="btn btn-download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span data-i18n="download.start">保存到本地</span>
+            </button>
+            
+        </div>
+
+        <!-- 下载完成后的操作按钮 (初始隐藏) -->
+        <div id="post-download-actions" class="post-download-actions hidden">
+            <div class="post-download-divider"></div>
+            <div class="post-download-label" data-i18n="download.finished">已保存到本地，可继续</div>
+            <div class="post-download-buttons">
+                
+                <button type="button" id="btn-post-transcribe" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.transcribeTooltip" title="将音视频转为文字">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+                        <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    <span data-i18n="download.actionTranscribe">转文字</span>
+                </button>
+                
+                <button type="button" id="btn-post-folder" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.openFolderTooltip" title="打开文件所在目录">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span data-i18n="download.openFolder">打开目录</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支持平台列表已按合规要求彻底移除 -->
+
+    <!-- 播放列表信息 -->
+    
+
+
+
+</section>
+
+<!-- Custom Confirm Modal -->
+<div id="custom-modal-overlay" class="modal-overlay hidden">
+    <div class="modal-box">
+        <div class="modal-title" id="modal-title" data-i18n="dialogs.tip">提示</div>
+        <div class="modal-message" id="modal-message" data-i18n="dialogs.confirmMsg">确认执行此操作吗？</div>
+        <div class="modal-actions">
+            <button id="modal-btn-cancel" class="modal-btn cancel" data-i18n="common.actions.cancel">取消</button>
+            <button id="modal-btn-confirm" class="modal-btn confirm danger"
+                data-i18n="common.actions.confirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="../components/common/toast.js"></script>
+<script src="../features/history/HistoryService.js"></script>
+<script src="../features/history/HistoryUI.js"></script>
+<script src="../features/history/HistoryEvents.js"></script>
+<script src="../features/history/HistoryFlow.js"></script>
+<script src="../components/common/speedMonitor.js"></script>
+<script src="../features/download/DownloadManager.js"></script>
+<script src="../features/download/DownloadService.js"></script>
+
+</body>

@@ -1,0 +1,142 @@
+{
+  "subtitle": {
+    "tooShortToSplit": "Предложение слишком короткое для разделения",
+    "splitSuccess": "Успешно разделено на два субтитра",
+    "newlineInserted": "Перенос строки вставлен автоматически",
+    "autoScaled": "Автоматически масштабировано для отображения"
+  },
+  "update": {
+    "isLatest": "Уже установлена последняя версия"
+  },
+  "settings": {
+    "saved": "Настройки сохранены"
+  },
+  "license": {
+    "machineCodeCopied": "Машинный код скопирован",
+    "activationSuccess": "Активация успешна! Спасибо за вашу поддержку!",
+    "proFeature": "Это функция Pro. Обновите, чтобы разблокировать"
+  },
+  "nav": {
+    "toCreator": "Переход в Центр создания",
+    "addToEnhance": "Добавлено в очередь улучшения AI",
+    "toScribe": "Переход к транскрипции аудио",
+    "linkRecognized": "Ссылка распознана:"
+  },
+  "scribe": {
+    "noSubtitlesToPolish": "Нет субтитров для улучшения",
+    "polishFailed": "Улучшение не удалось:",
+    "noContentToSummarize": "Нет содержимого для резюмирования",
+    "selectAudioVideo": "Пожалуйста, выберите аудио или видео файл",
+    "apiKeyNotConfigured": "API-ключ для {val} не настроен",
+    "transcribeFailed": "Транскрипция не удалась",
+    "nameEmpty": "Имя не может быть пустым",
+    "speakersUpdated": "Обновлено {count} меток говорящих",
+    "replaced": "Заменено",
+    "replacedAll": "Заменены все {count} совпадения",
+    "downloadingModel": "Идет загрузка модели {modelId}, пожалуйста, подождите...",
+    "modelDownloaded": "Модель {modelId} загружена!",
+    "downloadFailed": "Ошибка загрузки:",
+    "modelDeleted": "Модель удалена",
+    "deleteFailed": "Ошибка удаления:",
+    "summaryCopied": "Резюме скопировано",
+    "copyFailed": "Ошибка копирования",
+    "downloadingSummary": "Загрузка файла резюме",
+    "copiedToClipboard": "Скопировано в буфер обмена",
+    "srtGenFailedEmpty": "Ошибка создания SRT: пустой контент",
+    "srtExportFailed": "Ошибка экспорта SRT",
+    "txtGenFailedEmpty": "Ошибка создания TXT: пустой контент",
+    "txtExportFailed": "Ошибка экспорта TXT",
+    "noExportResults": "Нет результатов для экспорта",
+    "noTranscribeResults": "Нет успешных результатов транскрипции",
+    "packing": "Упаковка...",
+    "zipExported": "ZIP-архив из {count} файлов успешно экспортирован",
+    "exportFailed": "Ошибка экспорта:",
+    "fileSaved": "Сохранено: {filename}",
+    "selectSegmentFirst": "Пожалуйста, сначала выберите сегмент для вырезки",
+    "noSourcePath": "Не удается получить путь к исходному файлу",
+    "preciseClipping": "Точная вырезка (транскодирование)...",
+    "fastClipping": "Быстрая вырезка в процессе...",
+    "clipDone": "Вырезка завершена: {path}",
+    "clipFailed": "Ошибка вырезки:"
+  },
+  "pixel": {
+    "aiNotReady": "Служба улучшения AI не готова.",
+    "engineNotFound": "Движок AI не найден.",
+    "aiFailed": "Ошибка обработки AI:",
+    "aiCommsError": "Ошибка связи AI:",
+    "selectPresetFirst": "Сначала выберите пресет.",
+    "watermarkFormat": "Регулярный водяной знак PNG/SVG.",
+    "presetSaved": "Пресет «{name}» сохранён",
+    "presetDeleted": "Пресет удален",
+    "presetApplied": "Применён пресет: {name}",
+    "aiReady": "ИИ-улучшение готово: {res}",
+    "compressDone": "Сжатие завершено. Сэкономлено: {saved}",
+    "compressFail": "Ошибка сжатия:",
+    "compressSaved": "Сжатое изображение сохранено.",
+    "aiMatting": "Обработка AI...",
+    "mattingSuccess": "Успешно ({model})",
+    "mattingFail": "Сбой:",
+    "proRequired": "Эта ИИ-функция требует Pro. Обновитесь, чтобы разблокировать.",
+    "proRequiredUpscale": "ИИ-апскейл требует Pro.",
+    "proRequiredMatting": "ИИ-вырезание фона требует Pro.",
+    "aiPythonMissing": "Python не найден.",
+    "aiPythonMissingHint": "Установите Python 3.10+ и перезапустите. См. Настройки → Движки.",
+    "aiRembgMissing": "Не установлен rembg (вырезание фона).",
+    "aiRembgMissingHint": "В терминале: pip install rembg, затем повторите.",
+    "aiScriptMissing": "Скрипт вырезания отсутствует.",
+    "aiScriptMissingHint": "Переустановите приложение или восстановите rembg_service.py.",
+    "aiEngineMissing": "Нет движка/моделей ИИ-апскейла.",
+    "aiEngineMissingHint": "Настройки → Движки: скачайте Real-ESRGAN.",
+    "aiServiceMissing": "ИИ-сервис изображений недоступен в этой сборке.",
+    "aiServiceMissingHint": "Обновите приложение или сжимайте без ИИ.",
+    "aiGenericHint": "При повторных сбоях проверьте Настройки → Движки.",
+    "aiOpenSettingsHint": "Подсказка: Настройки → Движки для установки ИИ.",
+    "emptySelectImage": "Добавьте изображение для сжатия или ИИ."
+  },
+  "mobile": {
+    "startFail": "Ошибка сервиса:",
+    "receivedFiles": "Получено {count} файлов.",
+    "opFail": "Операция не удалась.",
+    "receivedLink": "Ссылка получена:"
+  },
+  "history": {
+    "fileMovedOrDeleted": "Файл удален или перемещен.",
+    "fileNotExist": "Файл не существует.",
+    "startMobileFirst": "Запустите мобильное соединение первым.",
+    "qrGenFail": "Ошибка генерации QR."
+  },
+  "enhance": {
+    "syncSettingsSuccess": "Настройки синхронизированы.",
+    "engineDownloadSuccess": "Движок загружен.",
+    "downloadFail": "Ошибка загрузки.",
+    "downloadException": "Исключение при загрузке.",
+    "processException": "Ошибка процесса.",
+    "processFail": "Сбой обработки.",
+    "processComplete": "Завершено!",
+    "noResInfo": "Нет данных о разрешении.",
+    "calcCropFail": "Ошибка расчета кадрирования.",
+    "exportAreaSuccess": "Успешный экспорт!",
+    "exportFail": "Сбой экспорта.",
+    "previewFail": "Сбой предпросмотра.",
+    "cancelled": "Отменено."
+  },
+  "download": {
+    "fileNavNotFound": "Не найден путь навигации.",
+    "filePathNotFound": "Не найден путь.",
+    "detectFirst": "Сначала выполните обнаружение.",
+    "selectDirFirst": "Выберите директорию.",
+    "missingPath": "Директория отсутствует.",
+    "downloadComplete": "Готово!",
+    "selectOneVideo": "Выберите видео.",
+    "playlistDone": "Успех: {count} видео.",
+    "playlistPartial": "Завершено: {completed}/{total}, Ошибок: {errors}.",
+    "playlistFail": "Ошибка плейлиста:",
+    "addQueueFail": "Сбой очереди:"
+  },
+  "batch": {
+    "inputCleared": "Очищено"
+  },
+  "common": {
+    "extProFeature": "Для расширения браузера требуется активированная лицензия MediaFlow"
+  }
+}

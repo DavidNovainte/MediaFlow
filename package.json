@@ -1,0 +1,83 @@
+{
+    "name": "mediaflow-community",
+    "version": "2.3.5",
+    "description": "MediaFlow Community (Open Core): local media capture, transcription, and image tools. Pro workflows ship in the official commercial build.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "dev": "electron .",
+        "test": "jest --runInBand",
+        "lint": "eslint src/**/*.js",
+        "build": "electron-builder",
+        "build:win": "electron-builder --win",
+        "build:mac": "electron-builder --mac",
+        "build:linux": "electron-builder --linux"
+    },
+    "author": "MediaFlow",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "archiver": "^7.0.1",
+        "axios": "^1.13.2",
+        "electron-log": "^5.4.3",
+        "electron-store": "^8.1.0",
+        "form-data": "^4.0.5",
+        "p-limit": "^7.2.0",
+        "sharp": "^0.34.5"
+    },
+    "devDependencies": {
+        "electron": "^28.3.3",
+        "electron-builder": "^24.9.1",
+        "eslint": "^9.39.2",
+        "eslint-plugin-jest": "^29.13.0",
+        "globals": "^17.4.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "prettier": "^3.8.1"
+    },
+    "build": {
+        "appId": "com.mediaflow.community",
+        "productName": "MediaFlow Community",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "artifactName": "${productName} Setup ${version}.${ext}",
+            "target": [
+                "nsis"
+            ],
+            "icon": "assets/icons/mediaflow-studio-icon.ico",
+            "extraResources": [
+                {
+                    "from": "bin",
+                    "to": "bin",
+                    "filter": [
+                        "ffmpeg.exe",
+                        "ffprobe.exe",
+                        "yt-dlp.exe"
+                    ]
+                }
+            ]
+        },
+        "mac": {
+            "artifactName": "${productName} ${version}.${ext}",
+            "category": "public.app-category.video",
+            "target": "dmg",
+            "icon": "assets/icons/mediaflow-studio-icon.png",
+            "extraResources": [
+                {
+                    "from": "bin",
+                    "to": "bin",
+                    "filter": [
+                        "ffmpeg",
+                        "ffprobe",
+                        "yt-dlp"
+                    ]
+                }
+            ]
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
+        }
+    }
+}

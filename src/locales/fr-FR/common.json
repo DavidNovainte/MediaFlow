@@ -1,0 +1,255 @@
+{
+  "common": {
+    "error": "Erreur",
+    "success": "Succès",
+    "progress": "Progression actuelle",
+    "actions": {
+      "remove": "Supprimer",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "close": "Fermer",
+      "prev": " Précédent",
+      "next": "Suivant ",
+      "end": "Fin",
+      "save": "Enregistrer",
+      "open": "Ouvrir",
+      "copy": "Copier",
+      "minimize": "Réduire",
+      "maximize": "Agrandir",
+      "toggleVisibility": "Afficher/Masquer"
+    },
+    "status": {
+      "processing": "Traitement en cours...",
+      "translating": "Traduction en cours...",
+      "done": "Terminé",
+      "error": "Échec",
+      "pending": "En attente",
+      "cancelled": "Annulé",
+      "noFiles": "Aucun fichier",
+      "ready": "Prêt",
+      "end": "Fin",
+      "previewEnd": " Fin de l'aperçu"
+    },
+    "errors": {
+      "playbackSkip": " Erreur de lecture, passage automatique dans 1.5s...",
+      "noPreviewFiles": "Aucun fichier à prévisualiser",
+      "unknown": "Erreur inconnue",
+      "clipboardRead": "Impossible de lire le presse-papiers",
+      "moduleNotLoaded": "Le module de fonction n'est pas encore chargé",
+      "apiKeyNotConfigured": "Veuillez d'abord configurer la clé API pour {name} dans les paramètres."
+    },
+    "license": {
+      "expiryWarning": "Votre licence Pro expire dans {days} jour(s). Renouvelez pour éviter toute interruption.",
+      "activation": {
+        "title": "Activer la licence Pro",
+        "desc": "Veuillez saisir votre code d'activation pour débloquer toutes les fonctionnalités avancées.",
+        "hwidLabel": "ID de l'appareil (HWID)",
+        "keyLabel": "Code d'activation",
+        "keyPlaceholder": "Saisir le code d'activation",
+        "submit": "Activer",
+        "loading": "Activation en cours...",
+        "error": "Veuillez saisir le code d'activation",
+        "failed": "Échec de l'activation : {error}",
+        "systemError": "Erreur système : {error}",
+        "success": "Activation réussie !"
+      }
+    },
+    "modelManager": {
+      "manage": "Gérer",
+      "title": " Gestionnaire de Modèles",
+      "desc": "Gérez les modèles Whisper mis en cache.",
+      "availableSection": " Modèles Disponibles",
+      "availableDesc": "Mettez les modèles en cache pour une utilisation hors ligne.",
+      "installing": "Traitement...",
+      "deploying": "Déploiement...",
+      "extracting": "Extraction...",
+      "done": "Installation terminée !",
+      "loading": "Chargement...",
+      "noModels": "Aucun modèle en cache",
+      "loadError": "Échec du chargement de la liste des modèles",
+      "deleteConfirm": "Êtes-vous sûr de vouloir supprimer le modèle {modelId} ?",
+      "download": "Capturer",
+      "downloadingShort": "Traitement...",
+      "downloaded": "Téléchargé",
+      "descTiny": "Le plus rapide, idéal pour les tests",
+      "descBase": "Équilibre entre vitesse et qualité",
+      "descSmall": "Meilleure qualité",
+      "descMedium": "Haute qualité",
+      "descLargeV2": "Qualité maximale",
+      "descLargeV3": "Dernière qualité maximale",
+      "descTurbo": "Rapide et de haute qualité",
+      "deepfilterDesc": "Réduction de bruit IA, supprime les voix en arrière-plan",
+      "installedSection": "Installé"
+    },
+    "scribe": {
+      "qwen": "Qwen",
+      "qwenRemark": "Modèle CN de haute qualité",
+      "editSpeaker": "Éditer l'interlocuteur",
+      "speakerName": "Nom (Mettra à jour toutes les étiquettes identiques)",
+      "exclusiveColor": "Couleur exclusive",
+      "localTranscribing": "Transcription locale",
+      "cloudProcessing": "Traitement cloud",
+      "transcribeFailed": "Échec de la transcription",
+      "copiedToClipboard": "Copié dans le presse-papiers",
+      "nameEmpty": "Le nom de l'orateur ne peut pas être vide",
+      "speakersUpdated": "Mise à jour de {count} étiquettes d'orateur"
+    },
+    "boundary": {
+      "title": "Oups, une erreur est survenue",
+      "desc": "L'application a rencontré un petit problème.",
+      "submit": "Soumettre et Fermer"
+    },
+    "video": "Vidéo",
+    "videoEntry": "Entrée vidéo",
+    "proOnly": "Cette fonctionnalité est réservée aux membres Pro, veuillez mettre à niveau ",
+    "proFeature": "Cette fonctionnalité est réservée aux utilisateurs Pro ",
+    "proFeatureMsg": "Débloquez les fonctionnalités Pro pour une expérience complète ",
+    "freeVersionMsg": "Version gratuite actuelle. La capture par lot et l'audio sans perte sont limités.",
+    "ui": {
+      "notConfigured": "(Non configuré)",
+      "recommended": "(Recommandé)",
+      "localDeployment": "(Déploiement local)",
+      "fast": "(Plus rapide)",
+      "chineseOptimized": "Optimisé CN, Haute vitesse",
+      "whisperStable": "Whisper-1, stable",
+      "longTextSupport": "Support texte long",
+      "costEffective": "Rentable",
+      "speedy": "Haute vitesse, Recommandé",
+      "universal": "Universel",
+      "closePlayer": "Fermer le lecteur",
+      "playPause": "Lecture/Pause",
+      "playbackSpeed": "Vitesse de lecture",
+      "mute": "Muet"
+    },
+    "report": {
+      "successTitle": "Rapport envoyé",
+      "successBody": "Merci pour votre feedback. Les informations sur l'erreur ont été envoyées avec succès.",
+      "failTitle": "Échec de l'envoi",
+      "failBody": "L'envoi du rapport a échoué : {error}",
+      "fallbackMsg": "En raison de l'indisponibilité temporaire des canaux internes, le rapport ne peut pas être envoyé en ligne. Veuillez essayer de prendre une capture d'écran ou de contacter manuellement le développeur."
+    },
+    "transcribe": {
+      "hfHint": "Veuillez d'abord accepter l'accord utilisateur pyannote sur Hugging Face",
+      "selectedLanguages": "{count} langues sélectionnées",
+      "selectTargetLang": "Sélectionner la langue...",
+      "languagePrefix": "Langue : ",
+      "versionOriginal": "Original",
+      "versionPolished": "Optimisé par IA",
+      "switchedVersion": "Passage à la version {version}",
+      "lineDeleted": "Ligne de sous-titre supprimée",
+      "rateLimitWarn": "⚠️ Limite de débit atteinte. Ajoutez d'autres clés API dans les paramètres.",
+      "translatingState": "Traduction en cours...",
+      "translatingBatch": "Traduction de {status}...",
+      "batchTranslatedSuccess": "Traduction terminée !",
+      "partialSuccess": "Réussite partielle ({done}/{total}). Échec : {langs}",
+      "translateFail": "Échec de la traduction",
+      "copy": "Copier le texte",
+      "downloadSrt": "Exporter SRT",
+      "downloadZip": "📦 Exporter ZIP",
+      "packSuccess": "Emballage réussi",
+      "searchTitle": "Rechercher et remplacer",
+      "searchPlaceholder": "Rechercher...",
+      "replacePlaceholder": "Remplacer par...",
+      "prevMatch": "Précédent",
+      "nextMatch": "Suivant",
+      "replaceAll": "Tout remplacer",
+      "replace": "Remplacer",
+      "noResults": "Aucun résultat",
+      "replaced": "Remplacé",
+      "replacedAllCount": "{count} occurrences remplacées",
+      "polishingState": "Optimisation par IA...",
+      "polishSuccess": "Optimisation par IA terminée !",
+      "polishFailed": "Échec de l'optimisation par IA",
+      "polish": "✨ Optimisation par IA",
+      "analyzingState": "Analyse du contenu vidéo...",
+      "summarizeFailed": "L'analyse a échoué",
+      "noSubtitlesToPolish": "Aucun sous-titre à optimiser",
+      "noContentToSummarize": "Aucun contenu à résumer",
+      "selectedCount": "{count} fichiers sélectionnés",
+      "dropFilesHint": "Glissez et déposez plus de fichiers ici",
+      "summaryCopied": "Résumé copié dans le presse-papiers",
+      "noExportResults": "Aucun résultat à exporter",
+      "noTranscribeResults": "Aucun résultat de transcription réussi",
+      "fileSaved": "{filename} enregistré"
+    },
+    "openSettings": "Ouvrir les paramètres",
+    "communityVersionMsg": "Édition Community : capture simple, transcription, compression et AI enhance. Passez à Pro pour le lot, la file et les flux avancés.",
+    "saveFailed": "Échec de l’enregistrement",
+    "processing": "Traitement...",
+    "processingPercent": "Traitement... {percent}%",
+    "loadingFeature": {
+      "generic": "Chargement…",
+      "enhance": "Chargement AI Enhance…",
+      "editor": "Chargement de l’éditeur…",
+      "subtitle": "Chargement du studio sous-titres…",
+      "creator": "Chargement des outils Creator…"
+    }
+  },
+  "ui": {
+    "placeholder": "Collez le lien de la vidéo ici...",
+    "noData": "Aucune donnée",
+    "clearInput": "Effacer l'entrée",
+    "clearAction": "Effacer",
+    "clearResults": "Effacer les résultats",
+    "resetTooltip": "Réinitialiser le lien",
+    "loading": "Chargement...",
+    "editSpeaker": "Modifier l'interlocuteur",
+    "speakerName": "Nom de l'interlocuteur",
+    "speakerColor": "Couleur exclusive",
+    "name": "Nom",
+    "nameChangeBatchHint": "(Mise à jour par lot après modification)"
+  },
+  "settings": {
+    "license": {
+      "activateNow": "Activer maintenant"
+    }
+  },
+  "params": {
+    "recommended": "Recommandé",
+    "normal": "Normal",
+    "slow": "Lent",
+    "verySlow": "Très lent"
+  },
+  "download": {
+    "playlist": {
+      "copySuccess": "{count} fichiers copiés. Vous pouvez les coller dans d'autres dossiers."
+    },
+    "playlistProgress": "Progression de la capture"
+  },
+  "enhance": {
+    "noComparison": "Aucun graphique de comparaison disponible (Affichage de l'original uniquement)"
+  },
+  "pip": {
+    "title": "MediaFlow - Image dans l’image",
+    "close": "Fermer (Esc)"
+  },
+  "shortcuts": {
+    "queue_dev": "La fonction de file d'attente est en cours de développement...",
+    "reset_success": "Raccourcis réinitialisés par défaut",
+    "press_new": "Appuyez sur le nouveau raccourci...",
+    "update_success": "Raccourci mis à jour"
+  },
+  "update": {
+    "available": "Nouvelle version v{version} trouvée. Préparation en arrière-plan...",
+    "downloaded": "La nouvelle version v{version} est prête à installer !",
+    "restartAndInstall": "Redémarrer et mettre à jour",
+    "checking": "Recherche de mises à jour...",
+    "latest": "Déjà à jour",
+    "failed": "Échec de la vérification, réessayez plus tard"
+  },
+  "player": {
+    "resolving": "Résolution de l’URL média...",
+    "preparing": "Préparation de la lecture...",
+    "loading": "Chargement...",
+    "castError": "Erreur de cast : {message}",
+    "unknownError": "Erreur inconnue",
+    "imageLoadFailed": "Échec du chargement de l’image",
+    "parsingLink": "Analyse du lien...",
+    "parseFailed": "Échec de l’analyse : {error}",
+    "unsupportedLink": "Lien non pris en charge",
+    "parseError": "Erreur d’analyse : {error}",
+    "hlsFatal": "Échec de lecture : erreur HLS fatale",
+    "hlsUnsupported": "Échec de lecture : le navigateur ne prend pas en charge HLS",
+    "playbackFailed": "Échec de lecture : {error}"
+  }
+}

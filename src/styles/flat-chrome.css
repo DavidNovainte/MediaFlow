@@ -1,0 +1,824 @@
+/**
+ * flat-chrome.css
+ * Kill residual glassmorphism / “AI product” chrome across pages.
+ * Loaded last so it wins over page CSS without rewriting every file.
+ * Does NOT touch pure video transition keyframes (blur used as FX).
+ */
+
+/* ---------- Global glass utilities ---------- */
+.glass-panel,
+.glass-card,
+.sidebar,
+.toast {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+.glass-panel,
+.glass-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.sidebar {
+    background: var(--bg-secondary) !important;
+}
+
+.toast {
+    background: var(--bg-card) !important;
+}
+
+/* Soft floating buttons → flat */
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-download,
+.btn-upgrade,
+.btn-price {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-danger:hover,
+.btn-download:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Stop / delete: solid red + white label (readable in light theme) */
+.btn-danger,
+#btn-toggle-mobile-server.btn-danger {
+    background: var(--danger, #dc2626) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--danger, #dc2626) !important;
+}
+
+.btn-danger:hover,
+#btn-toggle-mobile-server.btn-danger:hover {
+    background: #b91c1c !important;
+    color: #ffffff !important;
+}
+
+.btn-danger svg,
+#btn-toggle-mobile-server.btn-danger svg {
+    color: #ffffff !important;
+    stroke: currentColor !important;
+}
+
+/* Modals: dim only, no frosted glass */
+.modal-overlay,
+.modal {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--overlay-scrim, rgba(0, 0, 0, 0.55)) !important;
+}
+
+/* ---------- Download hero / panels ---------- */
+#page-download .glass-panel,
+#page-download .glass-card,
+#page-download .hero-input-wrapper,
+#page-download .hero-input-group {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Batch chip field: one box only — never style the inner ghost input as a second field */
+#page-download .batch-input-wrapper {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-download .batch-ghost-input,
+#page-download #batch-smart-input {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    min-height: 28px !important;
+    padding: 6px 0 !important;
+}
+
+#page-download .batch-empty-tip {
+    position: absolute !important;
+    inset: 0 !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+/* When tip is hidden by JS, keep it hidden */
+#page-download .batch-empty-tip[style*="display: none"],
+#page-download .batch-empty-tip.hidden {
+    display: none !important;
+}
+
+/* ---------- Enhance ---------- */
+#page-enhance .glass-panel,
+#page-enhance .enhance-panel,
+#page-enhance .enhance-settings-panel,
+#page-enhance .enhance-preview-container,
+#page-enhance .comparison-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    background: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ---------- Creator ---------- */
+#page-creator .glass-panel,
+#page-creator .pro-monitor,
+#page-creator .inspector-aside-pro,
+#page-creator .timeline-section-pro,
+#page-creator .modal-content,
+#page-creator .creator-dialog {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Subtitle ---------- */
+#page-subtitle .pro-monitor,
+#page-subtitle .video-placeholder,
+#page-subtitle .video-stage-pro,
+#page-subtitle .timeline-section-pro,
+#page-subtitle .inspector-aside-pro,
+#page-subtitle .glass-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+#page-subtitle .video-placeholder {
+    background: var(--bg-secondary) !important;
+}
+
+/* Kill neon playhead / accent glows on subtitle chrome (keep functional red line) */
+#page-subtitle .progress-handle,
+#page-subtitle .timeline-playhead {
+    filter: none !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Upgrade / Pro marketing ---------- */
+#page-upgrade .pricing-card,
+#page-upgrade .plan-card,
+#page-upgrade .glass-panel,
+#page-upgrade .pro-hero,
+#page-upgrade .feature-card,
+#page-upgrade .pro-status-container {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* Pro lifetime seal — saturated gold, no mono/dusty override */
+#page-upgrade .pro-badge-glow,
+.pro-badge-glow {
+    filter: none !important;
+    opacity: 1 !important;
+    background: linear-gradient(135deg, #ffd54a 0%, #f0b429 40%, #d97706 100%) !important;
+    color: #1a1003 !important;
+    border: 1px solid #b45309 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        0 4px 14px rgba(217, 119, 6, 0.28) !important;
+}
+
+#page-upgrade .pro-badge-glow i,
+.pro-badge-glow i,
+#page-upgrade .pro-badge-glow .fa-crown,
+.pro-badge-glow .fa-crown,
+#page-upgrade .pro-badge-glow #pro-plan-name,
+.pro-badge-glow #pro-plan-name,
+#page-upgrade .pro-badge-glow span,
+.pro-badge-glow span {
+    color: #1a1003 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-text-fill-color: #1a1003 !important;
+}
+
+html[data-theme="dark"] #page-upgrade .pro-badge-glow,
+html[data-theme="dark"] .pro-badge-glow {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 45%, #d97706 100%) !important;
+    color: #1a1003 !important;
+    border-color: #fbbf24 !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 0 0 1px rgba(251, 191, 36, 0.25),
+        0 8px 22px rgba(217, 119, 6, 0.35) !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="dark"] #page-upgrade .pro-badge-glow i,
+html[data-theme="dark"] .pro-badge-glow i,
+html[data-theme="dark"] #page-upgrade .pro-badge-glow .fa-crown,
+html[data-theme="dark"] .pro-badge-glow .fa-crown {
+    color: #1a1003 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+#page-upgrade .btn-price,
+#page-upgrade .btn-upgrade,
+#page-upgrade .btn-renew-primary {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-upgrade .pricing-card.featured {
+    border-left: 3px solid #18181b !important;
+}
+
+html[data-theme="dark"] #page-upgrade .pricing-card.featured {
+    border-left-color: #fafafa !important;
+}
+
+/* ---------- Onboarding / overlays ---------- */
+.onboarding-overlay,
+.onboarding-modal,
+.share-qr-modal,
+.celebration-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* ---------- Features shared dialogs ---------- */
+.feature-modal,
+.batch-settings-modal,
+.confirm-modal .modal-content,
+#confirm-modal .modal-content {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: var(--shadow-lg) !important;
+    background: var(--bg-card) !important;
+}
+
+/* ---------- PixelFlow / Scribe ---------- */
+#page-compress .glass-panel,
+#page-compress .pixelflow-panel,
+#page-transcribe .glass-panel,
+#page-transcribe .scribe-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    background: var(--bg-card) !important;
+}
+
+/* Soft purple marketing glows → solid */
+[class*="glow"],
+.accent-glow-orb,
+.hero-glow {
+    box-shadow: none !important;
+    filter: none !important;
+    opacity: 0.35;
+}
+
+/* Light theme: ensure selects stay flat if page CSS re-adds shadows */
+html[data-theme="light"] select,
+html[data-theme="light"] .setting-select,
+html[data-theme="light"] .btn-secondary {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Sidebar active: monochrome ZCode style (no blue wash) */
+html[data-theme="light"] .nav-item.active,
+html[data-theme="light"] .nav-item.active:hover,
+html[data-theme="light"] .nav-item.active:focus-visible {
+    background: #e4e4e7 !important;
+    color: #18181b !important;
+}
+
+html[data-theme="light"] .nav-item.active:hover .nav-item-hint {
+    color: #52525b !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="dark"] .nav-item.active,
+html[data-theme="dark"] .nav-item.active:hover {
+    background: #27272a !important;
+    color: #fafafa !important;
+}
+
+/* Primary buttons: black on light / white on dark */
+html[data-theme="light"] .btn-primary {
+    background: #18181b !important;
+    color: #fafafa !important;
+    border-color: #18181b !important;
+}
+
+html[data-theme="dark"] .btn-primary {
+    background: #fafafa !important;
+    color: #18181b !important;
+    border-color: #fafafa !important;
+}
+
+/* ---------- Mono sliders / progress (no blue thumbs) ---------- */
+input[type="range"],
+.pro-slider-tiny,
+.editor-zoom-control input[type="range"] {
+    accent-color: var(--text-primary) !important;
+}
+
+html[data-theme="light"] input[type="range"],
+html[data-theme="light"] .pro-slider-tiny {
+    accent-color: #18181b !important;
+}
+
+html[data-theme="dark"] input[type="range"],
+html[data-theme="dark"] .pro-slider-tiny {
+    accent-color: #fafafa !important;
+}
+
+/* WebKit thumbs for common pro sliders */
+input[type="range"]::-webkit-slider-thumb,
+.pro-slider-tiny::-webkit-slider-thumb {
+    background: var(--text-primary, #18181b) !important;
+    border-color: var(--bg-card, #fff) !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] input[type="range"]::-webkit-slider-thumb,
+html[data-theme="dark"] .pro-slider-tiny::-webkit-slider-thumb {
+    background: #fafafa !important;
+    border-color: #18181b !important;
+}
+
+/* Progress bars: solid mono fill */
+.progress-fill,
+.progress-fill-pro,
+.progress-fill-large,
+.overall-progress-fill,
+.player-progress-fill,
+.enhance-progress-fill,
+.creator-progress .progress-fill {
+    background: var(--text-primary) !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="dark"] .progress-fill,
+html[data-theme="dark"] .progress-fill-pro,
+html[data-theme="dark"] .progress-fill-large,
+html[data-theme="dark"] .overall-progress-fill,
+html[data-theme="dark"] .player-progress-fill,
+html[data-theme="dark"] .enhance-progress-fill {
+    background: #fafafa !important;
+}
+
+/* Sidebar icons: stable secondary outline — not tied to active text color,
+   and never solid-filled black when selected */
+.nav-item svg,
+.nav-item i {
+    color: var(--text-secondary) !important;
+    stroke: currentColor !important;
+    fill: none !important;
+}
+
+.nav-item svg text {
+    fill: currentColor !important;
+    stroke: none !important;
+}
+
+.nav-item:not(.active) {
+    color: var(--text-secondary) !important;
+}
+
+.nav-item.active {
+    color: var(--nav-active-fg, var(--text-primary)) !important;
+}
+
+.nav-item.active svg,
+.nav-item.active i {
+    color: var(--text-secondary) !important;
+    stroke: currentColor !important;
+    fill: none !important;
+}
+
+/* Mobile page IP selector: option text readable in light theme */
+#page-mobile #ip-selector,
+#ip-selector {
+    color: var(--text-primary) !important;
+}
+
+#ip-selector option {
+    background-color: var(--bg-card, #fff) !important;
+    color: var(--text-primary, #0f1419) !important;
+}
+
+html[data-theme="light"] #ip-selector option {
+    background-color: #ffffff !important;
+    color: #0f1419 !important;
+}
+
+html[data-theme="dark"] #ip-selector option {
+    background-color: var(--bg-card, #18181b) !important;
+    color: var(--text-primary, #fafafa) !important;
+}
+
+/* ---------- Dark theme contrast (labels / disabled / empty) ---------- */
+html[data-theme="dark"] .btn-primary:disabled,
+html[data-theme="dark"] .btn-primary[disabled] {
+    opacity: 1 !important;
+    background: #3f3f46 !important;
+    color: #d4d4d8 !important;
+    border-color: #3f3f46 !important;
+}
+
+html[data-theme="light"] .btn-primary:disabled,
+html[data-theme="light"] .btn-primary[disabled] {
+    opacity: 1 !important;
+    background: #e4e4e7 !important;
+    color: #71717a !important;
+    border-color: #e4e4e7 !important;
+}
+
+/* Enhance segmented tabs — mono pro control */
+#page-enhance .category-tabs {
+    background: var(--fill-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: none !important;
+}
+
+#page-enhance .category-tab {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+#page-enhance .category-tab.active {
+    color: #18181b !important;
+    background: #fafafa !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18) !important;
+}
+
+#page-enhance .category-tab.active::before {
+    display: none !important;
+}
+
+html[data-theme="light"] #page-enhance .category-tab.active {
+    color: #fafafa !important;
+    background: #18181b !important;
+    box-shadow: none !important;
+}
+
+#page-enhance .setting-label,
+#page-enhance .setting-desc {
+    color: var(--text-secondary) !important;
+    opacity: 1 !important;
+}
+
+#page-creator .placeholder-content h3 {
+    color: var(--text-primary) !important;
+}
+
+#page-creator .placeholder-content .hint,
+#page-creator .placeholder-content p {
+    color: var(--text-secondary) !important;
+    opacity: 1 !important;
+}
+
+#page-creator .floating-icon {
+    background: var(--fill-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: none !important;
+    filter: none !important;
+    animation: none !important;
+}
+
+/* ---------- Primary-pro CTAs (was white-on-light = unreadable) ---------- */
+.btn-primary-pro,
+.btn-accent-pro,
+#page-creator .btn-primary-pro,
+#page-subtitle .btn-primary-pro,
+#page-subtitle .btn-accent-pro {
+    background: #18181b !important;
+    color: #fafafa !important;
+    border: 1px solid #18181b !important;
+    box-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+.btn-primary-pro:hover,
+.btn-accent-pro:hover,
+#page-creator .btn-primary-pro:hover,
+#page-subtitle .btn-primary-pro:hover,
+#page-subtitle .btn-accent-pro:hover {
+    background: #27272a !important;
+    color: #fafafa !important;
+    border-color: #27272a !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+html[data-theme="dark"] .btn-primary-pro,
+html[data-theme="dark"] .btn-accent-pro,
+html[data-theme="dark"] #page-creator .btn-primary-pro,
+html[data-theme="dark"] #page-subtitle .btn-primary-pro,
+html[data-theme="dark"] #page-subtitle .btn-accent-pro {
+    background: #fafafa !important;
+    color: #18181b !important;
+    border-color: #fafafa !important;
+    -webkit-text-fill-color: #18181b !important;
+}
+
+html[data-theme="dark"] .btn-primary-pro:hover,
+html[data-theme="dark"] .btn-accent-pro:hover,
+html[data-theme="dark"] #page-creator .btn-primary-pro:hover,
+html[data-theme="dark"] #page-subtitle .btn-primary-pro:hover,
+html[data-theme="dark"] #page-subtitle .btn-accent-pro:hover {
+    background: #e4e4e7 !important;
+    color: #18181b !important;
+    border-color: #e4e4e7 !important;
+    -webkit-text-fill-color: #18181b !important;
+}
+
+html[data-theme="dark"] .btn-primary-pro span,
+html[data-theme="dark"] .btn-primary-pro i,
+html[data-theme="dark"] .btn-accent-pro span,
+html[data-theme="dark"] .btn-accent-pro i {
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+}
+
+/* Enhance inspector: flat sections (no nested cards) */
+#page-enhance .settings-section {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+#page-enhance .settings-section:hover {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#page-enhance .settings-section:not(:last-child) {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* Compress panel mono chrome */
+#page-compress .category-tabs {
+    background: var(--fill-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: none !important;
+}
+#page-compress .category-tab.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] #page-compress .category-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+}
+#page-compress .category-tab.active::before,
+#page-compress .category-tab.active::after {
+    display: none !important;
+}
+#page-compress .preset-btn.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    border-color: #fafafa !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] #page-compress .preset-btn.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+    border-color: #18181b !important;
+}
+#page-compress #btn-save-preset {
+    background: transparent !important;
+    border: 1px dashed var(--border-color) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: none !important;
+}
+#page-compress .compare-tab.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] #page-compress .compare-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+}
+
+/* Compress: keep settings panel scrollable above fixed footer */
+#page-compress .pixelflow-layout {
+    padding-bottom: 84px !important;
+    min-height: 0 !important;
+}
+#page-compress .pixelflow-settings-panel {
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+#page-compress .settings-scroll-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding-bottom: 28px !important;
+}
+
+/* Subtitle header buttons + inspector tabs contrast */
+#page-subtitle .btn-primary-pro,
+#page-subtitle .btn-accent-pro,
+#page-subtitle #subtitle-btn-toggle-inspector,
+#page-subtitle .header-right .btn {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+}
+#page-subtitle .inspector-tab.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] #page-subtitle .inspector-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+}
+#page-subtitle .tab-indicator {
+    display: none !important;
+}
+
+/* History action icons: force visible strokes */
+#page-history .history-actions .btn-icon {
+    color: var(--text-primary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+}
+#page-history .history-actions .btn-icon svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+}
+#page-history .history-actions .btn-icon.danger:hover {
+    color: #ef4444 !important;
+    -webkit-text-fill-color: #ef4444 !important;
+}
+
+#page-compress .compress-concurrency-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+#page-compress .compress-concurrency-row .toggle-info {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+#page-compress #compress-concurrency {
+    flex: 0 0 108px !important;
+    width: 108px !important;
+    height: 32px !important;
+    margin-left: auto !important;
+}
+
+/* Creator inspector tab contrast */
+#page-creator .inspector-tab.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+    box-shadow: none !important;
+}
+#page-creator .inspector-tab.active i,
+#page-creator .inspector-tab.active span {
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+}
+html[data-theme="light"] #page-creator .inspector-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+html[data-theme="light"] #page-creator .inspector-tab.active i,
+html[data-theme="light"] #page-creator .inspector-tab.active span {
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+/* Download page: selected format/quality readable */
+#page-download .quality-btn.active,
+#page-download .format-btn.active,
+#page-download .audio-btn.active,
+#page-download .audio-format-btn.active {
+    background: #fafafa !important;
+    border-color: #fafafa !important;
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+    box-shadow: none !important;
+}
+#page-download .quality-btn.active .quality-size {
+    color: #52525b !important;
+}
+html[data-theme="light"] #page-download .quality-btn.active,
+html[data-theme="light"] #page-download .format-btn.active,
+html[data-theme="light"] #page-download .audio-btn.active,
+html[data-theme="light"] #page-download .audio-format-btn.active {
+    background: #18181b !important;
+    border-color: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+html[data-theme="light"] #page-download .quality-btn.active .quality-size {
+    color: #a1a1aa !important;
+}
+
+/* Download CTAs: equal workspace height */
+#page-download .download-actions .btn-download,
+#page-download .download-actions #btn-add-queue {
+    height: var(--ws-control-height, 32px) !important;
+    min-height: var(--ws-control-height, 32px) !important;
+    font-size: var(--ws-font-ui, 12px) !important;
+    border-radius: var(--ws-control-radius, 8px) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+#page-download .btn-download {
+    padding: 0 14px !important;
+    background: #16a34a !important;
+    border: 1px solid #16a34a !important;
+}
+
+/* Subtitle TTS header: space title and switch */
+#page-subtitle .section-header {
+    gap: 12px !important;
+}
+#page-subtitle .section-header > .section-switch {
+    margin-left: 10px !important;
+}
+#page-subtitle .section-header > .section-collapse-toggle {
+    margin-left: auto !important;
+}
+
+/* Global mono capsule switches (no blue) */
+.section-switch input:checked + .switch-slider,
+.switch input:checked + .slider,
+input:checked + .toggle-slider,
+.batch-toggle input:checked + .batch-toggle-slider {
+    background-color: #fafafa !important;
+    border-color: #fafafa !important;
+}
+.section-switch input:checked + .switch-slider:before,
+.switch input:checked + .slider:before,
+input:checked + .toggle-slider:before,
+input:checked + .toggle-slider::before,
+.batch-toggle input:checked + .batch-toggle-slider::before {
+    background-color: #18181b !important;
+}
+html[data-theme="light"] .section-switch input:checked + .switch-slider,
+html[data-theme="light"] .switch input:checked + .slider,
+html[data-theme="light"] input:checked + .toggle-slider,
+html[data-theme="light"] .batch-toggle input:checked + .batch-toggle-slider {
+    background-color: #18181b !important;
+    border-color: #18181b !important;
+}
+html[data-theme="light"] .section-switch input:checked + .switch-slider:before,
+html[data-theme="light"] .switch input:checked + .slider:before,
+html[data-theme="light"] input:checked + .toggle-slider:before,
+html[data-theme="light"] input:checked + .toggle-slider::before,
+html[data-theme="light"] .batch-toggle input:checked + .batch-toggle-slider::before {
+    background-color: #fafafa !important;
+}
+
+/* Subtitle style B/I toggles: soft accent selected state */
+#page-subtitle .btn-toggle.active {
+    background: var(--ws-icon-active-bg) !important;
+    color: var(--ws-icon-active-fg) !important;
+    -webkit-text-fill-color: var(--ws-icon-active-fg) !important;
+    border-color: var(--ws-icon-active-border) !important;
+    box-shadow: none !important;
+}
+#page-subtitle .btn-toggle.active i {
+    color: var(--ws-icon-active-fg) !important;
+    -webkit-text-fill-color: var(--ws-icon-active-fg) !important;
+}
+html[data-theme="light"] #page-subtitle .btn-toggle.active,
+html[data-theme="light"] #page-subtitle .btn-toggle.active i {
+    background: var(--ws-icon-active-bg) !important;
+    color: var(--ws-icon-active-fg) !important;
+    -webkit-text-fill-color: var(--ws-icon-active-fg) !important;
+}

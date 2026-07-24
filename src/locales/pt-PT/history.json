@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "Histórico de Arquivamento",
+    "clear": "Limpar Histórico",
+    "confirmClear": "Tem a certeza que deseja limpar todo o histórico de arquivos?",
+    "confirmDelete": "Tem a certeza que deseja eliminar este registo?",
+    "historyCleared": "Histórico limpo com sucesso",
+    "searchPlaceholder": "Procurar título do vídeo...",
+    "noResults": "Nenhum resultado encontrado",
+    "noResultsTitle": "Nenhum resultado encontrado",
+    "noResultsDesc": "Tente pesquisar por outros termos ou palavras-chave",
+    "clearSearchBtn": "Limpar Pesquisa",
+    "empty": "Não existem registos de captura",
+    "emptyTitle": "Histórico Vazio",
+    "emptyDesc": "Os vídeos capturados aparecerão aqui para que possa geri-los e revê-los facilmente.",
+    "goDownload": "Arquive o seu primeiro vídeo",
+    "openFile": "Reproduzir",
+    "openFolder": "Abrir Pasta",
+    "copyLink": "Copiar Link",
+    "shareMobile": "Partilhar com o Telemóvel",
+    "showQRCode": "Mostrar código QR",
+    "delete": "Eliminar",
+    "fileDeleted": "O ficheiro foi eliminado",
+    "deletedTag": "Eliminado",
+    "qrTip": "📱 Digitalize o código QR com o telemóvel para aceder ao ficheiro",
+    "close": "Fechar",
+    "filter": {
+      "allPlatforms": "Todas as Plataformas",
+      "other": "Outros",
+      "allTime": "Todo o Período",
+      "today": "Hoje",
+      "week": "Esta Semana",
+      "month": "Este Mês"
+    },
+    "batch": {
+      "selectAll": "Selecionar Tudo",
+      "selected": "{count} selecionados",
+      "delete": "Eliminar em Lote",
+      "copy": "Copiar Ficheiros",
+      "confirmDelete": "Tem a certeza que deseja eliminar os {count} registos selecionados?",
+      "deleteSuccess": "Eliminados com sucesso",
+      "noLocalFile": "Os registos selecionados não possuem ficheiros locais",
+      "copySuccess": "Copiados {count} ficheiros. Pode colá-los noutro local.",
+      "copyFail": "Falha ao copiar ficheiros"
+    },
+    "stats": {
+      "filtered": "A mostrar {filtered} / {total} registos",
+      "total": "Total de {total} registos"
+    },
+    "qrProOnly": "QR / partilha móvel é Pro. Atualize para desbloquear.",
+    "showQRCodePro": "Mostrar código QR · Pro"
+  }
+}

@@ -1,0 +1,11 @@
+@import "./styles/PixelFlow_Queue.css";
+@import "./styles/PixelFlow_Watermark.css";
+@import './styles/PixelFlow_Layout.css';
+@import './styles/PixelFlow_Panel.css';
+@import './styles/PixelFlow_Queue.css';
+@import './styles/PixelFlow_Footer.css';
+@import './styles/PixelFlow_AI.css';
+@import './styles/PixelFlow_Resizer.css';
+/* Re-apply workspace chrome after PixelFlow modules (dynamic load order) */
+@import url("../../styles/ui-tokens.css");
+@import url("../../styles/workspace-chrome.css");

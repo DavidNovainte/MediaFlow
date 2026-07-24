@@ -1,0 +1,547 @@
+<!-- 音频转文字页面 (ScribeFlow) -->
+<section class="page" id="page-transcribe">
+    <style>
+        #lang-dropdown-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            font-size: 13px;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #lang-dropdown-menu .dropdown-item:hover {
+            background: rgba(77, 130, 201, 0.15);
+            color: var(--accent-primary);
+        }
+
+        #lang-dropdown-menu .dropdown-item input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: var(--accent-primary);
+        }
+
+        #lang-dropdown-menu .dropdown-header {
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* 隐藏滚动条但保留滚动功能 */
+        #lang-dropdown-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #lang-dropdown-menu::-webkit-scrollbar-thumb {
+            background: var(--fill-hover);
+            border-radius: 2px;
+        }
+    </style>
+
+    <!-- Visual title hidden: sidebar already labels this tool (a11y kept) -->
+    <div class="page-header">
+        <h1 class="page-title" data-i18n="transcribe.title">音视频转文字</h1>
+        <p class="page-desc" data-i18n="transcribe.desc">AI 智能转录 · 翻译 · 导出</p>
+    </div>
+
+    <!-- 上传区域 -->
+    <div class="transcribe-area">
+        <div class="upload-zone" id="upload-zone-audio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+                <path d="M19 10v2a7 7 0 01-14 0v-2" />
+                <line x1="12" y1="19" x2="12" y2="23" />
+                <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+            <p data-i18n="transcribe.dropzone">拖放音频/视频文件到这里，或点击选择</p>
+            <p class="upload-hint" data-i18n="transcribe.uploadHint">支持批量添加 · MP3, M4A, WAV, MP4, WEBM 等格式</p>
+        </div>
+        <input type="file" id="audio-file" accept="audio/*,video/*" multiple hidden>
+
+        <!-- 转录选项 -->
+        <div id="transcribe-options" class="transcribe-options hidden">
+            <!-- 文件队列 -->
+            <div class="scribe-queue-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span id="scribe-queue-count" class="ws-text-ui ws-text-secondary" data-i18n="common.transcribe.selectedCount" data-i18n-options='{"count": 0}'>已选择 0 个文件</span>
+                <div style="display: flex; gap: 8px;">
+                    <button id="btn-add-more-audio" class="btn btn-secondary btn-sm" data-i18n="transcribe.addMore">+ 添加更多</button>
+                    <button id="btn-clear-scribe-queue" class="btn btn-secondary btn-sm" data-i18n="transcribe.clear">清空</button>
+                </div>
+            </div>
+            <div id="scribe-file-queue" class="scribe-file-queue"
+                style="max-height: 150px; overflow-y: auto; background: var(--bg-tertiary); border-radius: 8px; padding: 8px; margin-bottom: 15px;">
+                <!-- File items will be injected here -->
+            </div>
+
+            <div class="options-row">
+                <div class="option-group">
+                    <label class="option-label" data-i18n="transcribe.mode">模式 / Mode</label>
+                    <select id="transcribe-mode" class="setting-select">
+                        <option value="cloud" data-i18n="transcribe.modeCloud">Cloud API</option>
+                        <option value="local" data-i18n="transcribe.modeLocal">Local (faster-whisper)</option>
+                    </select>
+                </div>
+                <div class="option-group" id="cloud-provider-group">
+                    <label class="option-label" data-i18n="transcribe.provider">API 提供商</label>
+                    <select id="transcribe-provider" class="setting-select">
+                        <!-- 由 ScribeFlow.populateTranscriptionProviders() 动态填充 -->
+                    </select>
+                </div>
+                <div class="option-group hidden" id="local-model-group">
+                    <div class="option-label-row">
+                        <label class="option-label" for="transcribe-model" data-i18n="transcribe.model">模型</label>
+                        <button type="button" id="btn-manage-models" class="btn-manage-models"
+                            data-i18n="common.modelManager.manage">管理</button>
+                    </div>
+                    <select id="transcribe-model" class="setting-select">
+                        <option value="tiny">Tiny (Quick)</option>
+                        <option value="base" selected>Base</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large-v2">Large-v2</option>
+                        <option value="large-v3">Large-v3 (Best)</option>
+                        <option value="large-v3-turbo">Large-v3 Turbo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="option-group hidden" id="local-diarization-group" style="margin-top: 15px;">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="isolate-vocals">
+                    <label for="isolate-vocals" data-i18n="transcribe.isolate">提取人声（去除背景音）</label>
+                </div>
+                <div class="checkbox-wrapper" style="margin-top: 10px;">
+                    <input type="checkbox" id="enable-diarization">
+                    <label for="enable-diarization" data-i18n="transcribe.diarization">说话人区分</label>
+                </div>
+                <!-- Diarization engine + models (default: sherpa, no HF) -->
+                <div id="diarization-options" class="hidden" style="margin-top: 8px;">
+                    <label class="option-label" style="margin-bottom: 4px;" data-i18n="transcribe.diarizeEngine">区分引擎</label>
+                    <select id="diarize-engine" class="setting-select" style="margin-bottom: 6px;">
+                        <option value="sherpa" selected data-i18n="transcribe.diarizeEngineSherpa">Sherpa（推荐，免 HF，首次自动下载模型）</option>
+                        <option value="pyannote" data-i18n="transcribe.diarizeEnginePyannote">pyannote（需 Hugging Face Token）</option>
+                    </select>
+                    <div id="sherpa-model-status" class="ws-text-meta ws-text-muted" style="margin-bottom: 6px; line-height: 1.4; display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <span id="sherpa-model-status-text" data-i18n="transcribe.sherpaModelHint">模型不打包，首次启用时自动下载到本机（可预下载）。</span>
+                        <button type="button" id="btn-download-sherpa-models" class="btn btn-secondary btn-sm"
+                            data-i18n="transcribe.sherpaDownloadBtn">预下载模型</button>
+                    </div>
+                    <div id="hf-token-container" class="hidden" style="margin-top: 8px;">
+                        <div style="position: relative;">
+                            <input type="password" id="hf-token" class="setting-input"
+                                placeholder="Hugging Face User Access Token" style="padding-right: 40px;">
+                            <button id="btn-toggle-token" type="button"
+                                style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 5px; display: flex; align-items: center;"
+                                data-i18n-title="common.actions.toggleVisibility">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                                    height="16">
+                                    <path
+                                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="input-hint ws-text-meta ws-text-muted" style="margin-top: 4px;" data-i18n="common.transcribe.hfHint">仅 pyannote 引擎需要：在 Hugging Face 接受 pyannote 用户协议并填写 Token</p>
+                    </div>
+                </div>
+            </div>
+            <div class="options-row" style="margin-top: 15px;">
+                <div class="option-group">
+                    <label class="option-label" data-i18n="transcribe.sourceLang">源语言</label>
+                    <select id="transcribe-lang" class="setting-select">
+                        <option value="" data-i18n="transcribe.langAuto">自动检测</option>
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="es">Español</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label class="option-label" data-i18n="transcribe.targetLang">翻译为</label>
+                    <select id="translate-lang" class="setting-select">
+                        <option value="" data-i18n="transcribe.langNone">不翻译</option>
+                        <option value="Chinese">中文</option>
+                        <option value="English">English</option>
+                        <option value="Japanese">日本語</option>
+                        <option value="Korean">한국어</option>
+                        <option value="French">Français</option>
+                        <option value="German">Deutsch</option>
+                        <option value="Spanish">Español</option>
+                    </select>
+                </div>
+            </div>
+            <div class="options-row" style="margin-top: 15px;">
+                <div class="option-group" style="width: 100%;">
+                    <label class="option-label" data-i18n="transcribe.prompt">提示词 / Prompt (可选)</label>
+                    <input type="text" id="transcribe-prompt" class="setting-input"
+                        data-i18n-placeholder="transcribe.promptPlaceholder" placeholder="输入关键词、专业术语或风格描述，以提高准确度..."
+                        style="padding: 10px;">
+                </div>
+            </div>
+            <button id="btn-start-transcribe" class="btn btn-primary btn-full" style="margin-bottom: 30px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                <span data-i18n="transcribe.start">开始转录</span>
+            </button>
+        </div>
+
+        <!-- 转录进度 -->
+        <div id="transcribe-progress" class="transcribe-progress hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="transcribe-progress-fill"></div>
+            </div>
+            <p id="transcribe-status">正在转录...</p>
+            <div class="transcribe-progress-actions" style="margin-top: 16px; display: flex; justify-content: center;">
+                <button type="button" id="btn-cancel-transcribe" class="btn btn-secondary">
+                    <span data-i18n="transcribe.cancel">取消转录</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 转录结果 -->
+        <div id="transcribe-result" class="transcribe-result hidden">
+            <!-- 文件信息 -->
+            <div class="result-header" style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 15px; flex: 1; overflow: hidden;">
+                    <span id="result-filename" class="result-filename"
+                        style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px;"></span>
+                    <!-- AI 增强按钮 (移至此处以缓解底部拥挤) -->
+                    <div style="display: flex; gap: 8px;">
+                        <button id="btn-polish-text" class="btn btn-secondary btn-sm"
+                            data-i18n-title="transcribe.polishTooltip" title="优化原文的标点和通顺度">
+                            <span data-i18n="transcribe.polish">✨ AI润色</span>
+                        </button>
+                        <button id="btn-summarize-text" class="btn btn-secondary btn-sm"
+                            data-i18n-title="transcribe.summarizeTooltip" title="生成视频内容的重点摘要">
+                            <span data-i18n="transcribe.summarize">📝 AI总结</span>
+                        </button>
+                    </div>
+
+                    <!-- 版本切换 (原文/润色) -->
+                    <div id="version-switcher-group" class="hidden"
+                        style="display: flex; background: var(--fill-muted); padding: 2px; border-radius: 6px; border: 1px solid var(--fill-hover); margin-left: 4px;">
+                        <button id="btn-ver-original" class="btn-ver-toggle active"
+                            data-i18n="transcribe.verOriginal">📄 原文</button>
+                        <button id="btn-ver-polished" class="btn-ver-toggle" data-i18n="transcribe.verPolished">✨
+                            润色</button>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
+                    <span id="result-language" class="result-duration hidden"
+                        style="background: linear-gradient(135deg, #3d6eb8, #4d82c9); color: white;"></span>
+                    <span id="result-duration" class="result-duration"></span>
+                </div>
+            </div>
+
+            <!-- 双栏对比视图 -->
+            <div class="transcript-container">
+                <div class="transcript-column" id="transcript-original">
+                    <div class="column-header" data-i18n="transcribe.colOriginal">原文</div>
+                    <div class="transcript-content" id="transcript-text"></div>
+                </div>
+                <div class="transcript-column hidden" id="transcript-translation">
+                    <div class="column-header" data-i18n="transcribe.colTranslation">译文</div>
+                    <div class="transcript-content" id="translation-text"></div>
+                </div>
+            </div>
+
+            <!-- 批量翻译工具栏 (Now more spacious) -->
+            <div class="ai-enhance-section"
+                style="margin-bottom: 16px; padding: 16px; background: var(--bg-tertiary); border-radius: 12px; border: 1px solid rgba(77, 130, 201, 0.2);">
+                <div style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px;">
+
+                    <!-- 批量翻译工具栏 (Right - Expanded) -->
+                    <div class="batch-translate-toolbar"
+                        style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; justify-content: flex-end;">
+
+                        <!-- 1. 目标语言选择 (Dropdown with Checkboxes) -->
+                        <div class="custom-dropdown" style="position: relative;">
+                            <button id="btn-lang-dropdown" class="setting-select"
+                                style="min-width: 140px; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                                <span data-i18n="transcribe.selectTargetLang">选择语言...</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </button>
+                            <div id="lang-dropdown-menu" class="dropdown-menu hidden"
+                                style="position: absolute; bottom: 100%; left: 0; width: 300px; max-height: 400px; overflow-y: auto; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); margin-bottom: 8px;">
+
+                                <div class="dropdown-header"
+                                    style="padding: 0 8px 8px; font-size: 12px; color: var(--text-muted); font-weight: bold; border-bottom: 1px solid var(--border-color); margin-bottom: 10px;"
+                                    data-i18n="transcribe.groupCommon">
+                                    常用语言 (双列)</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Chinese"> 中文 (简体)</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Traditional Chinese"> 中文 (繁体)</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="English"> English</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Japanese"> 日本語</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Korean"> 한국어</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="French"> Français</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="German"> Deutsch</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Spanish"> Español</label>
+                                </div>
+
+                                <div class="dropdown-divider"
+                                    style="height: 1px; background: var(--border-color); margin: 12px 0;"></div>
+                                <div class="dropdown-header"
+                                    style="padding: 0 8px 8px; font-size: 12px; color: var(--text-muted); font-weight: bold;"
+                                    data-i18n="transcribe.groupWestern">
+                                    其他欧美语种</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Italian"> Italiano</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Portuguese"> Português</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Russian"> Русский</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Dutch"> Nederlands</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Polish"> Polski</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Swedish"> Svenska</label>
+                                </div>
+
+                                <div class="dropdown-divider"
+                                    style="height: 1px; background: var(--border-color); margin: 12px 0;"></div>
+                                <div class="dropdown-header"
+                                    style="padding: 0 8px 8px; font-size: 12px; color: var(--text-muted); font-weight: bold;"
+                                    data-i18n="transcribe.groupAsian">
+                                    亚洲及其他</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Thai"> ไทย (泰语)</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Vietnamese"> Tiếng Việt</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Arabic"> العربية</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Turkish"> Türkçe</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Indonesian"> Bahasa Indo</label>
+                                    <label class="dropdown-item"><input type="checkbox" class="batch-translate-lang"
+                                            value="Hindi"> हिन्दी (印地语)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. 翻译风格 -->
+                        <div class="style-selector">
+                            <select id="batch-translate-style" class="setting-select" title="翻译风格"
+                                data-i18n-title="transcribe.styleTitle" style="min-width: 120px;">
+                                <option value="literal" data-i18n="transcribe.styleLiteral">直译 (Literal)</option>
+                                <option value="balanced" selected data-i18n="transcribe.styleBalanced">平衡 (Standard)
+                                </option>
+                                <option value="colloquial" data-i18n="transcribe.styleColloquial">口语化 (Colloquial)
+                                </option>
+                                <option value="literary" data-i18n="transcribe.styleLiterary">文学 (Literary)</option>
+                                <option value="humorous" data-i18n="transcribe.styleHumorous">幽默 (Humorous)</option>
+                            </select>
+                        </div>
+
+                        <!-- 3. API Provider -->
+                        <div class="provider-selector">
+                            <select id="batch-translate-provider-select" class="setting-select" title="选择翻译服务商"
+                                data-i18n-title="transcribe.providerTitle" style="min-width: 140px;">
+                                <option value="siliconflow" selected>SiliconFlow</option>
+                                <option value="groq">Groq</option>
+                                <option value="openai">OpenAI</option>
+                            </select>
+                        </div>
+
+                        <!-- 4. 执行按钮 -->
+                        <button id="btn-batch-translate" class="btn btn-primary"
+                            style="display: flex; align-items: center; gap: 6px;">
+                            <span data-i18n="transcribe.batchTranslate">🌐 批量翻译</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 批量翻译结果 -->
+            <div id="batch-translation-results" class="hidden" style="margin-bottom: 16px;"></div>
+
+            <!-- 操作按钮 -->
+            <div class="transcribe-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <div class="action-group" style="display: flex; gap: 8px; flex: 1; min-width: 300px;">
+                    <button class="btn btn-secondary" id="btn-copy-text" title="复制转录文本"
+                        data-i18n-title="transcribe.copyTooltip" style="white-space: nowrap;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                        </svg>
+                        <span data-i18n="transcribe.copy">📋 复制</span>
+                    </button>
+                    <button class="btn btn-secondary" id="btn-search-replace" title="查找与替换 (Ctrl+F)"
+                        data-i18n-title="transcribe.searchTooltip" style="white-space: nowrap;">
+                        <svg viewBox="0 0 24 24" fill="none" width="14" height="14" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <span data-i18n="transcribe.search">🔍 查找</span>
+                    </button>
+
+                    <!-- 合并导出按钮 (Dropdown Style) -->
+                    <div class="custom-dropdown" style="position: relative;">
+                        <button class="btn btn-secondary" id="btn-export-dropdown-toggle"
+                            style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            <span data-i18n="transcribe.export">📂 导出文件</span>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M6 9l6 6 6-6" />
+                            </svg>
+                        </button>
+                        <div id="export-dropdown-menu" class="dropdown-menu hidden"
+                            style="position: absolute; bottom: 100%; left: 0; width: 160px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.4); margin-bottom: 8px;">
+                            <div class="dropdown-item" id="btn-export-srt-new" data-i18n="transcribe.exportSRT">🎬 导出
+                                SRT</div>
+                            <div class="dropdown-item" id="btn-export-txt-new" data-i18n="transcribe.exportTXT">📄 导出
+                                TXT</div>
+                            <div class="dropdown-item hidden" id="btn-export-all-zip-new"
+                                data-i18n="transcribe.exportZIP">📦 导出全部 ZIP</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-group-right" style="display: flex; align-items: center; gap: 12px;">
+                    <label class="ws-text-ui"
+                        style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-secondary); background: var(--fill-muted); padding: 0 10px; height: var(--ws-control-height-sm, 28px); border-radius: var(--ws-control-radius, 8px); border: 1px solid var(--border-color);"
+                        title="开启后会进行转码，确保时间分秒不差；关闭则使用极速模式（秒出但可能有几秒偏移）" data-i18n-title="transcribe.preciseClipTooltip">
+                        <input type="checkbox" id="check-precise-clip" style="cursor: pointer;"> <span
+                            data-i18n="transcribe.preciseClip">精准剪辑</span>
+                    </label>
+                    <button class="btn btn-accent" id="btn-clip-selection" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="6" cy="6" r="3" />
+                            <circle cx="6" cy="18" r="3" />
+                            <line x1="20" y1="4" x2="8.12" y2="15.88" />
+                            <line x1="14.47" y1="14.48" x2="20" y2="20" />
+                            <line x1="8.12" y1="8.12" x2="12" y2="12" />
+                        </svg>
+                        <span data-i18n="transcribe.clipSelection">剪辑选中段落</span>
+                    </button>
+                    <button class="btn btn-primary" id="btn-new-transcribe"><span
+                            data-i18n="transcribe.newTranscribe">🔄 新转录</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI 总结侧边抽屉 (优化后的布局与动画) -->
+    <div id="summary-drawer" class="summary-drawer">
+        <div
+            style="padding: 20px; border-bottom: 1px solid var(--fill-hover); display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="ws-text-title" style="margin: 0; display: flex; align-items: center; gap: 8px;"
+                data-i18n="transcribe.summaryTitle">📝 内容摘要重点</h3>
+            <button id="btn-close-summary"
+                style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size: 24px;">&times;</button>
+        </div>
+        <div id="summary-content" contenteditable="true"
+            style="flex: 1; overflow-y: auto; padding: 20px; line-height: 1.8; color: var(--text-main); outline: none; transition: background 0.3s;">
+            <!-- 内容由 JS 填充 -->
+        </div>
+        <div style="padding: 15px 20px; border-top: 1px solid var(--fill-hover); display: flex; gap: 10px;">
+            <button id="btn-copy-summary" class="btn btn-primary" style="flex: 1;"
+                data-i18n="transcribe.copySummary">复制总结</button>
+            <button id="btn-export-summary-txt" class="btn btn-secondary" style="flex: 1;"
+                data-i18n="transcribe.exportSummaryTXT">导出 TXT</button>
+        </div>
+    </div>
+
+    <style>
+        .summary-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: var(--bg-primary);
+            box-shadow: -10px 0 40px var(--overlay-scrim);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid var(--fill-hover);
+
+            /* 使用 Transform 代替 Right 优化性能 */
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s 0.3s;
+            /* 隐藏时延迟 visibility 的切换，等待位移动画完成 */
+            will-change: transform;
+        }
+
+        .summary-drawer.open {
+            transform: translateX(0);
+            visibility: visible;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s 0s;
+        }
+
+        .summary-bullet-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .summary-bullet-list li {
+            margin-bottom: 12px;
+        }
+
+        .summary-section-title {
+            color: var(--accent-primary);
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+            border-left: 3px solid var(--accent-primary);
+            padding-left: 10px;
+        }
+
+        /* 版本切换按钮样式 */
+        .btn-ver-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 2px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-ver-toggle:hover {
+            color: var(--text-main);
+            background: var(--fill-muted);
+        }
+
+        .btn-ver-toggle.active {
+            background: var(--accent-primary) !important;
+            color: white !important;
+            box-shadow: 0 2px 8px rgba(77, 130, 201, 0.3);
+        }
+    </style>
+
+</section>

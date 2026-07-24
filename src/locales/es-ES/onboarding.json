@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Bienvenido a MediaFlow",
+    "welcomeBody": "Capture medios sin conexión, transcriba audio y comprima imágenes — con nivel gratuito incluido. Pro desbloquea lote, editor, subtítulos y más.",
+    "downloadTitle": "Su primera captura",
+    "downloadBody": "Pegue una URL de vídeo pública en la página Descargar → Analizar → Capturar. La captura de un solo enlace es gratuita; configure la carpeta de guardado en Ajustes en cualquier momento.",
+    "clipboardTitle": "Vigilancia del portapapeles (opcional)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick capture. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "Activar detección de enlaces en el portapapeles",
+    "enginesTitle": "Instalar motores principales",
+    "enginesBody": "Herramientas faltantes: {{list}}. Abra Ajustes → Motores principales para solucionarlo o reinstale la aplicación.",
+    "doneTitle": "Todo listo",
+    "doneBody": "Empiece con una sola descarga. Explore las herramientas avanzadas cuando las necesite: algunas son experimentales.",
+    "next": "Siguiente",
+    "skip": "Omitir",
+    "getStarted": "Empezar"
+  }
+}

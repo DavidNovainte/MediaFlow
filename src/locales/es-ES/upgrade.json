@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "Actualizar a MediaFlow Pro",
+    "subtitle": "Gratis: captura simple, transcripción, compresión. Pro: motores enhance, lote, Creator, editor, subtítulos y móvil.",
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "price": "0",
+        "period": "",
+        "desc": "Herramientas esenciales para empezar"
+      },
+      "lifetime": {
+        "name": "Pro de por vida",
+        "price": "19.99",
+        "period": "pago unico",
+        "badge": "PAGO UNICO",
+        "desc": "Paga una vez y desbloquea los flujos avanzados"
+      },
+      "monthly": {
+        "name": "Pro mensual legacy"
+      },
+      "annual": {
+        "name": "Pro anual legacy"
+      },
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "Herramientas básicas — gratis para siempre"
+      }
+    },
+    "features": {
+      "free_download": "Captura y exportacion individual",
+      "free_transcribe": "Transcripcion local basica",
+      "free_compress": "Compresion y conversion de imagenes",
+      "free_limit": "Descargas unitarias ilimitadas",
+      "free_history": "Historial basico",
+      "pro_batch": "Captura por lotes y cola paralela",
+      "pro_enhance": "Motores AI enhance (local Real-ESRGAN / CUGAN)",
+      "pro_creator": "Espacio para creadores y flujos multimedia avanzados",
+      "pro_subtitle": "Subtitulos, traduccion, doblaje y exportacion",
+      "pro_sync": "Sincronizacion movil y puente entre dispositivos",
+      "pro_support": "Apoya futuras actualizaciones y el desarrollo independiente",
+      "pro_editor": "Editor de video multipista",
+      "free_enhance": "Página AI enhance (Pro para ejecutar)"
+    },
+    "actions": {
+      "buy": "Comprar Pro de por vida",
+      "current": "Plan actual",
+      "activate": "Activar aqui",
+      "buyAnother": "Comprar otra licencia",
+      "enterNewKey": "Ingresar codigo de activacion"
+    },
+    "footer": {
+      "trust": "Pago seguro",
+      "haveKey": "Ya tienes un codigo de activacion?",
+      "oneTime": "Pago unico"
+    },
+    "status": {
+      "activated": "PRO activado",
+      "thanks": "Gracias por tu apoyo. Has desbloqueado todas las funciones premium.",
+      "email": "Correo:",
+      "expiry": "Valido hasta:",
+      "expiry_lifetime": "De por vida",
+      "subscription_active": "Acceso activo",
+      "days_remaining": "({{days}} dias restantes)",
+      "thanksTitle": "Gracias por tu apoyo. Has desbloqueado todas las funciones premium."
+    },
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "Captura de un enlace · ilimitada",
+      "community2": "Transcripción local · compresión de imagen",
+      "community3": "Historial · ajustes y motores principales",
+      "proTitle": "Pro",
+      "pro1": "Lote · cola · extensión · motores AI enhance",
+      "pro2": "Herramientas Creator · editor de línea de tiempo",
+      "pro3": "Subtítulos · puente móvil"
+    },
+    "boundaryNote": "Nota: herramientas gratis sin licencia. Páginas Pro o motores con puerta muestran Upgrade."
+  }
+}

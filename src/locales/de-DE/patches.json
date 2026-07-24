@@ -1,0 +1,142 @@
+{
+  "subtitle": {
+    "tooShortToSplit": "Satz zu kurz, um aufgeteilt zu werden",
+    "splitSuccess": "Erfolgreich in zwei Untertitel aufgeteilt",
+    "newlineInserted": "Zeilenumbruch automatisch eingefügt",
+    "autoScaled": "Für die Anzeige automatisch skaliert"
+  },
+  "update": {
+    "isLatest": "Bereits auf dem neuesten Stand"
+  },
+  "settings": {
+    "saved": "Einstellungen gespeichert"
+  },
+  "license": {
+    "machineCodeCopied": "Maschinencode kopiert",
+    "activationSuccess": "Aktivierung erfolgreich! Danke für Ihre Unterstützung!",
+    "proFeature": "Dies ist eine Pro-Funktion, zum Entsperren aktualisieren"
+  },
+  "nav": {
+    "toCreator": "Navigiert zu Creator Center",
+    "addToEnhance": "Zur KI-Verbesserungswarteschlange hinzugefügt",
+    "toScribe": "Navigiert zu Audiotranskription",
+    "linkRecognized": "Link erkannt:"
+  },
+  "scribe": {
+    "noSubtitlesToPolish": "Keine Untertitel zum Polieren",
+    "polishFailed": "Polieren fehlgeschlagen:",
+    "noContentToSummarize": "Kein Inhalt zum Zusammenfassen",
+    "selectAudioVideo": "Bitte wählen Sie eine Audio- oder Videodatei aus",
+    "apiKeyNotConfigured": "API-Schlüssel für {val} ist nicht konfiguriert",
+    "transcribeFailed": "Transkription fehlgeschlagen",
+    "nameEmpty": "Name darf nicht leer sein",
+    "speakersUpdated": "{count} Sprecher-Labels aktualisiert",
+    "replaced": "Ersetzt",
+    "replacedAll": "Alle {count} Übereinstimmungen ersetzt",
+    "downloadingModel": "Modell {modelId} wird heruntergeladen, bitte warten...",
+    "modelDownloaded": "Modell {modelId} heruntergeladen!",
+    "downloadFailed": "Herunterladen fehlgeschlagen:",
+    "modelDeleted": "Modell gelöscht",
+    "deleteFailed": "Löschen fehlgeschlagen:",
+    "summaryCopied": "Zusammenfassung kopiert",
+    "copyFailed": "Kopieren fehlgeschlagen",
+    "downloadingSummary": "Zusammenfassungsdatei wird heruntergeladen",
+    "copiedToClipboard": "In die Zwischenablage kopiert",
+    "srtGenFailedEmpty": "SRT-Generierung fehlgeschlagen: Inhalt ist leer",
+    "srtExportFailed": "SRT-Export fehlgeschlagen",
+    "txtGenFailedEmpty": "TXT-Generierung fehlgeschlagen: Inhalt ist leer",
+    "txtExportFailed": "TXT-Export fehlgeschlagen",
+    "noExportResults": "Keine Ergebnisse zum Exportieren",
+    "noTranscribeResults": "Keine erfolgreichen Transkriptionsergebnisse",
+    "packing": "Packen...",
+    "zipExported": "ZIP-Paket mit {count} Dateien erfolgreich exportiert",
+    "exportFailed": "Export fehlgeschlagen:",
+    "fileSaved": "Gespeichert {filename}",
+    "selectSegmentFirst": "Bitte wählen Sie zuerst ein Segment zum Zuschneiden aus",
+    "noSourcePath": "Quellpfad kann nicht ermittelt werden",
+    "preciseClipping": "Präzises Zuschneiden (Transkodierung)...",
+    "fastClipping": "Schnelles Zuschneiden...",
+    "clipDone": "Zuschneiden abgeschlossen: {path}",
+    "clipFailed": "Zuschneiden fehlgeschlagen:"
+  },
+  "pixel": {
+    "aiNotReady": "KI-Qualitätsverbesserungsdienst nicht bereit, bitte in der Seitenleiste überprüfen",
+    "engineNotFound": "KI-Enginedatei nicht gefunden, bitte Modell in der Seitenleiste herunterladen",
+    "aiFailed": "KI-Verarbeitung fehlgeschlagen:",
+    "aiCommsError": "KI-Kommunikationsfehler:",
+    "selectPresetFirst": "Bitte wählen Sie zuerst eine Voreinstellung aus",
+    "watermarkFormat": "Wasserzeichenbild unterstützt nur das PNG- oder SVG-Format",
+    "presetSaved": "Voreinstellung \"{name}\" gespeichert",
+    "presetDeleted": "Voreinstellung gelöscht",
+    "presetApplied": "Voreinstellung angewendet: {name}",
+    "aiReady": "KI-Qualitätsverbesserung bereit: {res}",
+    "compressDone": "Komprimierung abgeschlossen, {saved} eingespart",
+    "compressFail": "Komprimierung fehlgeschlagen:",
+    "compressSaved": "Komprimiertes Bild gespeichert",
+    "aiMatting": "KI führt Matting durch...",
+    "mattingSuccess": "Matting erfolgreich ({model})",
+    "mattingFail": "Matting fehlgeschlagen:",
+    "proRequired": "Diese KI-Funktion erfordert Pro. Upgrade zum Freischalten.",
+    "proRequiredUpscale": "KI-Hochskalierung erfordert Pro.",
+    "proRequiredMatting": "KI-Freistellen erfordert Pro.",
+    "aiPythonMissing": "Python wurde nicht gefunden.",
+    "aiPythonMissingHint": "Python 3.10+ installieren und App neu starten. Siehe Einstellungen → Engines.",
+    "aiRembgMissing": "rembg (Freistellen) ist nicht installiert.",
+    "aiRembgMissingHint": "Run: pip install rembg — then retry. Settings → Engines has environment tips.",
+    "aiScriptMissing": "Cutout script is missing from this install.",
+    "aiScriptMissingHint": "Reinstall the app or restore services/python/rembg_service.py.",
+    "aiEngineMissing": "KI-Upscale-Engine oder Modelle fehlen.",
+    "aiEngineMissingHint": "Open Settings → Engines to download Real-ESRGAN / models under bin/.",
+    "aiServiceMissing": "AI image service is not available in this build.",
+    "aiServiceMissingHint": "Update the app, or use compress without AI options.",
+    "aiGenericHint": "If this keeps failing, check Settings → Engines and Python / models.",
+    "aiOpenSettingsHint": "Tip: open Settings → Engines to install or update AI tools.",
+    "emptySelectImage": "Bild hinzufügen, um zu komprimieren oder KI zu nutzen."
+  },
+  "mobile": {
+    "startFail": "Dienst konnte nicht gestartet werden:",
+    "receivedFiles": "{count} Dateien erfolgreich empfangen",
+    "opFail": "Vorgang fehlgeschlagen",
+    "receivedLink": "Link empfangen:"
+  },
+  "history": {
+    "fileMovedOrDeleted": "Datei wurde verschoben oder gelöscht",
+    "fileNotExist": "Datei existiert nicht oder wurde gelöscht",
+    "startMobileFirst": "Bitte starten Sie zuerst den Dienst auf der Seite „Mobile Connect“",
+    "qrGenFail": "QR-Code konnte nicht erzeugt werden"
+  },
+  "enhance": {
+    "syncSettingsSuccess": "Einstellungen auf alle Dateien synchronisiert",
+    "engineDownloadSuccess": "Engine erfolgreich heruntergeladen",
+    "downloadFail": "Download fehlgeschlagen",
+    "downloadException": "Beim Download ist ein Fehler aufgetreten",
+    "processException": "Bei der Verarbeitung ist ein Fehler aufgetreten",
+    "processFail": "Verarbeitung fehlgeschlagen",
+    "processComplete": "Verarbeitung abgeschlossen!",
+    "noResInfo": "Bildauflösung konnte nicht ermittelt werden, Zuschnittbereich nicht berechenbar",
+    "calcCropFail": "Zuschnittbereich konnte nicht berechnet werden",
+    "exportAreaSuccess": "Bereich erfolgreich exportiert!",
+    "exportFail": "Export fehlgeschlagen",
+    "previewFail": "Vorschau fehlgeschlagen",
+    "cancelled": "Abgebrochen"
+  },
+  "download": {
+    "fileNavNotFound": "Dateinavigation nicht gefunden",
+    "filePathNotFound": "Dateipfad nicht gefunden",
+    "detectFirst": "Bitte zuerst Video erkennen",
+    "selectDirFirst": "Bitte zuerst in den Einstellungen den Download-Ordner wählen",
+    "missingPath": "Bitte zuerst Download-Ordner festlegen",
+    "downloadComplete": "Download abgeschlossen!",
+    "selectOneVideo": "Bitte mindestens ein Video auswählen",
+    "playlistDone": "Alle {count} Videos erfolgreich heruntergeladen!",
+    "playlistPartial": "{completed}/{total} abgeschlossen, {errors} fehlgeschlagen",
+    "playlistFail": "Playlist-Download fehlgeschlagen:",
+    "addQueueFail": "Zur Warteschlange hinzufügen fehlgeschlagen:"
+  },
+  "batch": {
+    "inputCleared": "Eingabe geleert"
+  },
+  "common": {
+    "extProFeature": "Für die Browser-Erweiterung ist eine aktivierte MediaFlow-Lizenz erforderlich"
+  }
+}

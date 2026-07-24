@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "Historial de capturas",
+    "clear": "Limpiar historial",
+    "confirmClear": "¿Está seguro de que desea borrar todo el historial?",
+    "confirmDelete": "¿Está seguro de que desea eliminar este elemento?",
+    "historyCleared": "Historial borrado",
+    "searchPlaceholder": "Buscar título de video...",
+    "noResults": "No se encontraron registros coincidentes",
+    "noResultsTitle": "No se encontró coincidencia",
+    "noResultsDesc": "Intente con otros términos de búsqueda",
+    "clearSearchBtn": "Restablecer búsqueda",
+    "empty": "No hay historial de capturas",
+    "emptyTitle": "Historial vacío",
+    "emptyDesc": "Los videos capturados aparecerán aquí,<br>para que pueda revisarlos y gestionarlos fácilmente.",
+    "goDownload": "Ir a capturar su primer video",
+    "openFile": "Reproducir",
+    "openFolder": "Mostrar en carpeta",
+    "copyLink": "Copiar enlace",
+    "shareMobile": "Compartir al móvil",
+    "showQRCode": "Ver código QR",
+    "delete": "Eliminar",
+    "fileDeleted": "Archivo eliminado",
+    "deletedTag": "Eliminado",
+    "qrTip": "📱 Escanee el código QR con el móvil para sincronizar",
+    "close": "Cerrar",
+    "filter": {
+      "allPlatforms": "Todas las plataformas",
+      "other": "Otros",
+      "allTime": "Todo el tiempo",
+      "today": "Hoy",
+      "week": "Esta semana",
+      "month": "Este mes"
+    },
+    "batch": {
+      "selectAll": "Seleccionar todo",
+      "selected": "{count} seleccionados",
+      "delete": "Eliminar",
+      "copy": "Copiar archivos",
+      "confirmDelete": "¿Eliminar los {count} elementos seleccionados?",
+      "deleteSuccess": "Eliminado con éxito",
+      "noLocalFile": "Los elementos seleccionados no tienen archivos locales",
+      "copySuccess": "Se han copiado {count} archivos, listos para pegar en otra carpeta",
+      "copyFail": "Error al copiar"
+    },
+    "stats": {
+      "filtered": "Mostrando {filtered} / {total} registros",
+      "total": "Total {total} registros"
+    },
+    "qrProOnly": "QR / compartir móvil es Pro. Actualice para desbloquear.",
+    "showQRCodePro": "Mostrar código QR · Pro"
+  }
+}

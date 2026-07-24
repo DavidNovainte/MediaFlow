@@ -1,0 +1,142 @@
+{
+  "subtitle": {
+    "tooShortToSplit": "Oración demasiado corta para dividirla",
+    "splitSuccess": "Dividido en dos subtítulos con éxito",
+    "newlineInserted": "Salto de línea insertado automáticamente",
+    "autoScaled": "Escalado automático para visualización"
+  },
+  "update": {
+    "isLatest": "Ya está actualizado"
+  },
+  "settings": {
+    "saved": "Configuración guardada"
+  },
+  "license": {
+    "machineCodeCopied": "Código de máquina copiado",
+    "activationSuccess": "¡Activación exitosa! ¡Gracias por tu apoyo!",
+    "proFeature": "Esta es una característica Pro, actualice para desbloquear"
+  },
+  "nav": {
+    "toCreator": "Navegado al Centro de Creadores",
+    "addToEnhance": "Agregado a la cola de Mejora de IA",
+    "toScribe": "Navegado a la Transcripción de Audio",
+    "linkRecognized": "Enlace reconocido:"
+  },
+  "scribe": {
+    "noSubtitlesToPolish": "No hay subtítulos para pulir",
+    "polishFailed": "Fallo al pulir:",
+    "noContentToSummarize": "No hay contenido para resumir",
+    "selectAudioVideo": "Seleccione un archivo de audio o video",
+    "apiKeyNotConfigured": "La clave API para {val} no está configurada",
+    "transcribeFailed": "Fallo de transcripción",
+    "nameEmpty": "El nombre no puede estar vacío",
+    "speakersUpdated": "Actualizadas {count} etiquetas de locutores",
+    "replaced": "Reemplazado",
+    "replacedAll": "Reemplazados todos los {count} resultados",
+    "downloadingModel": "Descargando modelo {modelId}, por favor espera...",
+    "modelDownloaded": "¡Modelo {modelId} descargado!",
+    "downloadFailed": "Descarga fallida:",
+    "modelDeleted": "Modelo eliminado",
+    "deleteFailed": "Fallo al eliminar:",
+    "summaryCopied": "Resumen copiado",
+    "copyFailed": "Fallo al copiar",
+    "downloadingSummary": "Descargando archivo de resumen",
+    "copiedToClipboard": "Copiado al portapapeles",
+    "srtGenFailedEmpty": "Fallo de generación SRT: el contenido está vacío",
+    "srtExportFailed": "Fallo de exportación SRT",
+    "txtGenFailedEmpty": "Fallo de generación TXT: el contenido está vacío",
+    "txtExportFailed": "Fallo de exportación TXT",
+    "noExportResults": "No hay resultados para exportar",
+    "noTranscribeResults": "No hay resultados de transcripción exitosos",
+    "packing": "Empacando...",
+    "zipExported": "Paquete ZIP exportado con éxito con {count} archivos",
+    "exportFailed": "Fallo de exportación:",
+    "fileSaved": "Guardado {filename}",
+    "selectSegmentFirst": "Seleccione primero un segmento para recortar",
+    "noSourcePath": "No se puede obtener la ruta del archivo fuente",
+    "preciseClipping": "Recorte preciso (transcodificación)...",
+    "fastClipping": "Recorte rápido...",
+    "clipDone": "Recorte completo: {path}",
+    "clipFailed": "Fallo de recorte:"
+  },
+  "pixel": {
+    "aiNotReady": "El servicio de mejora de calidad de IA no está listo",
+    "engineNotFound": "No se encuentra el archivo del motor de la IA",
+    "aiFailed": "Fallo procesamiento IA:",
+    "aiCommsError": "Error comunicación IA:",
+    "selectPresetFirst": "Selecciona un ajuste preestablecido primero",
+    "watermarkFormat": "Formato de marca de agua PNG o SVG",
+    "presetSaved": "Preajuste \"{name}\" guardado",
+    "presetDeleted": "Preajuste eliminado",
+    "presetApplied": "Ajuste preestablecido aplicado: {name}",
+    "aiReady": "Mejora de IA lista: {res}",
+    "compressDone": "Compresión finalizada. Ahorrados {saved}",
+    "compressFail": "Fallo comprensión:",
+    "compressSaved": "Imagen comprendida guardada",
+    "aiMatting": "Recortando...",
+    "mattingSuccess": "Recorte finalizado ({model})",
+    "mattingFail": "Recorte fallido:",
+    "proRequired": "Esta función de IA requiere Pro. Mejora para desbloquearla.",
+    "proRequiredUpscale": "El aumento de resolución IA requiere Pro.",
+    "proRequiredMatting": "El recorte IA requiere Pro.",
+    "aiPythonMissing": "No se encontro Python.",
+    "aiPythonMissingHint": "Install Python 3.10+ and restart the app. Check Settings → Engines.",
+    "aiRembgMissing": "No esta instalado rembg (recorte).",
+    "aiRembgMissingHint": "Run: pip install rembg — then retry. Settings → Engines has environment tips.",
+    "aiScriptMissing": "Cutout script is missing from this install.",
+    "aiScriptMissingHint": "Reinstall the app or restore services/python/rembg_service.py.",
+    "aiEngineMissing": "Faltan el motor o modelos de IA upscale.",
+    "aiEngineMissingHint": "Open Settings → Engines to download Real-ESRGAN / models under bin/.",
+    "aiServiceMissing": "AI image service is not available in this build.",
+    "aiServiceMissingHint": "Update the app, or use compress without AI options.",
+    "aiGenericHint": "If this keeps failing, check Settings → Engines and Python / models.",
+    "aiOpenSettingsHint": "Tip: open Settings → Engines to install or update AI tools.",
+    "emptySelectImage": "Anade una imagen para comprimir o usar IA."
+  },
+  "mobile": {
+    "startFail": "Fallo inicio servicio:",
+    "receivedFiles": "Recibidos {count} archivos",
+    "opFail": "Operación fallida",
+    "receivedLink": "Enlace recibido:"
+  },
+  "history": {
+    "fileMovedOrDeleted": "El archivo se ha movido o eliminado",
+    "fileNotExist": "El archivo no existe",
+    "startMobileFirst": "Inicia la extensión Móvil primero",
+    "qrGenFail": "Fallo de generación de QR"
+  },
+  "enhance": {
+    "syncSettingsSuccess": "Ajustes sincronizados a todos los archivos",
+    "engineDownloadSuccess": "Motor de descarga con éxito",
+    "downloadFail": "Descarga fallida",
+    "downloadException": "Se produjo una excepción de descarga",
+    "processException": "Se produjo una excepción de procesamiento",
+    "processFail": "Procesamiento fallido",
+    "processComplete": "¡Procesamiento completado!",
+    "noResInfo": "No se pudo obtener la resolución de la imagen, no se puede calcular el área de recorte",
+    "calcCropFail": "No se pudo calcular el área de recorte",
+    "exportAreaSuccess": "¡Área exportada con éxito!",
+    "exportFail": "Fallo de exportación",
+    "previewFail": "Fallo de vista previa",
+    "cancelled": "Cancelado"
+  },
+  "download": {
+    "fileNavNotFound": "No se encuentra navegación de archivo",
+    "filePathNotFound": "No se encuentra ruta",
+    "detectFirst": "Detecta el vídeo primero",
+    "selectDirFirst": "Selecciona el destino primero",
+    "missingPath": "Falta la ruta",
+    "downloadComplete": "¡Descarga finalizada!",
+    "selectOneVideo": "Selecciona un vídeo",
+    "playlistDone": "¡{count} vídeos descargados!",
+    "playlistPartial": "Finalizados {completed}/{total}, fallaron {errors}",
+    "playlistFail": "Fallo descagando lista:",
+    "addQueueFail": "Fallo añadiendo a la lista:"
+  },
+  "batch": {
+    "inputCleared": "Entrada de texto limpia"
+  },
+  "common": {
+    "extProFeature": "La extensión del navegador requiere una licencia de MediaFlow activada"
+  }
+}

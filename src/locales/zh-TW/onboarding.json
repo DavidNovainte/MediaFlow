@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "歡迎使用 MediaFlow",
+    "welcomeBody": "離線採集媒體、音訊轉文字、圖片壓縮——免費版即可上手。Pro 解鎖批次、編輯器、字幕等進階能力。",
+    "downloadTitle": "完成第一次採集",
+    "downloadBody": "在「影片下載」頁貼上公開連結 → 分析 → 採集。單連結採集免費；儲存目錄可隨時在設定中修改。",
+    "clipboardTitle": "剪貼簿連結偵測（可選）",
+    "clipboardBody": "複製支援的影片連結時，MediaFlow 可提示快速採集。預設關閉，僅在需要時開啟。之後可在「設定 → 隱私與資料」隨時開關。",
+    "clipboardEnableLabel": "開啟剪貼簿連結偵測",
+    "enginesTitle": "安裝核心元件",
+    "enginesBody": "缺少元件：{{list}}。請開啟 設定 → 核心引擎 修復，或重新安裝應用程式。",
+    "doneTitle": "可以開始了",
+    "doneBody": "先完成一次單連結下載。進階／實驗功能按需展開使用。",
+    "next": "下一步",
+    "skip": "略過",
+    "getStarted": "開始使用"
+  }
+}

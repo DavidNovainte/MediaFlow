@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "Passer a MediaFlow Pro",
+    "subtitle": "Gratuit : capture simple, transcription, compression. Pro : moteurs enhance, lot, Creator, éditeur, sous-titres et mobile.",
+    "plans": {
+      "free": {
+        "name": "Gratuit",
+        "price": "0",
+        "period": "",
+        "desc": "Les outils essentiels pour commencer"
+      },
+      "lifetime": {
+        "name": "Pro a vie",
+        "price": "19.99",
+        "period": "paiement unique",
+        "badge": "UNIQUE",
+        "desc": "Payez une fois et debloquez les workflows avances"
+      },
+      "monthly": {
+        "name": "Pro mensuel legacy"
+      },
+      "annual": {
+        "name": "Pro annuel legacy"
+      },
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "Outils essentiels — gratuits pour toujours"
+      }
+    },
+    "features": {
+      "free_download": "Capture et export individuel",
+      "free_transcribe": "Transcription locale de base",
+      "free_compress": "Compression et conversion d'images",
+      "free_limit": "Téléchargements unitaires illimités",
+      "free_history": "Historique de base",
+      "pro_batch": "Capture en lot et file d'attente parallele",
+      "pro_enhance": "Moteurs AI enhance (local Real-ESRGAN / CUGAN)",
+      "pro_creator": "Espace createur et workflows medias avances",
+      "pro_subtitle": "Sous-titres, traduction, doublage et export",
+      "pro_sync": "Synchronisation mobile et passerelle entre appareils",
+      "pro_support": "Soutient les futures mises a jour et le developpement independant",
+      "pro_editor": "Éditeur vidéo multi-pistes",
+      "free_enhance": "Page AI enhance (Pro pour exécuter)"
+    },
+    "actions": {
+      "buy": "Acheter Pro a vie",
+      "current": "Offre actuelle",
+      "activate": "Activer ici",
+      "buyAnother": "Acheter une autre licence",
+      "enterNewKey": "Entrer le code d'activation"
+    },
+    "footer": {
+      "trust": "Paiement securise",
+      "haveKey": "Vous avez deja un code d'activation ?",
+      "oneTime": "Paiement unique"
+    },
+    "status": {
+      "activated": "PRO active",
+      "thanks": "Merci pour votre soutien. Toutes les fonctions premium sont debloquees.",
+      "email": "E-mail :",
+      "expiry": "Valide jusqu'au :",
+      "expiry_lifetime": "A vie",
+      "subscription_active": "Acces actif",
+      "days_remaining": "({{days}} jours restants)",
+      "thanksTitle": "Merci pour votre soutien. Toutes les fonctions premium sont debloquees."
+    },
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "Capture lien unique · illimité",
+      "community2": "Transcription locale · compression image",
+      "community3": "Historique · paramètres et moteurs de base",
+      "proTitle": "Pro",
+      "pro1": "Lot · file · extension · moteurs AI enhance",
+      "pro2": "Outils Creator · éditeur de timeline",
+      "pro3": "Sous-titres · pont mobile"
+    },
+    "boundaryNote": "Astuce : outils gratuits sans licence. Pages Pro ou moteurs protégés affichent Upgrade."
+  }
+}

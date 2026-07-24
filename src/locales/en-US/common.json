@@ -1,0 +1,255 @@
+{
+  "common": {
+    "error": "Error",
+    "success": "Success",
+    "progress": "Progress",
+    "actions": {
+      "remove": "Remove",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "close": "Close",
+      "prev": "⏮ Prev",
+      "next": "Next ⏭",
+      "end": "End",
+      "save": "Save",
+      "open": "Open",
+      "copy": "Copy",
+      "minimize": "Minimize",
+      "maximize": "Maximize",
+      "toggleVisibility": "Show/Hide"
+    },
+    "status": {
+      "processing": "Processing...",
+      "translating": "Translating...",
+      "done": "Done",
+      "error": "Error",
+      "pending": "Pending",
+      "cancelled": "Cancelled",
+      "noFiles": "No Files",
+      "ready": "Ready",
+      "end": "End",
+      "previewEnd": "✓ Preview End"
+    },
+    "errors": {
+      "playbackSkip": "⚠ Playback error, skipping in 1.5s...",
+      "noPreviewFiles": "No files to preview",
+      "unknown": "Unknown error",
+      "clipboardRead": "Failed to read clipboard",
+      "moduleNotLoaded": "Feature module not yet loaded",
+      "apiKeyNotConfigured": "Please configure the API Key for {name} in settings first."
+    },
+    "license": {
+      "expiryWarning": "Your Pro license expires in {days} day(s). Renew to avoid interruption.",
+      "activation": {
+        "title": "Activate Pro",
+        "desc": "Please enter your activation code to unlock all premium features.",
+        "hwidLabel": "Device ID (HWID)",
+        "keyLabel": "Activation Code",
+        "keyPlaceholder": "Enter Activation Code",
+        "submit": "Activate",
+        "loading": "Activating...",
+        "error": "Please enter activation code",
+        "failed": "Activation failed: {error}",
+        "systemError": "System error: {error}",
+        "success": "Activation successful!"
+      }
+    },
+    "modelManager": {
+      "manage": "Manage",
+      "title": "Local models",
+      "desc": "Manage cached Whisper models. Remove models to free space; they will re-download when needed.",
+      "availableSection": "Available",
+      "availableDesc": "Download to cache for offline use.",
+      "installing": "Caching...",
+      "deploying": "Deploying...",
+      "extracting": "Extracting...",
+      "done": "Installation Complete!",
+      "loading": "Loading...",
+      "noModels": "No models installed yet",
+      "loadError": "Failed to load model list",
+      "deleteConfirm": "Are you sure you want to delete model {modelId}?",
+      "download": "Get",
+      "downloadingShort": "Downloading…",
+      "downloaded": "Ready",
+      "descTiny": "Fastest, suitable for testing",
+      "descBase": "Balance of speed and quality",
+      "descSmall": "Better quality",
+      "descMedium": "High quality",
+      "descLargeV2": "Highest quality",
+      "descLargeV3": "Latest highest quality",
+      "descTurbo": "Fast and high quality",
+      "deepfilterDesc": "AI Noise Reduction, removes background voices",
+      "installedSection": "Installed"
+    },
+    "scribe": {
+      "qwen": "Qwen",
+      "qwenRemark": "High quality CN model",
+      "editSpeaker": "Edit Speaker",
+      "speakerName": "Name (Will update all identical labels)",
+      "exclusiveColor": "Exclusive Color",
+      "localTranscribing": "Local Transcribing",
+      "cloudProcessing": "Cloud Processing",
+      "transcribeFailed": "Transcription failed",
+      "copiedToClipboard": "Copied to clipboard",
+      "nameEmpty": "Speaker name cannot be empty",
+      "speakersUpdated": "Updated {count} speaker labels"
+    },
+    "boundary": {
+      "title": "Oops, something went wrong",
+      "desc": "The application encountered a small problem. We have automatically recorded the error information.<br>You can try refreshing the page, or submit an error report to help us improve.",
+      "submit": "Submit and Close"
+    },
+    "video": "Video",
+    "videoEntry": "Video Entry",
+    "proOnly": "This feature is Pro exclusive, please upgrade 🚀",
+    "proFeature": "Pro feature",
+    "proFeatureMsg": "Pro feature — upgrade to unlock.",
+    "freeVersionMsg": "Community edition: single capture, transcribe, compress, and AI enhance. Upgrade to Pro for batch, queue, and advanced workflows.",
+    "ui": {
+      "notConfigured": "(Not Configured)",
+      "recommended": "(Recommended)",
+      "localDeployment": "(Local Deployment)",
+      "fast": "(Faster)",
+      "chineseOptimized": "CN Optimized, High Speed",
+      "whisperStable": "Whisper-1, Stable",
+      "longTextSupport": "Long Text Support",
+      "costEffective": "Cost Effective",
+      "speedy": "High Speed, Recommended",
+      "universal": "Universal",
+      "closePlayer": "Close Player",
+      "playPause": "Play/Pause",
+      "playbackSpeed": "Playback Speed",
+      "mute": "Mute"
+    },
+    "report": {
+      "successTitle": "Report Submitted",
+      "successBody": "Thank you for your feedback. Error information has been sent successfully.",
+      "failTitle": "Submission Failed",
+      "failBody": "Report submission failed: {error}",
+      "fallbackMsg": "Due to internal channels not being ready, the report cannot be submitted online temporarily. Please try taking a screenshot or manually contacting the developer."
+    },
+    "transcribe": {
+      "hfHint": "Please accept pyannote user agreement on Hugging Face first",
+      "selectedLanguages": "Selected {count} languages",
+      "selectTargetLang": "Select Language...",
+      "languagePrefix": "Language: ",
+      "versionOriginal": "Original",
+      "versionPolished": "AI Polished",
+      "switchedVersion": "Switched to {version} version",
+      "lineDeleted": "Subtitle line deleted",
+      "rateLimitWarn": "⚠️ Rate limit hit. Add more API keys in Settings.",
+      "translatingState": "Translating...",
+      "translatingBatch": "Translating {status}...",
+      "batchTranslatedSuccess": "Translation completed!",
+      "partialSuccess": "Partial success ({done}/{total}). Failed: {langs}",
+      "translateFail": "Translation failed",
+      "copy": "Copy Text",
+      "downloadSrt": "Export SRT",
+      "downloadZip": "📦 Export ZIP",
+      "packSuccess": "Packaged successfully",
+      "searchTitle": "Find & Replace",
+      "searchPlaceholder": "Find...",
+      "replacePlaceholder": "Replace with...",
+      "prevMatch": "Previous",
+      "nextMatch": "Next",
+      "replaceAll": "Replace All",
+      "replace": "Replace",
+      "noResults": "No results",
+      "replaced": "Replaced",
+      "replacedAllCount": "Replaced {count} occurrences",
+      "polishingState": "AI Polishing...",
+      "polishSuccess": "AI Polishing complete!",
+      "polishFailed": "AI Polishing failed",
+      "polish": "✨ AI Polish",
+      "analyzingState": "Analyzing video content...",
+      "summarizeFailed": "Analysis failed",
+      "noSubtitlesToPolish": "No subtitles to polish",
+      "noContentToSummarize": "No content to summarize",
+      "selectedCount": "Selected {count} files",
+      "dropFilesHint": "Drag and drop more files here",
+      "summaryCopied": "Summary copied to clipboard",
+      "noExportResults": "No results to export",
+      "noTranscribeResults": "No successful transcription results",
+      "fileSaved": "Saved {filename}"
+    },
+    "openSettings": "Open Settings",
+    "communityVersionMsg": "Community edition: single capture, transcribe, compress, and AI enhance. Upgrade to Pro for batch, queue, and advanced workflows.",
+    "saveFailed": "Save failed",
+    "processing": "Processing...",
+    "processingPercent": "Processing... {percent}%",
+    "loadingFeature": {
+      "generic": "Loading…",
+      "enhance": "Loading AI Enhance…",
+      "editor": "Loading Editor…",
+      "subtitle": "Loading Subtitle studio…",
+      "creator": "Loading Creator tools…"
+    }
+  },
+  "ui": {
+    "placeholder": "Paste video link here...",
+    "noData": "No Data",
+    "clearInput": "Clear Input",
+    "clearAction": "Clear",
+    "clearResults": "Clear Results",
+    "resetTooltip": "Reset Link",
+    "loading": "Loading...",
+    "editSpeaker": "Edit Speaker",
+    "speakerName": "Speaker Name",
+    "speakerColor": "Exclusive Color",
+    "name": "Name",
+    "nameChangeBatchHint": "(Batch update after modification)"
+  },
+  "settings": {
+    "license": {
+      "activateNow": "Activate Now"
+    }
+  },
+  "params": {
+    "recommended": "Recommended",
+    "normal": "Normal",
+    "slow": "Slow",
+    "verySlow": "Very Slow"
+  },
+  "download": {
+    "playlist": {
+      "copySuccess": "Copied {count} files. You can paste them into other folders."
+    },
+    "playlistProgress": "Capture Progress"
+  },
+  "enhance": {
+    "noComparison": "No comparison chart available (Viewing original only)"
+  },
+  "pip": {
+    "title": "MediaFlow - PiP",
+    "close": "Close (Esc)"
+  },
+  "shortcuts": {
+    "queue_dev": "Queue feature is under development...",
+    "reset_success": "Shortcuts reset to default",
+    "press_new": "Press new shortcut...",
+    "update_success": "Shortcut updated"
+  },
+  "update": {
+    "available": "New version v{version} found. Preparing in the background...",
+    "downloaded": "New version v{version} is ready to install!",
+    "restartAndInstall": "Restart and update",
+    "checking": "Checking for updates...",
+    "latest": "Already up to date",
+    "failed": "Update check failed, try again later"
+  },
+  "player": {
+    "resolving": "Resolving media URL...",
+    "preparing": "Preparing playback...",
+    "loading": "Loading...",
+    "castError": "Cast error: {message}",
+    "unknownError": "Unknown error",
+    "imageLoadFailed": "Image failed to load",
+    "parsingLink": "Parsing link...",
+    "parseFailed": "Parse failed: {error}",
+    "unsupportedLink": "Unsupported link",
+    "parseError": "Parse error: {error}",
+    "hlsFatal": "Playback failed: fatal HLS error",
+    "hlsUnsupported": "Playback failed: browser does not support HLS",
+    "playbackFailed": "Playback failed: {error}"
+  }
+}

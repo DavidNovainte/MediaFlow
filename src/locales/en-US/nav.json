@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "tools": "Tools",
+    "toggleSidebar": "Sidebar (Ctrl+B)",
+    "download": "Media Capture",
+    "transcribe": "Transcribe Media",
+    "compress": "Image Compress",
+    "enhance": "AI Enhance",
+    "creator": "Quick video tools",
+    "editor": "Timeline editor",
+    "subtitle": "Subtitle Translation",
+    "mobile": "Mobile Connect",
+    "upgrade": "Upgrade to Pro",
+    "history": "History",
+    "settings": "Settings",
+    "groupVideo": "Video workflow",
+    "groupAdvanced": "Advanced",
+    "creatorHint": "One-shot tasks",
+    "editorHint": "Multi-track refine",
+    "experimental": "Lab",
+    "groupAdvancedExpand": "Show advanced",
+    "groupAdvancedCollapse": "Hide advanced",
+    "upgradeActive": "Pro active",
+    "upgradeActiveHint": "View license",
+    "extension": "Browser extension"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "pixel": {
+    "skipNonImages": "Пропущено не-изображений: {count}. Для коротких видео используйте AI Enhance.",
+    "unsupportedPreview": "Нельзя показать этот файл как изображение",
+    "aiEnhancingPercent": "ИИ-улучшение... {percent}%",
+    "confirmDeletePreset": "Удалить пресет «{name}»? Это нельзя отменить."
+  }
+}

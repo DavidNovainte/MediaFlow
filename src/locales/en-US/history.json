@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "History",
+    "clear": "Clear All",
+    "confirmClear": "Are you sure you want to clear all history?",
+    "confirmDelete": "Are you sure you want to delete this record?",
+    "historyCleared": "History cleared successfully",
+    "searchPlaceholder": "Search video title...",
+    "noResults": "No matching records found",
+    "noResultsTitle": "No results found",
+    "noResultsDesc": "Try different keywords",
+    "clearSearchBtn": "Reset Search",
+    "empty": "No history yet",
+    "emptyTitle": "No history yet",
+    "emptyDesc": "Saved media will appear here for quick review and management.",
+    "goDownload": "Capture your first video",
+    "openFile": "Play",
+    "openFolder": "Open Folder",
+    "copyLink": "Copy Link",
+    "shareMobile": "Share to Mobile",
+    "showQRCode": "Show QR code",
+    "delete": "Delete",
+    "fileDeleted": "File deleted",
+    "deletedTag": "Deleted",
+    "qrTip": "📱 Scan QR code to sync to your phone",
+    "close": "Close",
+    "filter": {
+      "allPlatforms": "All Platforms",
+      "other": "Other",
+      "allTime": "All Time",
+      "today": "Today",
+      "week": "This Week",
+      "month": "This Month"
+    },
+    "batch": {
+      "selectAll": "Select All",
+      "selected": "{count} selected",
+      "delete": "Delete Selected",
+      "copy": "Copy Files",
+      "confirmDelete": "Are you sure you want to delete {count} selected records?",
+      "deleteSuccess": "Deleted successfully",
+      "noLocalFile": "Selected records have no local files",
+      "copySuccess": "Copied {count} files, you can paste them to other folders",
+      "copyFail": "Copy failed"
+    },
+    "stats": {
+      "filtered": "Showing {filtered} / {total} records",
+      "total": "Total {total} records"
+    },
+    "qrProOnly": "Show QR / mobile share is a Pro feature. Upgrade to unlock.",
+    "showQRCodePro": "Show QR code · Pro"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "確認",
+    "confirm": "確定",
+    "cancel": "キャンセル",
+    "defaultMessage": "この操作を実行してもよろしいですか？",
+    "promptTitle": "入力",
+    "confirmBtn": "確定",
+    "cancelBtn": "キャンセル"
+  }
+}

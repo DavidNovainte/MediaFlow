@@ -1,0 +1,273 @@
+/**
+ * PixelFlow_AI.css
+ * 专门负责 2.0 升级版 AI 及 A/B 对比组件的样式
+ */
+
+/* AI 标题与徽章 */
+.ai-assist-section .section-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-badge {
+    padding: 2px 6px;
+    background: var(--accent-gradient);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(77, 130, 201, 0.3);
+}
+
+/* AI 切换行增强 */
+.ai-toggle {
+    margin-bottom: 12px;
+    padding: 12px;
+    background: var(--fill-subtle);
+    border-radius: 12px;
+    border: 1px solid var(--fill-muted);
+    transition: all 0.3s ease;
+}
+
+.ai-toggle:hover {
+    background: var(--fill-muted);
+    border-color: rgba(77, 130, 201, 0.3);
+}
+
+/* AI 放大选项按钮 */
+.ai-controls-inline {
+    display: inline-flex;
+    margin-left: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px;
+    border-radius: 8px;
+    vertical-align: middle;
+}
+
+.ai-opt-btn {
+    border: none;
+    background: none;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+}
+
+.ai-opt-btn:hover {
+    color: white;
+    background: var(--fill-muted);
+}
+
+.ai-opt-btn.active {
+    background: var(--accent-gradient);
+    color: white;
+    box-shadow: 0 4px 10px rgba(77, 130, 201, 0.4);
+    transform: scale(1.05);
+}
+
+/* 对比模式 Tab (预览栏) */
+.compare-tabs-wrapper {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.compare-tabs {
+    display: flex;
+    background: var(--fill-muted);
+    padding: 3px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    gap: 2px;
+}
+
+.compare-tab {
+    padding: 6px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.12s ease, color 0.12s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.compare-tab.active {
+    background: #fafafa;
+    color: #18181b;
+    box-shadow: none;
+}
+
+html[data-theme="light"] .compare-tab.active {
+    background: #18181b;
+    color: #fafafa;
+}
+
+.compare-tab:hover:not(.active) {
+    color: var(--text-primary);
+    background: var(--fill-hover);
+}
+
+.crown-icon {
+    display: none;
+}
+
+/* 设置面板配置切换 Tab */
+.settings-tabs-group {
+    display: flex;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--fill-muted);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.settings-tab {
+    flex: 1;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary, #a1a1aa);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    -webkit-text-fill-color: currentColor;
+}
+
+/* Mono: active = high-contrast pill (never white-on-white) */
+.settings-tab.active {
+    background: #fafafa !important;
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+    border-color: #fafafa !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .settings-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+    border-color: #18181b !important;
+}
+
+.settings-tab:hover:not(.active) {
+    color: var(--text-main, #fafafa);
+    -webkit-text-fill-color: currentColor;
+    background: var(--fill-muted, rgba(255, 255, 255, 0.06));
+}
+
+html[data-theme="light"] .settings-tab:hover:not(.active) {
+    color: #18181b;
+    background: #f4f4f5;
+}
+
+/* 现代 Toggle 开关样式 */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--fill-hover);
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    border: 1px solid var(--fill-muted);
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.toggle-slider {
+    background: var(--accent-gradient);
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(16px);
+}
+
+/* 预览区域加载提示 */
+.preview-ai-loading {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    border-radius: 12px;
+    color: white;
+    font-size: 14px;
+    gap: 12px;
+    animation: fadeIn 0.3s ease;
+    pointer-events: none;
+}
+
+.ai-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--fill-hover);
+    border-top: 3px solid var(--accent-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(77, 130, 201, 0.3);
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 隐藏状态 */
+.hidden {
+    display: none !important;
+}

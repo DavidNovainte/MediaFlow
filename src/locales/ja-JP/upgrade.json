@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "MediaFlow Pro へアップグレード",
+    "subtitle": "無料: 単一取得・文字起こし・圧縮。Pro: エンハンスエンジン、バッチ、Creator、編集、字幕、モバイル。",
+    "plans": {
+      "free": {
+        "name": "無料版",
+        "price": "0",
+        "period": "",
+        "desc": "まずは基本機能から"
+      },
+      "lifetime": {
+        "name": "Pro 永久版",
+        "price": "19.99",
+        "period": "買い切り",
+        "badge": "買い切り",
+        "desc": "一度の支払いで高度なワークフローを解放"
+      },
+      "monthly": {
+        "name": "旧 月額 Pro"
+      },
+      "annual": {
+        "name": "旧 年額 Pro"
+      },
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "コア機能 — ずっと無料"
+      }
+    },
+    "features": {
+      "free_download": "単体メディアの取得と書き出し",
+      "free_transcribe": "基本的なローカル文字起こし",
+      "free_compress": "画像圧縮と変換",
+      "free_limit": "単一リンク無制限ダウンロード",
+      "free_history": "基本の履歴管理",
+      "pro_batch": "並列バッチ取得とキュー管理",
+      "pro_enhance": "AI エンハンスエンジン（ローカル Real-ESRGAN / CUGAN）",
+      "pro_creator": "Creator ワークスペースと高度なメディア処理",
+      "pro_subtitle": "字幕翻訳、吹き替え、書き出しツール",
+      "pro_sync": "モバイル連携とデバイスブリッジ",
+      "pro_support": "今後の更新と個人開発の支援",
+      "pro_editor": "マルチトラック動画エディター",
+      "free_enhance": "AI エンハンス画面（実行は Pro）"
+    },
+    "actions": {
+      "buy": "Pro 永久版を購入",
+      "current": "現在のプラン",
+      "activate": "ここで有効化",
+      "buyAnother": "別のライセンスを購入",
+      "enterNewKey": "ライセンスコードを入力"
+    },
+    "footer": {
+      "trust": "安全な支払い",
+      "haveKey": "すでにアクティベーションコードをお持ちですか？",
+      "oneTime": "買い切り"
+    },
+    "status": {
+      "activated": "Pro は有効です",
+      "thanks": "ご支援ありがとうございます。すべてのプレミアム機能が解放されました。",
+      "email": "メール：",
+      "expiry": "有効期限：",
+      "expiry_lifetime": "永久",
+      "subscription_active": "アクセス有効",
+      "days_remaining": "（残り {{days}} 日）",
+      "thanksTitle": "ご支援ありがとうございます。すべてのプレミアム機能が解放されました。"
+    },
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "単一リンク取得 · 無制限",
+      "community2": "ローカル文字起こし · 画像圧縮",
+      "community3": "履歴 · 設定とコアエンジン",
+      "proTitle": "Pro",
+      "pro1": "バッチ · キュー · 拡張 · AI エンハンスエンジン",
+      "pro2": "Creator ツール · タイムライン編集",
+      "pro3": "字幕 · モバイル連携"
+    },
+    "boundaryNote": "ヒント: 無料ツールはライセンス不要。Pro ページや門限エンジンはアップグレードを表示。"
+  }
+}

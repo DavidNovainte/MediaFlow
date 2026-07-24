@@ -1,0 +1,8 @@
+{
+  "pixel": {
+    "skipNonImages": "{count} fichier(s) non image ignoré(s). Utilisez AI Enhance pour de courtes vidéos.",
+    "unsupportedPreview": "Impossible d’afficher ce fichier comme image",
+    "aiEnhancingPercent": "Amélioration IA... {percent}%",
+    "confirmDeletePreset": "Supprimer le préréglage « {name} » ? Irréversible."
+  }
+}

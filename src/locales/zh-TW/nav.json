@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "tools": "工具",
+    "toggleSidebar": "側邊欄 (Ctrl+B)",
+    "download": "媒體採集",
+    "transcribe": "影音轉文字",
+    "compress": "圖片壓縮",
+    "enhance": "AI 畫質增強",
+    "creator": "快捷影片工具",
+    "editor": "多軌時間軸",
+    "subtitle": "字幕翻譯",
+    "mobile": "手機/電腦互連",
+    "upgrade": "升級 Pro",
+    "history": "歷史記錄",
+    "settings": "設定",
+    "groupVideo": "影片工作流",
+    "groupAdvanced": "進階",
+    "creatorHint": "一鍵處理",
+    "editorHint": "精修剪輯",
+    "experimental": "實驗",
+    "groupAdvancedExpand": "展开进阶",
+    "groupAdvancedCollapse": "收起进阶",
+    "extension": "瀏覽器擴充功能",
+    "upgradeActive": "Pro 已激活",
+    "upgradeActiveHint": "查看授权"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "キャプチャ履歴",
+    "clear": "履歴をクリア",
+    "confirmClear": "すべての履歴をクリアしてもよろしいですか？",
+    "confirmDelete": "この記録を削除してもよろしいですか？",
+    "historyCleared": "履歴を正常にクリアしました",
+    "searchPlaceholder": "動画タイトルで検索...",
+    "noResults": "一致する記録が見つかりません",
+    "noResultsTitle": "一致する項目が見つかりません",
+    "noResultsDesc": "他のキーワードで検索してみてください",
+    "clearSearchBtn": "検索をリセット",
+    "empty": "キャプチャ履歴がありません",
+    "emptyTitle": "履歴がありません",
+    "emptyDesc": "キャプチャ/保存した動画はここに表示されます。<br>いつでも振り返りや管理が可能です。",
+    "goDownload": "最初の動画をキャプチャ/保存する",
+    "openFile": "再生",
+    "openFolder": "フォルダを開く",
+    "copyLink": "リンクをコピー",
+    "shareMobile": "スマホに共有",
+    "showQRCode": "QRコードを表示",
+    "delete": "削除",
+    "fileDeleted": "ファイルが削除されました",
+    "deletedTag": "削除済み",
+    "qrTip": "📱 スマホでQRコードをスキャンしてダウンロード",
+    "close": "閉じる",
+    "filter": {
+      "allPlatforms": "すべてのプラットフォーム",
+      "other": "その他",
+      "allTime": "全期間",
+      "today": "今日",
+      "week": "今週",
+      "month": "今月"
+    },
+    "batch": {
+      "selectAll": "すべて選択",
+      "selected": "{count} 個選択中",
+      "delete": "一括削除",
+      "copy": "ファイルをコピー",
+      "confirmDelete": "選択した {count} 個の記録を削除してもよろしいですか？",
+      "deleteSuccess": "正常に削除されました",
+      "noLocalFile": "選択した記録にローカルファイルがありません",
+      "copySuccess": "{count} 個のファイルをコピーしました。他のフォルダに貼り付け可能です。",
+      "copyFail": "コピーに失敗しました"
+    },
+    "stats": {
+      "filtered": "全 {total} 件中、{filtered} 件を表示",
+      "total": "合計 {total} 件"
+    },
+    "qrProOnly": "QR / モバイル共有は Pro 機能です。アップグレードで解除できます。",
+    "showQRCodePro": "QRコードを表示 · Pro"
+  }
+}

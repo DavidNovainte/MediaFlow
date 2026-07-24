@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Welcome to MediaFlow",
+    "welcomeBody": "Community edition: offline capture, local transcription, and image compress. Pro unlocks batch, queue, editor, subtitles, and mobile bridge.",
+    "downloadTitle": "Your first capture",
+    "downloadBody": "Open Media Capture → paste a public link → Analyze → Save. Single-link capture is unlimited; change the save folder in Settings anytime.",
+    "clipboardTitle": "Clipboard watch (optional)",
+    "clipboardBody": "Optionally detect video page links you copy for a quick capture. Off by default — turn on only if you want it. Change anytime in Settings.",
+    "clipboardEnableLabel": "Enable clipboard link detection",
+    "enginesTitle": "Install core engines",
+    "enginesBody": "Missing tools: {{list}}. Open Settings → Core engines to fix, or reinstall the app.",
+    "doneTitle": "You are ready",
+    "doneBody": "Start with a single download. Upgrade to Pro when you need batch, enhance, subtitles, or mobile bridge.",
+    "next": "Next",
+    "skip": "Skip",
+    "getStarted": "Get started"
+  }
+}

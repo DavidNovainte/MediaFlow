@@ -1,0 +1,8 @@
+{
+  "pixel": {
+    "skipNonImages": "画像以外のファイルを {count} 件スキップしました。短い動画は AI エンハンスを利用してください。",
+    "unsupportedPreview": "このファイルは画像としてプレビューできません",
+    "aiEnhancingPercent": "AI エンハンス中... {percent}%",
+    "confirmDeletePreset": "プリセット「{name}」を削除しますか？この操作は取り消せません。"
+  }
+}

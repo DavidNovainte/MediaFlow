@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "Confirmation",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "defaultMessage": "Êtes-vous sûr de vouloir continuer ?",
+    "promptTitle": "Saisie",
+    "confirmBtn": "Confirmer",
+    "cancelBtn": "Annuler"
+  }
+}

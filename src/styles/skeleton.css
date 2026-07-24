@@ -1,0 +1,200 @@
+/* skeleton.css - 骨架屏加载动画 */
+
+/* 基础骨架样式 */
+.skeleton {
+    background: linear-gradient(90deg,
+            var(--fill-subtle) 25%,
+            var(--fill-muted) 37%,
+            var(--fill-subtle) 63%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+/* 常用骨架组件 */
+.skeleton-text {
+    height: 1em;
+    width: 80%;
+    margin-bottom: 0.5em;
+    border-radius: 3px;
+}
+
+.skeleton-text.short {
+    width: 40%;
+}
+
+.skeleton-text.long {
+    width: 100%;
+}
+
+.skeleton-rect {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.skeleton-circle {
+    border-radius: 50%;
+}
+
+/* 列表项骨架 (Download/History) */
+.skeleton-list-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    margin-bottom: 12px;
+}
+
+.skeleton-thumb {
+    width: 120px;
+    height: 68px;
+    border-radius: 6px;
+}
+
+.skeleton-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* 卡片骨架 (Creator/Pixel) */
+.skeleton-card {
+    height: 200px;
+    border-radius: var(--radius-lg);
+}
+
+/* 空状态样式 (配合 EmptyState.js) */
+.empty-state-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 32px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+}
+
+.empty-state-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--bg-surface, #27272a);
+    border: 1px solid var(--border, #3f3f46);
+    color: var(--text-main, #fafafa);
+    font-size: 0;
+    opacity: 1;
+    filter: none;
+    animation: none;
+}
+
+html[data-theme="light"] .empty-state-icon {
+    background: #f4f4f5;
+    border-color: #e4e4e7;
+    color: #18181b;
+}
+
+.empty-state-icon .empty-state-glyph,
+.empty-state-icon svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.empty-state-title {
+    font-size: 17px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.empty-state-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 320px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+/* Must beat global .btn / .btn-primary (often white text) */
+.empty-state-wrapper .btn-empty-action,
+.btn.btn-empty-action,
+button.btn-empty-action {
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 0 18px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    opacity: 1 !important;
+    filter: none !important;
+    cursor: pointer !important;
+    background: #fafafa !important;
+    background-image: none !important;
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+    border: 1px solid #fafafa !important;
+}
+
+.empty-state-wrapper .btn-empty-action svg,
+.btn.btn-empty-action svg,
+button.btn-empty-action svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke: #18181b !important;
+    color: #18181b !important;
+    fill: none !important;
+    flex-shrink: 0;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .empty-state-wrapper .btn-empty-action,
+html[data-theme="light"] .btn.btn-empty-action,
+html[data-theme="light"] button.btn-empty-action {
+    background: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+    border-color: #18181b !important;
+}
+
+html[data-theme="light"] .empty-state-wrapper .btn-empty-action svg,
+html[data-theme="light"] .btn.btn-empty-action svg,
+html[data-theme="light"] button.btn-empty-action svg {
+    stroke: #fafafa !important;
+    color: #fafafa !important;
+}
+
+.empty-state-wrapper .btn-empty-action:hover,
+.btn.btn-empty-action:hover,
+button.btn-empty-action:hover {
+    filter: brightness(0.94) !important;
+    opacity: 1 !important;
+}

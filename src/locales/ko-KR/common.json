@@ -1,0 +1,259 @@
+{
+  "common": {
+    "error": "오류",
+    "success": "성공",
+    "progress": "현재 진행 상황",
+    "actions": {
+      "remove": "제거",
+      "cancel": "취소",
+      "confirm": "확인",
+      "close": "닫기",
+      "prev": " 이전",
+      "next": "다음 ",
+      "save": "저장",
+      "open": "열기",
+      "copy": "복사",
+      "minimize": "최소화",
+      "maximize": "최대화",
+      "toggleVisibility": "표시/숨기기",
+      "end": "끝"
+    },
+    "status": {
+      "processing": "처리 중...",
+      "done": "완료",
+      "error": "실패",
+      "pending": "대기 중",
+      "cancelled": "취소됨",
+      "noFiles": "파일 없음",
+      "ready": "준비 완료",
+      "translating": "번역 중...",
+      "end": "종료",
+      "previewEnd": " 미리보기 종료"
+    },
+    "errors": {
+      "playbackSkip": " 재생할 수 없습니다. 1.5초 후 자동으로 건너뜁니다...",
+      "noPreviewFiles": "미리볼 수 있는 파일이 없습니다",
+      "unknown": "알 수 없는 오류",
+      "clipboardRead": "클립보드를 읽을 수 없습니다",
+      "moduleNotLoaded": "기능 모듈이 아직 로드되지 않았습니다",
+      "apiKeyNotConfigured": "먼저 설정에서 {name}의 API 키를 구성해 주세요."
+    },
+    "license": {
+      "expiryWarning": "Pro 라이선스가 {days}일 후 만료됩니다. 서비스 중단을 예방하려면 갱신하세요.",
+      "activation": {
+        "title": "Pro 라이선스 활성화",
+        "desc": "모든 고급 기능을 잠금 해제하려면 활성화 코드를 입력하세요.",
+        "hwidLabel": "기기 ID (HWID)",
+        "keyLabel": "활성화 코드",
+        "keyPlaceholder": "활성화 코드 입력",
+        "submit": "활성화",
+        "loading": "활성화 중...",
+        "error": "활성화 코드를 입력해 주세요",
+        "failed": "활성화 실패: {error}",
+        "systemError": "시스템 오류: {error}",
+        "success": "활성화 성공!"
+      }
+    },
+    "modelManager": {
+      "manage": "관리",
+      "title": " 모델 관리자",
+      "desc": "캐시된 Whisper 모델을 관리합니다.",
+      "availableSection": " 이용 가능한 모델",
+      "availableDesc": "오프라인 사용을 위해 모델을 캐시합니다.",
+      "installing": "처리 중...",
+      "deploying": "배포 중...",
+      "extracting": "압축 해제 중...",
+      "done": "설치 완료!",
+      "loading": "로드 중...",
+      "noModels": "다운로드한 모델이 없습니다",
+      "loadError": "모델 목록을 불러올 수 없습니다",
+      "deleteConfirm": "{modelId} 모델을 삭제하시겠습니까?",
+      "download": "아카이브",
+      "downloadingShort": "다운로드 중...",
+      "downloaded": "다운로드됨",
+      "descTiny": "가장 빠름, 테스트용",
+      "descBase": "속도와 품질의 균형",
+      "descSmall": "더 나은 품질",
+      "descMedium": "고품질",
+      "descLargeV2": "최고 품질",
+      "descLargeV3": "최신 최고 품질",
+      "descTurbo": "빠르고 고품질",
+      "deepfilterDesc": "AI 노이즈 감소, 배경 음성을 제거합니다",
+      "installedSection": "설치됨"
+    },
+    "scribe": {
+      "qwen": "Qwen",
+      "qwenRemark": "국산 고품질 모델",
+      "editSpeaker": "화자 편집",
+      "speakerName": "이름 (수정 후 일괄 업데이트)",
+      "exclusiveColor": "전용 색상",
+      "localTranscribing": "로컬 전사",
+      "cloudProcessing": "클라우드 처리",
+      "transcribeFailed": "전사 실패",
+      "copiedToClipboard": "클립보드에 복사됨",
+      "nameEmpty": "화자 이름은 비워둘 수 없습니다",
+      "speakersUpdated": "{count}개의 화자 레이블이 업데이트되었습니다"
+    },
+    "boundary": {
+      "title": "앗, 오류가 발생했습니다",
+      "desc": "애플리케이션에 작은 문제가 발생했습니다.",
+      "submit": "제출 및 닫기"
+    },
+    "video": "비디오",
+    "videoEntry": "비디오 항목",
+    "proOnly": "이 기능은 Pro 전용입니다. 업그레이드해 주세요 ",
+    "proFeature": "이 기능은 Pro 사용자 전용입니다 ",
+    "proFeatureMsg": "완전한 경험을 위해 Pro 기능을 잠금 해제하세요 ",
+    "freeVersionMsg": "현재 무료 버전입니다. 일괄 캡처 및 무손실 오디오 기능이 제한됩니다.",
+    "ui": {
+      "notConfigured": "(구성되지 않음)",
+      "recommended": "(추천)",
+      "localDeployment": "(로컬 배포)",
+      "fast": "(더 빠름)",
+      "chineseOptimized": "중국어 최적화, 고속",
+      "whisperStable": "Whisper-1, 품질 안정",
+      "longTextSupport": "장문 텍스트 지원",
+      "costEffective": "가성비 좋음",
+      "speedy": "초고속转录, 추천",
+      "universal": "만능",
+      "closePlayer": "플레이어 닫기",
+      "playPause": "재생/일시정지",
+      "playbackSpeed": "재생 속도",
+      "mute": "음소거"
+    },
+    "transcribe": {
+      "hfHint": "먼저 Hugging Face에서 pyannote 사용자 계약에 동의해 주세요",
+      "selectedLanguages": "{count}개 언어 선택됨",
+      "selectTargetLang": "언어 선택...",
+      "languagePrefix": "언어: ",
+      "versionOriginal": "원본",
+      "versionPolished": "AI 다듬기",
+      "switchedVersion": "{version} 버전으로 전환됨",
+      "lineDeleted": "자막 줄 삭제됨",
+      "rateLimitWarn": "⚠️ 요율 제한에 도달했습니다. 설정에서 API 키를 더 추가하십시오.",
+      "translatingState": "번역 중...",
+      "translatingBatch": "{status} 번역 중...",
+      "batchTranslatedSuccess": "번역 완료!",
+      "partialSuccess": "일부 번역 성공 ({done}/{total}). 실패: {langs}",
+      "translateFail": "번역 실패",
+      "copy": "텍스트 복사",
+      "downloadSrt": "SRT 내보내기",
+      "downloadZip": "📦 ZIP 내보내기",
+      "packSuccess": "패키징 성공",
+      "searchTitle": "찾기 및 바꾸기",
+      "searchPlaceholder": "찾기...",
+      "replacePlaceholder": "바꿀 내용...",
+      "prevMatch": "이전",
+      "nextMatch": "다음",
+      "replaceAll": "모두 바꾸기",
+      "replace": "바꾸기",
+      "noResults": "결과 없음",
+      "replaced": "바뀜",
+      "replacedAllCount": "{count}개 항목이 바뀌었습니다",
+      "polishingState": "AI 다듬기 중...",
+      "polishSuccess": "AI 다듬기가 완료되었습니다!",
+      "polishFailed": "AI 다듬기 실패",
+      "polish": "✨ AI 다듬기",
+      "analyzingState": "비디오 내용을 분석 중...",
+      "summarizeFailed": "분석 실패",
+      "noSubtitlesToPolish": "다듬을 자막이 없습니다",
+      "noContentToSummarize": "요약할 내용이 없습니다",
+      "selectedCount": "{count}개의 파일이 선택되었습니다",
+      "dropFilesHint": "여기에 파일을 드래그 앤 드롭하여 추가",
+      "summaryCopied": "요약이 클립보드에 복사되었습니다",
+      "noExportResults": "내보낼 결과가 없습니다",
+      "noTranscribeResults": "성공한 전사 결과가 없습니다",
+      "fileSaved": "{filename}이(가) 저장되었습니다"
+    },
+    "report": {
+      "successTitle": "보고서 제출됨",
+      "successBody": "피드백 감사합니다. 오류 정보가 성공적으로 전송되었습니다.",
+      "failTitle": "제출 실패",
+      "failBody": "보고서 제출 실패: {error}",
+      "fallbackMsg": "내부 채널이 준비되지 않아 보고서를 일시적으로 온라인 제출할 수 없습니다. 스크린샷을 찍거나 개발자에게 직접 문의해 주세요."
+    },
+    "openSettings": "설정 열기",
+    "communityVersionMsg": "Community 에디션: 단일 수집, 받아쓰기, 압축, AI 향상. 배치·대기열·고급 워크플로는 Pro로 업그레이드하세요.",
+    "saveFailed": "저장 실패",
+    "processing": "처리 중...",
+    "processingPercent": "처리 중... {percent}%",
+    "loadingFeature": {
+      "generic": "로딩 중…",
+      "enhance": "AI 향상 로딩 중…",
+      "editor": "편집기 로딩 중…",
+      "subtitle": "자막 스튜디오 로딩 중…",
+      "creator": "Creator 도구 로딩 중…"
+    }
+  },
+  "ui": {
+    "placeholder": "여기에 비디오 링크 붙여넣기...",
+    "noData": "데이터 없음",
+    "clearInput": "입력 지우기",
+    "clearAction": "지우기",
+    "clearResults": "결과 지우기",
+    "resetTooltip": "링크 초기화",
+    "loading": "로드 중...",
+    "editSpeaker": "화자 편집",
+    "speakerName": "화자 이름",
+    "speakerColor": "전용 색상",
+    "name": "이름",
+    "nameChangeBatchHint": "(수정 후 일괄 업데이트)",
+    "closePlayer": "플레이어 닫기",
+    "playPause": "재생/일시중지",
+    "playbackSpeed": "재생 속도",
+    "mute": "음소거"
+  },
+  "settings": {
+    "license": {
+      "activateNow": "지금 활성화"
+    }
+  },
+  "params": {
+    "recommended": "추천",
+    "normal": "일반",
+    "slow": "느림",
+    "verySlow": "매우 느림"
+  },
+  "download": {
+    "playlist": {
+      "copySuccess": "{count}개의 파일을 복사했습니다. 다른 폴더에 직접 붙여넣을 수 있습니다."
+    },
+    "playlistProgress": "캡처 진행 상황"
+  },
+  "enhance": {
+    "noComparison": "비교 차트 없음 (원본만 보기)"
+  },
+  "pip": {
+    "title": "MediaFlow - 화면 속 화면",
+    "close": "닫기 (Esc)"
+  },
+  "shortcuts": {
+    "queue_dev": "대기열 기능은 개발 중입니다...",
+    "reset_success": "단축키가 기본값으로 초기화되었습니다",
+    "press_new": "새 단축키를 누르세요...",
+    "update_success": "단축키가 업데이트되었습니다"
+  },
+  "update": {
+    "available": "새 버전 v{version}을(를) 찾았습니다. 백그라운드에서 준비 중...",
+    "downloaded": "새 버전 v{version} 다운로드가 완료되었습니다!",
+    "restartAndInstall": "다시 시작하여 업데이트",
+    "checking": "업데이트 확인 중...",
+    "latest": "이미 최신입니다",
+    "failed": "업데이트 확인 실패, 나중에 다시 시도하세요"
+  },
+  "player": {
+    "resolving": "미디어 URL 확인 중...",
+    "preparing": "재생 준비 중...",
+    "loading": "로드 중...",
+    "castError": "캐스트 오류: {message}",
+    "unknownError": "알 수 없는 오류",
+    "imageLoadFailed": "이미지 로드 실패",
+    "parsingLink": "링크 분석 중...",
+    "parseFailed": "분석 실패: {error}",
+    "unsupportedLink": "지원되지 않는 링크",
+    "parseError": "분석 오류: {error}",
+    "hlsFatal": "재생 실패: HLS 치명적 오류",
+    "hlsUnsupported": "재생 실패: 브라우저가 HLS를 지원하지 않음",
+    "playbackFailed": "재생 실패: {error}"
+  }
+}

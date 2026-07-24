@@ -1,0 +1,81 @@
+{
+  "upgrade": {
+    "title": "MediaFlow Pro로 업그레이드",
+    "subtitle": "무료: 단일 수집, 받아쓰기, 압축. Pro: 향상 엔진, 배치, Creator, 편집, 자막, 모바일.",
+    "plans": {
+      "free": {
+        "name": "무료",
+        "price": "0",
+        "period": "",
+        "desc": "핵심 기능부터 시작"
+      },
+      "lifetime": {
+        "name": "Pro 평생판",
+        "price": "19.99",
+        "period": "1회 구매",
+        "badge": "1회 구매",
+        "desc": "한 번 결제하고 고급 워크플로를 해제"
+      },
+      "monthly": {
+        "name": "레거시 월간 Pro"
+      },
+      "annual": {
+        "name": "레거시 연간 Pro"
+      },
+      "community": {
+        "name": "Community",
+        "price": "0",
+        "period": "",
+        "desc": "핵심 도구 — 영원히 무료"
+      }
+    },
+    "features": {
+      "free_download": "단일 미디어 캡처 및 내보내기",
+      "free_transcribe": "기본 로컬 전사 도구",
+      "free_compress": "이미지 압축 및 변환",
+      "free_limit": "단일 링크 무제한 다운로드",
+      "free_history": "기본 기록 관리",
+      "pro_batch": "병렬 일괄 캡처 및 큐 도구",
+      "pro_enhance": "AI 향상 엔진(로컬 Real-ESRGAN / CUGAN)",
+      "pro_creator": "크리에이터 작업공간 및 고급 미디어 워크플로",
+      "pro_subtitle": "자막 번역, 더빙 및 내보내기 도구",
+      "pro_sync": "모바일 동기화 및 기기 브리지",
+      "pro_support": "향후 업데이트와 독립 개발 지원",
+      "pro_editor": "멀티트랙 영상 편집기",
+      "free_enhance": "AI 향상 페이지(실행은 Pro)"
+    },
+    "actions": {
+      "buy": "Pro 평생판 구매",
+      "current": "현재 플랜",
+      "activate": "여기서 활성화",
+      "buyAnother": "다른 라이선스 구매",
+      "enterNewKey": "활성화 코드 입력"
+    },
+    "footer": {
+      "trust": "안전한 결제",
+      "haveKey": "이미 활성화 코드가 있나요?",
+      "oneTime": "1회 구매"
+    },
+    "status": {
+      "activated": "Pro 활성화됨",
+      "thanks": "지원해 주셔서 감사합니다. 모든 프리미엄 기능이 해제되었습니다.",
+      "email": "이메일:",
+      "expiry": "유효 기간:",
+      "expiry_lifetime": "평생",
+      "subscription_active": "액세스 활성",
+      "days_remaining": "(남은 기간 {{days}}일)",
+      "thanksTitle": "지원해 주셔서 감사합니다. 모든 프리미엄 기능이 해제되었습니다."
+    },
+    "compare": {
+      "communityTitle": "Community",
+      "community1": "단일 링크 수집 · 무제한",
+      "community2": "로컬 받아쓰기 · 이미지 압축",
+      "community3": "기록 · 설정 및 핵심 엔진",
+      "proTitle": "Pro",
+      "pro1": "배치 · 대기열 · 확장 · AI 향상 엔진",
+      "pro2": "Creator 도구 · 타임라인 편집기",
+      "pro3": "자막 · 모바일 브리지"
+    },
+    "boundaryNote": "안내: 무료 도구는 라이선스 없이 사용. Pro 페이지나 제한 엔진은 업그레이드를 표시합니다."
+  }
+}

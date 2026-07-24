@@ -1,0 +1,8 @@
+{
+  "pixel": {
+    "skipNonImages": "이미지가 아닌 파일 {count}개 건너뜀. 짧은 동영상은 AI 향상을 사용하세요.",
+    "unsupportedPreview": "이 파일은 이미지로 미리볼 수 없습니다",
+    "aiEnhancingPercent": "AI 향상 중... {percent}%",
+    "confirmDeletePreset": "프리셋 \"{name}\"을(를) 삭제할까요? 되돌릴 수 없습니다."
+  }
+}

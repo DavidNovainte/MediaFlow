@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "Подтверждение",
+    "confirm": "Подтвердить",
+    "cancel": "Отмена",
+    "defaultMessage": "Вы уверены, что хотите продолжить?",
+    "promptTitle": "Ввод",
+    "confirmBtn": "Подтвердить",
+    "cancelBtn": "Отмена"
+  }
+}

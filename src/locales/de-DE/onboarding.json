@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Willkommen bei MediaFlow",
+    "welcomeBody": "Medien offline erfassen, Audio transkribieren und Bilder komprimieren — inklusive kostenloser Stufe. Pro schaltet Batch, Editor, Untertitel und mehr frei.",
+    "downloadTitle": "Ihre erste Erfassung",
+    "downloadBody": "Fügen Sie auf der Download-Seite eine öffentliche Video-URL ein → Analysieren → Erfassen. Einzel-Link-Erfassung ist kostenlos; legen Sie den Speicherordner jederzeit in den Einstellungen fest.",
+    "clipboardTitle": "Zwischenablage-Überwachung (optional)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick capture. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "Zwischenablage-Linkerkennung aktivieren",
+    "enginesTitle": "Kern-Engines installieren",
+    "enginesBody": "Fehlende Tools: {{list}}. Öffnen Sie Einstellungen → Kern-Engines zur Behebung oder installieren Sie die App neu.",
+    "doneTitle": "Sie sind startklar",
+    "doneBody": "Beginnen Sie mit einem einzelnen Download. Nutzen Sie erweiterte Tools bei Bedarf — einige sind experimentell.",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "getStarted": "Loslegen"
+  }
+}

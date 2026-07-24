@@ -1,0 +1,14 @@
+faster-whisper
+# Local ASR / optional diarization extras (install as needed)
+# Speaker diarization default engine (offline, no HF token; models lazy-downloaded):
+sherpa-onnx
+librosa
+soundfile
+# Legacy diarization (optional, requires HF token + pyannote license):
+# pyannote.audio
+torch
+torchaudio
+demucs
+rembg
+onnxruntime
+pillow==12.1.0

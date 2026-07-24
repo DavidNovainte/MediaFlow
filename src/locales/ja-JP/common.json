@@ -1,0 +1,262 @@
+{
+  "common": {
+    "error": "エラー",
+    "success": "成功",
+    "progress": "現在の進行状況",
+    "actions": {
+      "remove": "削除",
+      "cancel": "キャンセル",
+      "confirm": "確認",
+      "close": "閉じる",
+      "prev": " 前へ",
+      "next": "次へ ",
+      "save": "保存",
+      "open": "開く",
+      "copy": "コピー",
+      "minimize": "最小化",
+      "maximize": "最大化",
+      "toggleVisibility": "表示/非表示",
+      "end": "終了"
+    },
+    "status": {
+      "processing": "処理中...",
+      "done": "完了",
+      "error": "失敗",
+      "pending": "待機中",
+      "cancelled": "キャンセル済み",
+      "noFiles": "ファイルなし",
+      "ready": "準備完了",
+      "translating": "翻訳中...",
+      "end": "終了",
+      "previewEnd": " プレビュー終了"
+    },
+    "errors": {
+      "playbackSkip": " 再生できません。1.5秒後に自動的にスキップします...",
+      "noPreviewFiles": "プレビューできるファイルがありません",
+      "unknown": "未知のエラー",
+      "clipboardRead": "クリップボードを読み取れません",
+      "moduleNotLoaded": "機能モジュールがまだロードされていません",
+      "apiKeyNotConfigured": "設定で {name} の API キーを構成してください。"
+    },
+    "license": {
+      "expiryWarning": "Proライセンスの有効期限まであと {days} 日です。サービス中断を避けるため更新してください。",
+      "activation": {
+        "title": "Pro ライセンスのアクティブ化",
+        "desc": "すべての高度な機能をアンロックするには、アクティベーションコードを入力してください。",
+        "hwidLabel": "デバイス ID (HWID)",
+        "keyLabel": "アクティベーションコード",
+        "keyPlaceholder": "アクティベーションコードを入力",
+        "submit": "アクティブ化",
+        "loading": "アクティブ化中...",
+        "error": "アクティベーションコードを入力してください",
+        "failed": "アクティブ化に失敗しました: {error}",
+        "systemError": "システムエラー: {error}",
+        "success": "アクティブ化に成功しました！"
+      }
+    },
+    "modelManager": {
+      "manage": "管理",
+      "title": " モデルマネージャー",
+      "desc": "取得済みの Whisper モデルを管理します。",
+      "availableSection": " 利用可能なモデル",
+      "availableDesc": "オフラインで使用するためにモデルをキャッシュします。",
+      "installing": "処理中...",
+      "deploying": "デプロイ中...",
+      "extracting": "解凍中...",
+      "done": "インストール完了！",
+      "loading": "読み込み中...",
+      "noModels": "取得済みのモデルはありません",
+      "loadError": "モデルリストを読み込めませんでした",
+      "deleteConfirm": "モデル {modelId} を削除してもよろしいですか？",
+      "download": "アーカイブ",
+      "downloadingShort": "処理中...",
+      "downloaded": "取得済み",
+      "descTiny": "最速、テストに最適",
+      "descBase": "速度と品質のバランス",
+      "descSmall": "より高品質",
+      "descMedium": "高品質",
+      "descLargeV2": "最高品質",
+      "descLargeV3": "最新の最高品質",
+      "descTurbo": "高速で高品質",
+      "deepfilterDesc": "AI ノイズ低減。背景の人の声を除去",
+      "installedSection": "Installed"
+    },
+    "scribe": {
+      "qwen": "Qwen 通義千問",
+      "qwenRemark": "国産高品質モデル",
+      "editSpeaker": "話者を編集",
+      "speakerName": "名前 (変更後に一括更新)",
+      "exclusiveColor": "専用カラー",
+      "localTranscribing": "ローカル文字起こし",
+      "cloudProcessing": "クラウド処理",
+      "transcribeFailed": "文字起こしに失敗しました",
+      "copiedToClipboard": "クリップボードにコピーしました",
+      "nameEmpty": "話者名は空にできません",
+      "speakersUpdated": "{count} 件の話者ラベルを更新しました"
+    },
+    "boundary": {
+      "title": "おっと、エラーが発生しました",
+      "desc": "アプリケーションで小さな問題が発生しました。",
+      "submit": "送信して閉じる"
+    },
+    "video": "ビデオ",
+    "videoEntry": "ビデオエントリ",
+    "platform": {
+      "p1": "プラットフォーム 1",
+      "p2": "プラットフォーム 2",
+      "p3": "プラットフォーム 3",
+      "p4": "プラットフォーム 4",
+      "p5": "プラットフォーム 5"
+    },
+    "proOnly": "この機能は Pro 専用です。アップグレードしてください ",
+    "proFeature": "この機能は Pro ユーザー専用です ",
+    "proFeatureMsg": "完全な体験のために Pro 機能をアンロックしてください ",
+    "freeVersionMsg": "現在は無料版です。バッチキャプチャとロスレスオーディオ機能が制限されています。",
+    "ui": {
+      "notConfigured": "(未構成)",
+      "recommended": "(推奨)",
+      "localDeployment": "(ローカル展開)",
+      "fast": "(より高速)",
+      "chineseOptimized": "中国語最適化、高速",
+      "whisperStable": "Whisper-1、安定",
+      "longTextSupport": "長文テキスト対応",
+      "costEffective": "コスト効率が高い",
+      "speedy": "高速、推奨",
+      "universal": "万能",
+      "closePlayer": "プレイヤーを閉じる",
+      "playPause": "再生/一時停止",
+      "playbackSpeed": "再生速度",
+      "mute": "ミュート"
+    },
+    "transcribe": {
+      "hfHint": "Hugging Faceでpyannoteのユーザー同意書に同意してください",
+      "selectedLanguages": "{count} 言語選択済み",
+      "selectTargetLang": "言語を選択...",
+      "languagePrefix": "言語: ",
+      "versionOriginal": "オリジナル",
+      "versionPolished": "AI推敲",
+      "switchedVersion": "{version} バージョンに切り替えました",
+      "lineDeleted": "字幕行を削除しました",
+      "rateLimitWarn": "⚠️ レート制限に達しました。設定でAPIキーを追加してください。",
+      "translatingState": "翻訳中...",
+      "translatingBatch": "{status} を翻訳中...",
+      "batchTranslatedSuccess": "翻訳完了！",
+      "partialSuccess": "一部の翻訳に成功 ({done}/{total})。失敗：{langs}",
+      "translateFail": "翻訳失敗",
+      "copy": "テキストをコピー",
+      "downloadSrt": "SRTをエクスポート",
+      "downloadZip": "📦 ZIPにまとめる",
+      "packSuccess": "パッケージ化に成功しました",
+      "searchTitle": "検索と置換",
+      "searchPlaceholder": "検索...",
+      "replacePlaceholder": "置換後の文字列...",
+      "prevMatch": "前へ",
+      "nextMatch": "次へ",
+      "replaceAll": "すべて置換",
+      "replace": "置換",
+      "noResults": "結果なし",
+      "replaced": "置換しました",
+      "replacedAllCount": "{count} 箇所を置換しました",
+      "polishingState": "AI推敲中...",
+      "polishSuccess": "AI推敲が完了しました！",
+      "polishFailed": "AI推敲に失敗しました",
+      "polish": "✨ AI推敲",
+      "analyzingState": "ビデオの重要ポイントを解析中...",
+      "summarizeFailed": "解析に失敗しました",
+      "noSubtitlesToPolish": "推敲する字幕がありません",
+      "noContentToSummarize": "要約するコンテンツがありません",
+      "selectedCount": "{count} 個のファイルが選択されました",
+      "dropFilesHint": "ここにファイルをドラッグ＆ドロップして追加",
+      "summaryCopied": "要約をクリップボードにコピーしました",
+      "noExportResults": "エクスポートする結果がありません",
+      "noTranscribeResults": "成功した文字起こし結果がありません",
+      "fileSaved": "{filename} を保存しました"
+    },
+    "report": {
+      "successTitle": "レポートを送信しました",
+      "successBody": "フィードバックありがとうございます。エラー情報は正常に送信されました。",
+      "failTitle": "送信失敗",
+      "failBody": "レポートの送信に失敗しました: {error}",
+      "fallbackMsg": "内部チャネルの準備ができていないため、レポートを一時的にオンライン送信できません。スクリーンショットを撮るか、開発者に手動で連絡してください。"
+    },
+    "openSettings": "設定を開く",
+    "communityVersionMsg": "Community 版: 単一取得、文字起こし、圧縮、AI エンハンス。バッチ・キュー・高度なワークフローは Pro へ。",
+    "saveFailed": "保存に失敗しました",
+    "processing": "処理中...",
+    "processingPercent": "処理中... {percent}%",
+    "loadingFeature": {
+      "generic": "読み込み中…",
+      "enhance": "AI エンハンスを読み込み中…",
+      "editor": "エディターを読み込み中…",
+      "subtitle": "字幕スタジオを読み込み中…",
+      "creator": "Creator ツールを読み込み中…"
+    }
+  },
+  "ui": {
+    "placeholder": "ここにビデオリンクを貼り付け...",
+    "noData": "データなし",
+    "clearInput": "入力をクリア",
+    "clearAction": "クリア",
+    "clearResults": "結果をクリア",
+    "resetTooltip": "リンクをリセット",
+    "loading": "読み込み中...",
+    "editSpeaker": "話者を編集",
+    "speakerName": "話者名",
+    "speakerColor": "専用カラー",
+    "name": "名前",
+    "nameChangeBatchHint": "(変更後に一括更新)"
+  },
+  "settings": {
+    "license": {
+      "activateNow": "今すぐアクティブ化"
+    }
+  },
+  "params": {
+    "recommended": "推奨",
+    "normal": "標準",
+    "slow": "遅い",
+    "verySlow": "非常に遅い"
+  },
+  "download": {
+    "playlist": {
+      "copySuccess": "{count} 個のファイルをコピーしました。他のフォルダーに貼り付け可能です。"
+    },
+    "playlistProgress": "キャプチャの進行状況"
+  },
+  "enhance": {
+    "noComparison": "比較チャートはありません（オリジナルのみ表示）"
+  },
+  "pip": {
+    "title": "MediaFlow - ピクチャーインピクチャー",
+    "close": "閉じる (Esc)"
+  },
+  "shortcuts": {
+    "queue_dev": "キュー機能は開発中です...",
+    "reset_success": "ショートカットがデフォルトにリセットされました",
+    "press_new": "新しいショートカットを押してください...",
+    "update_success": "ショートカットが更新されました"
+  },
+  "update": {
+    "available": "新バージョン v{version} が見つかりました。バックグラウンドで準備中...",
+    "downloaded": "新バージョン v{version} のダウンロードが完了しました！",
+    "restartAndInstall": "再起動して更新",
+    "checking": "更新を確認中...",
+    "latest": "すでに最新です",
+    "failed": "更新の確認に失敗しました。後でもう一度お試しください"
+  },
+  "player": {
+    "resolving": "メディア URL を解決中...",
+    "preparing": "再生を準備中...",
+    "loading": "読み込み中...",
+    "castError": "キャストエラー: {message}",
+    "unknownError": "不明なエラー",
+    "imageLoadFailed": "画像の読み込みに失敗しました",
+    "parsingLink": "リンクを解析中...",
+    "parseFailed": "解析失敗: {error}",
+    "unsupportedLink": "未対応のリンク",
+    "parseError": "解析エラー: {error}",
+    "hlsFatal": "再生失敗: HLS の致命的エラー",
+    "hlsUnsupported": "再生失敗: ブラウザが HLS 非対応",
+    "playbackFailed": "再生失敗: {error}"
+  }
+}

@@ -1,0 +1,59 @@
+# MediaFlow Community CI — tests on every push/PR
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Lint (non-blocking until clean)
+        run: npm run lint --if-present
+        continue-on-error: true
+
+  # Optional: smoke that package metadata is Community-shaped
+  package-shape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert Community package identity
+        run: |
+          node -e "
+            const p = require('./package.json');
+            if (p.name !== 'mediaflow-community') {
+              console.error('Expected name mediaflow-community, got', p.name);
+              process.exit(1);
+            }
+            if (p.license !== 'Apache-2.0') {
+              console.error('Expected Apache-2.0, got', p.license);
+              process.exit(1);
+            }
+            const banned = ['express', 'multer', 'qrcode', 'cookie-parser', 'electron-updater'];
+            const deps = Object.keys(p.dependencies || {});
+            const bad = banned.filter((d) => deps.includes(d));
+            if (bad.length) {
+              console.error('Unexpected heavy deps in Community package:', bad.join(', '));
+              process.exit(1);
+            }
+            console.log('package shape OK', p.name, p.version);
+          "

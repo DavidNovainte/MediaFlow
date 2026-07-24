@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "历史记录",
+    "clear": "清空记录",
+    "confirmClear": "确定要清空所有历史记录吗？",
+    "confirmDelete": "确定删除这条记录吗？",
+    "historyCleared": "历史记录已清空",
+    "searchPlaceholder": "搜索视频标题...",
+    "noResults": "未找到匹配项",
+    "noResultsTitle": "未找到匹配项",
+    "noResultsDesc": "试试搜索其他关键词吧",
+    "clearSearchBtn": "重置搜索",
+    "empty": "暂无历史记录",
+    "emptyTitle": "暂无历史记录",
+    "emptyDesc": "采集保存的媒体会出现在这里，方便随时回顾和管理。",
+    "goDownload": "去采集第一个视频",
+    "openFile": "播放",
+    "openFolder": "打开文件夹",
+    "copyLink": "复制链接",
+    "shareMobile": "分享到手机",
+    "showQRCode": "展示二维码",
+    "delete": "删除",
+    "fileDeleted": "文件已删除",
+    "deletedTag": "已删除",
+    "qrTip": "📱 用手机扫描二维码同步文件",
+    "close": "关闭",
+    "filter": {
+      "allPlatforms": "全部平台",
+      "other": "其他",
+      "allTime": "全部时间",
+      "today": "今天",
+      "week": "本周",
+      "month": "本月"
+    },
+    "batch": {
+      "selectAll": "全选",
+      "selected": "已选 {count} 个",
+      "delete": "批量删除",
+      "copy": "复制文件",
+      "confirmDelete": "确定删除选中的 {count} 个记录吗？",
+      "deleteSuccess": "已删除成功",
+      "noLocalFile": "选中的记录没有本地文件",
+      "copySuccess": "已复制 {count} 个文件，可直接粘贴到其他文件夹",
+      "copyFail": "复制失败"
+    },
+    "stats": {
+      "filtered": "显示 {filtered} / {total} 条记录",
+      "total": "共 {total} 条记录"
+    },
+    "qrProOnly": "展示二维码 / 手机分享为 Pro 功能，请升级后使用。",
+    "showQRCodePro": "展示二维码 · Pro"
+  }
+}

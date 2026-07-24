@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "tools": "工具",
+    "toggleSidebar": "侧边栏 (Ctrl+B)",
+    "download": "媒体采集",
+    "transcribe": "音视频转文字",
+    "compress": "图片压缩",
+    "enhance": "AI 画质增强",
+    "creator": "快捷视频工具",
+    "editor": "多轨时间线",
+    "subtitle": "字幕翻译",
+    "mobile": "手机/电脑互联",
+    "upgrade": "升级 Pro",
+    "history": "历史记录",
+    "settings": "设置",
+    "groupVideo": "视频工作流",
+    "groupAdvanced": "进阶",
+    "creatorHint": "一键处理",
+    "editorHint": "精修剪辑",
+    "experimental": "实验",
+    "groupAdvancedExpand": "展开进阶",
+    "groupAdvancedCollapse": "收起进阶",
+    "upgradeActive": "Pro 已激活",
+    "upgradeActiveHint": "查看授权",
+    "extension": "浏览器扩展"
+  }
+}

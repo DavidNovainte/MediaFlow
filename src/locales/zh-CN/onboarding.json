@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "欢迎使用 MediaFlow",
+    "welcomeBody": "社区版：离线采集、本地转写、图片压缩，直接上手。Pro 解锁批量、队列、剪辑、字幕、手机互联等高级能力。",
+    "downloadTitle": "完成第一次采集",
+    "downloadBody": "打开「媒体采集」→ 粘贴公开链接 → 解析 → 保存到本地。单链接不限次数；保存目录可在设置中修改。",
+    "clipboardTitle": "剪贴板链接检测（可选）",
+    "clipboardBody": "复制视频页链接时可提示快捷采集。默认关闭，需要再开；随时可在「设置」里开关。",
+    "clipboardEnableLabel": "开启剪贴板链接检测",
+    "enginesTitle": "安装核心引擎",
+    "enginesBody": "缺少组件：{{list}}。请打开 设置 → 核心引擎 修复，或重新安装应用。",
+    "doneTitle": "可以开始了",
+    "doneBody": "先完成一次单链接保存。需要批量、增强、字幕或手机互联时，再考虑升级 Pro。",
+    "next": "下一步",
+    "skip": "跳过",
+    "getStarted": "开始使用"
+  }
+}
