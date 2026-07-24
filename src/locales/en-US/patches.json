@@ -86,12 +86,16 @@
     "aiScriptMissing": "Cutout script is missing from this install.",
     "aiScriptMissingHint": "Reinstall the app or restore services/python/rembg_service.py.",
     "aiEngineMissing": "AI upscale engine or model files are missing.",
-    "aiEngineMissingHint": "Open Settings → Engines to download Real-ESRGAN / models under bin/.",
+    "aiEngineMissingHint": "Open Settings → Engines and Install Real-ESRGAN, or place realesrgan-ncnn-vulkan and models/ in the app bin folder.",
     "aiServiceMissing": "AI image service is not available in this build.",
     "aiServiceMissingHint": "Update the app, or use compress without AI options.",
     "aiGenericHint": "If this keeps failing, check Settings → Engines and Python / models.",
     "aiOpenSettingsHint": "Tip: open Settings → Engines to install or update AI tools.",
-    "emptySelectImage": "Add an image to start compressing or using AI tools."
+    "emptySelectImage": "Add an image to start compressing or using AI tools.",
+    "modelSwitched": "Model switched: {model}",
+    "qualityLossless": "Lossless",
+    "enterPresetName": "Please enter a name",
+    "aiEngineInstallHint": "Real-ESRGAN is missing. Open Settings → Engines and click Install next to Real-ESRGAN."
   },
   "mobile": {
     "startFail": "Failed to start service:",

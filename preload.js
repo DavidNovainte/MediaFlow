@@ -263,6 +263,8 @@ contextBridge.exposeInMainWorld('mediaflow', {
         getInfo: (filePath) => ipcRenderer.invoke('compress:getInfo', filePath),
         /** AI upscale used by PixelFlow preview/pipeline (Community-safe; no enhance page) */
         aiUpscale: (inputPath, options) => ipcRenderer.invoke('compress:aiUpscale', inputPath, options),
+        getAiEngineStatus: () => ipcRenderer.invoke('compress:getAiEngineStatus'),
+        downloadAiEngine: (engineId) => ipcRenderer.invoke('compress:downloadAiEngine', engineId),
         onProgress: (callback) => {
             const listener = (event, data) => callback(data);
             ipcRenderer.on('compress:progress', listener);
@@ -272,6 +274,11 @@ contextBridge.exposeInMainWorld('mediaflow', {
             const listener = (event, data) => callback(data);
             ipcRenderer.on('compress:aiUpscaleProgress', listener);
             return () => ipcRenderer.removeListener('compress:aiUpscaleProgress', listener);
+        },
+        onAiEngineDownloadProgress: (callback) => {
+            const listener = (event, data) => callback(data);
+            ipcRenderer.on('compress:aiEngineDownloadProgress', listener);
+            return () => ipcRenderer.removeListener('compress:aiEngineDownloadProgress', listener);
         }
     },
 

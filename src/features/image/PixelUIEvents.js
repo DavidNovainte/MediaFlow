@@ -95,7 +95,7 @@ class PixelUIEvents {
         if (qualitySlider && qualityValue) {
             let previewTimeout;
             qualitySlider.addEventListener('input', () => {
-                const losslessText = window.i18n?.t('enhance.qualityLossless') || 'Lossless';
+                const losslessText = window.i18n?.t('pixel.qualityLossless') || window.i18n?.t('enhance.qualityLossless') || 'Lossless';
                 qualityValue.textContent = qualitySlider.value === '100' ? losslessText : qualitySlider.value;
                 clearTimeout(previewTimeout);
                 previewTimeout = setTimeout(() => this.controller.preview(), 500);
@@ -156,8 +156,16 @@ class PixelUIEvents {
 
                 // 保存选中的模型
                 this.controller.selectedRembgModel = item.dataset.model;
-                const switchMsg = window.i18n?.t('enhance.modelSwitched', { model: item.textContent }) || `Model switched: ${item.textContent}`;
-                window.app?.showToast(switchMsg, 'info');
+                const modelName = (item.textContent || item.dataset.model || '').trim();
+                const switchMsg =
+                    window.i18n?.t('pixel.modelSwitched', { model: modelName }) ||
+                    window.i18n?.t('enhance.modelSwitched', { model: modelName }) ||
+                    `Model switched: ${modelName}`;
+                const safeMsg =
+                    !switchMsg || switchMsg === 'pixel.modelSwitched' || switchMsg === 'enhance.modelSwitched'
+                        ? `Model switched: ${modelName}`
+                        : switchMsg;
+                window.app?.showToast(safeMsg, 'info');
             });
         });
 
@@ -300,8 +308,8 @@ class PixelUIEvents {
                 document.getElementById('custom-presets-wrapper')?.classList.remove('hidden');
                 modal.classList.add('hidden');
             } else {
-                const warnMsg = window.i18n?.t('enhance.enterPresetName') || 'Please enter a name';
-                window.app?.showToast(warnMsg, 'warning');
+                const warnMsg = window.i18n?.t('pixel.enterPresetName') || window.i18n?.t('enhance.enterPresetName') || 'Please enter a name';
+                window.app?.showToast(warnMsg === 'pixel.enterPresetName' || warnMsg === 'enhance.enterPresetName' ? 'Please enter a name' : warnMsg, 'warning');
             }
         };
 

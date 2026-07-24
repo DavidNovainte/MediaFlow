@@ -91,7 +91,11 @@
     "aiServiceMissingHint": "Обновите приложение или сжимайте без ИИ.",
     "aiGenericHint": "При повторных сбоях проверьте Настройки → Движки.",
     "aiOpenSettingsHint": "Подсказка: Настройки → Движки для установки ИИ.",
-    "emptySelectImage": "Добавьте изображение для сжатия или ИИ."
+    "emptySelectImage": "Добавьте изображение для сжатия или ИИ.",
+    "modelSwitched": "Model switched: {model}",
+    "qualityLossless": "Lossless",
+    "enterPresetName": "Please enter a name",
+    "aiEngineInstallHint": "Real-ESRGAN is missing. Open Settings → Engines and click Install next to Real-ESRGAN."
   },
   "mobile": {
     "startFail": "Ошибка сервиса:",

@@ -320,6 +320,69 @@ const setupImageHandlers = (ipcMain) => {
     });
 
     /**
+     * AI upscale engine status for Settings (Real-ESRGAN / CUGAN / …).
+     * Shown under Settings → Engines so users can Install when missing.
+     */
+    ipcMain.handle('compress:getAiEngineStatus', async () => {
+        try {
+            const enhanceService = getEnhanceService();
+            if (!enhanceService) {
+                return {
+                    success: false,
+                    engines: {
+                        esrgan: {
+                            name: 'Real-ESRGAN',
+                            installed: false,
+                            version: 'N/A',
+                            updateMethod: 'internal',
+                            error: 'EnhanceService unavailable'
+                        }
+                    }
+                };
+            }
+            const engines = {};
+            for (const id of ['esrgan', 'cugan', 'gfpgan']) {
+                const opts = enhanceService.getEngineOptions?.(id) || {};
+                const installed = !!opts.isAvailable;
+                engines[id] = {
+                    name: opts.name || id,
+                    installed,
+                    version: installed ? 'local' : 'N/A',
+                    updateMethod: 'internal',
+                    path: opts.path || null
+                };
+            }
+            return { success: true, engines };
+        } catch (error) {
+            return { success: false, error: error?.message || String(error), engines: {} };
+        }
+    });
+
+    /**
+     * Download / install AI upscale engine into app bin/ (e.g. Real-ESRGAN zip).
+     */
+    ipcMain.handle('compress:downloadAiEngine', async (event, engineId = 'esrgan') => {
+        try {
+            const enhanceService = getEnhanceService();
+            if (!enhanceService) {
+                return { success: false, error: 'EnhanceService unavailable' };
+            }
+            const id = normalizeEnhanceEngineId(engineId);
+            const result = await enhanceService.downloadEngine(id, (percent) => {
+                if (event.sender && !event.sender.isDestroyed()) {
+                    event.sender.send('compress:aiEngineDownloadProgress', {
+                        engineId: id,
+                        progress: percent
+                    });
+                }
+            });
+            return result || { success: true };
+        } catch (error) {
+            return { success: false, error: error?.message || String(error) };
+        }
+    });
+
+    /**
      * 代理外部图片 (解决各种 CDN 的权限/CORS 问题)
      */
     ipcMain.handle('image:proxy', async (event, imageUrl) => {

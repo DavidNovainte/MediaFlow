@@ -53,7 +53,10 @@
                     "filter": [
                         "ffmpeg.exe",
                         "ffprobe.exe",
-                        "yt-dlp.exe"
+                        "yt-dlp.exe",
+                        "realesrgan-ncnn-vulkan.exe",
+                        "vcomp140.dll",
+                        "models/**"
                     ]
                 }
             ]
@@ -70,7 +73,9 @@
                     "filter": [
                         "ffmpeg",
                         "ffprobe",
-                        "yt-dlp"
+                        "yt-dlp",
+                        "realesrgan-ncnn-vulkan",
+                        "models/**"
                     ]
                 }
             ],

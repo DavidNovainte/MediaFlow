@@ -704,6 +704,15 @@ class SettingsFlow {
         
         try {
             const status = await window.mediaflow.engine.getDetailedStatus();
+            // Merge compress-toolbox AI engines (Real-ESRGAN etc.) so Install is visible
+            try {
+                const ai = await window.mediaflow?.compress?.getAiEngineStatus?.();
+                if (ai?.engines && typeof ai.engines === 'object') {
+                    Object.assign(status, ai.engines);
+                }
+            } catch (aiErr) {
+                console.warn('[Settings] getAiEngineStatus failed:', aiErr);
+            }
             this.renderEngineList(status);
 
             if (!this._lastEngineCheckTime || Date.now() - this._lastEngineCheckTime > 3600000) {
@@ -894,7 +903,23 @@ class SettingsFlow {
         }
 
         try {
-            const result = await window.mediaflow.engine.performUpdate(key);
+            const aiKeys = ['esrgan', 'realesrgan', 'cugan', 'gfpgan', 'real-esrgan'];
+            let result;
+            if (aiKeys.includes(String(key).toLowerCase()) && window.mediaflow?.compress?.downloadAiEngine) {
+                const unsub = window.mediaflow.compress.onAiEngineDownloadProgress?.((data) => {
+                    if (this.elements.engineLogContent && data?.progress != null) {
+                        this.elements.engineLogContent.textContent +=
+                            `[${key}] ${Math.round(data.progress)}%\n`;
+                    }
+                });
+                try {
+                    result = await window.mediaflow.compress.downloadAiEngine(key);
+                } finally {
+                    if (typeof unsub === 'function') unsub();
+                }
+            } else {
+                result = await window.mediaflow.engine.performUpdate(key);
+            }
             if (result.success) {
                 if (!silent) {
                     window.mediaflow.notification.show({

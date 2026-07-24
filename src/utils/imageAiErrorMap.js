@@ -86,14 +86,18 @@
             );
         }
 
-        if (/engine|realesrgan|real-esrgan|ncnn|not found|missing model|EnhanceService unavailable/i.test(raw) ||
-            hay.includes('engine_missing')) {
+        if (
+            /engine binary missing|EnhanceService unavailable|missing model|realesrgan-ncnn-vulkan|ENGINE_MISSING/i.test(
+                raw
+            ) ||
+            hay.includes('engine_missing')
+        ) {
             return pack(
                 'ENGINE_MISSING',
                 'pixel.aiEngineMissing',
                 'AI upscale engine or model files are missing.',
                 'pixel.aiEngineMissingHint',
-                'Open Settings → Engines and download/update Real-ESRGAN (or place models under bin/).',
+                'Open Settings → Engines and click Install next to Real-ESRGAN (or place binaries in bin/).',
                 true
             );
         }

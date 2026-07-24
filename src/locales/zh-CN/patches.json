@@ -86,12 +86,16 @@
     "aiScriptMissing": "抠图脚本缺失。",
     "aiScriptMissingHint": "请重新安装应用，或恢复 services/python/rembg_service.py。",
     "aiEngineMissing": "AI 超分引擎或模型文件缺失。",
-    "aiEngineMissingHint": "打开「设置 → 引擎」下载 Real-ESRGAN，或将模型放到 bin/。",
+    "aiEngineMissingHint": "打开「设置 → 引擎」，在 Real-ESRGAN 旁点击「安装」，或把 realesrgan-ncnn-vulkan.exe 与 models/ 放到应用 bin 目录。",
     "aiServiceMissing": "当前版本未提供 AI 图像服务。",
     "aiServiceMissingHint": "请更新应用，或关闭 AI 选项后仅使用普通压缩。",
     "aiGenericHint": "若持续失败，请检查「设置 → 引擎」以及 Python / 模型是否就绪。",
     "aiOpenSettingsHint": "提示：可到「设置 → 引擎」安装或更新 AI 组件。",
-    "emptySelectImage": "请先添加图片，再进行压缩或 AI 处理。"
+    "emptySelectImage": "请先添加图片，再进行压缩或 AI 处理。",
+    "modelSwitched": "已切换模型：{model}",
+    "qualityLossless": "无损",
+    "enterPresetName": "请输入名称",
+    "aiEngineInstallHint": "缺少 Real-ESRGAN。请打开「设置 → 引擎」，在 Real-ESRGAN 旁点「安装」。"
   },
   "mobile": {
     "startFail": "启动服务失败:",

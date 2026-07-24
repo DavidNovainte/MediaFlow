@@ -91,7 +91,11 @@
     "aiServiceMissingHint": "Update the app, or use compress without AI options.",
     "aiGenericHint": "If this keeps failing, check Settings → Engines and Python / models.",
     "aiOpenSettingsHint": "Tip: open Settings → Engines to install or update AI tools.",
-    "emptySelectImage": "画像を追加してから圧縮や AI を使ってください。"
+    "emptySelectImage": "画像を追加してから圧縮や AI を使ってください。",
+    "modelSwitched": "Model switched: {model}",
+    "qualityLossless": "Lossless",
+    "enterPresetName": "Please enter a name",
+    "aiEngineInstallHint": "Real-ESRGAN is missing. Open Settings → Engines and click Install next to Real-ESRGAN."
   },
   "mobile": {
     "startFail": "サービス開始失敗:",

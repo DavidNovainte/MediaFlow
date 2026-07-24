@@ -91,7 +91,11 @@
     "aiServiceMissingHint": "請更新應用，或關閉 AI 選項後僅使用一般壓縮。",
     "aiGenericHint": "若持續失敗，請檢查「設定 → 引擎」以及 Python / 模型是否就緒。",
     "aiOpenSettingsHint": "提示：可到「設定 → 引擎」安裝或更新 AI 元件。",
-    "emptySelectImage": "請先加入圖片，再進行壓縮或 AI 處理。"
+    "emptySelectImage": "請先加入圖片，再進行壓縮或 AI 處理。",
+    "modelSwitched": "已切換模型：{model}",
+    "qualityLossless": "無損",
+    "enterPresetName": "請輸入名稱",
+    "aiEngineInstallHint": "缺少 Real-ESRGAN。請開啟「設定 → 引擎」，在 Real-ESRGAN 旁點「安裝」。"
   },
   "mobile": {
     "startFail": "啟動服務失敗:",
