@@ -1,5 +1,7 @@
-# Build unsigned Windows + macOS installers (manual or on version tags).
-# Each OS runner downloads its own native binaries (never mix .exe into Mac).
+# Build unsigned Windows + macOS installers.
+# - Manual: Actions → Build Desktop → Run workflow
+# - Auto: push tag v*  OR  publish a GitHub Release
+# Artifacts always upload; if a Release exists for the tag, files are attached there too.
 name: Build Desktop
 
 on:
@@ -7,6 +9,11 @@ on:
   push:
     tags:
       - 'v*'
+  release:
+    types: [published]
+
+permissions:
+  contents: write
 
 env:
   CSC_IDENTITY_AUTO_DISCOVERY: 'false'
@@ -43,33 +50,16 @@ jobs:
           Copy-Item "$($ffdir.FullName)/bin/ffmpeg.exe" bin/ffmpeg.exe
           Copy-Item "$($ffdir.FullName)/bin/ffprobe.exe" bin/ffprobe.exe
 
-          # Official Real-ESRGAN ncnn Windows build (includes models)
           $esr = "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-windows.zip"
           Invoke-WebRequest -Uri $esr -OutFile esrgan.zip
           Expand-Archive -Path esrgan.zip -DestinationPath esrgan-tmp -Force
-          $esdir = Get-ChildItem -Path esrgan-tmp -Directory -Recurse -ErrorAction SilentlyContinue | Where-Object { Test-Path (Join-Path $_.FullName 'realesrgan-ncnn-vulkan.exe') } | Select-Object -First 1
-          if (-not $esdir) {
-            $esdir = Get-ChildItem -Path esrgan-tmp -Directory | Select-Object -First 1
-          }
-          if (Test-Path "$($esdir.FullName)/realesrgan-ncnn-vulkan.exe") {
-            Copy-Item "$($esdir.FullName)/realesrgan-ncnn-vulkan.exe" bin/realesrgan-ncnn-vulkan.exe
-          } else {
-            Get-ChildItem -Path esrgan-tmp -Recurse -Filter "realesrgan-ncnn-vulkan.exe" | Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName bin/realesrgan-ncnn-vulkan.exe }
-          }
-          if (Test-Path "$($esdir.FullName)/models") {
+          Get-ChildItem -Path esrgan-tmp -Recurse -Filter "realesrgan-ncnn-vulkan.exe" | Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName bin/realesrgan-ncnn-vulkan.exe }
+          $m = Get-ChildItem -Path esrgan-tmp -Recurse -Directory -Filter models | Select-Object -First 1
+          if ($m) {
             New-Item -ItemType Directory -Force -Path bin/models | Out-Null
-            Copy-Item "$($esdir.FullName)/models/*" bin/models/ -Recurse -Force
-          } else {
-            $m = Get-ChildItem -Path esrgan-tmp -Recurse -Directory -Filter models | Select-Object -First 1
-            if ($m) {
-              New-Item -ItemType Directory -Force -Path bin/models | Out-Null
-              Copy-Item "$($m.FullName)/*" bin/models/ -Recurse -Force
-            }
+            Copy-Item "$($m.FullName)/*" bin/models/ -Recurse -Force
           }
-          # MSVC runtime sometimes needed by ncnn builds
           Get-ChildItem -Path esrgan-tmp -Recurse -Filter "vcomp140.dll" | Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName bin/vcomp140.dll -Force }
-
-          Write-Host "=== bin ==="
           Get-ChildItem bin -Recurse | Select-Object FullName
 
       - name: Build Windows installer
@@ -107,25 +97,21 @@ jobs:
       - name: Fetch macOS binaries (yt-dlp + ffmpeg + Real-ESRGAN)
         run: |
           set -euo pipefail
-          mkdir -p bin models_tmp
+          mkdir -p bin
 
-          # yt-dlp (universal / macos binary)
           curl -L "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos" -o bin/yt-dlp
           chmod +x bin/yt-dlp
 
-          # ffmpeg from Homebrew (native for runner arch)
           brew install ffmpeg
           cp "$(brew --prefix)/bin/ffmpeg" bin/ffmpeg
           cp "$(brew --prefix)/bin/ffprobe" bin/ffprobe
           chmod +x bin/ffmpeg bin/ffprobe
 
-          # Official Real-ESRGAN ncnn macOS build (includes models)
-          # https://github.com/xinntao/Real-ESRGAN/releases
+          # macOS ncnn build — NOT the Windows .exe zip
           ESR_URL="https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/realesrgan-ncnn-vulkan-20220424-macos.zip"
           curl -L "$ESR_URL" -o esrgan-macos.zip
           unzip -q esrgan-macos.zip -d esrgan-tmp
 
-          # Locate binary (layout varies by release zip)
           ESR_BIN="$(find esrgan-tmp -type f -name 'realesrgan-ncnn-vulkan' | head -n 1)"
           if [ -z "$ESR_BIN" ]; then
             echo "Real-ESRGAN macOS binary not found in zip" >&2
@@ -135,7 +121,6 @@ jobs:
           cp "$ESR_BIN" bin/realesrgan-ncnn-vulkan
           chmod +x bin/realesrgan-ncnn-vulkan
 
-          # Models next to binary or under models/
           ESR_DIR="$(dirname "$ESR_BIN")"
           mkdir -p bin/models
           if [ -d "$ESR_DIR/models" ]; then
@@ -146,15 +131,11 @@ jobs:
               cp -R "$MODELS_DIR/." bin/models/
             fi
           fi
-
-          # Also copy any loose model files beside the binary
           for f in "$ESR_DIR"/*.bin "$ESR_DIR"/*.param; do
             [ -f "$f" ] && cp "$f" bin/models/ || true
           done
 
-          echo "=== bin ==="
           ls -la bin
-          echo "=== models ==="
           ls -la bin/models | head -n 30
           file bin/realesrgan-ncnn-vulkan bin/yt-dlp bin/ffmpeg || true
 
@@ -174,3 +155,36 @@ jobs:
             dist/*.yml
             dist/*.blockmap
           if-no-files-found: error
+
+  # Attach both OS builds to the GitHub Release (tag vX.Y.Z)
+  publish-release:
+    name: Attach to GitHub Release
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
+    steps:
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: mediaflow-community-windows
+          path: out/windows
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: mediaflow-community-macos
+          path: out/macos
+
+      - name: List files
+        run: find out -type f | sort
+
+      - name: Upload assets to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
+          files: |
+            out/windows/*
+            out/macos/*
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
