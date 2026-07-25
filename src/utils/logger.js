@@ -28,7 +28,7 @@ function loadTelemetryConfig() {
                 return { url: local.url, token: local.token, source: 'local' };
             }
         }
-    } catch (error) {
+    } catch {
         // ignore missing / invalid local telemetry config
     }
 

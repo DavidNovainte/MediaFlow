@@ -70,25 +70,25 @@ const setupImageHandlers = (ipcMain) => {
                 if (!enhanceService) {
                     console.warn('[ImageHandler] AI upscale requested but EnhanceService is not available; using original image.');
                 } else {
-                // 通知前端开始 AI 处理
-                event.sender.send('compress:progress-stage', { stage: 'enhancing', inputPath });
+                    // 通知前端开始 AI 处理
+                    event.sender.send('compress:progress-stage', { stage: 'enhancing', inputPath });
 
-                const enhanceResult = await enhanceService.enhanceImage(
-                    inputPath,
-                    null, // 使用临时路径
-                    buildUpscaleOptions(options),
-                    (progress) => {
-                        // AI 增强进度
-                        console.log(`[ImageHandler] Enhancing: ${progress}%`);
+                    const enhanceResult = await enhanceService.enhanceImage(
+                        inputPath,
+                        null, // 使用临时路径
+                        buildUpscaleOptions(options),
+                        (progress) => {
+                            // AI 增强进度
+                            console.log(`[ImageHandler] Enhancing: ${progress}%`);
+                        }
+                    );
+
+                    if (enhanceResult.success) {
+                        processInputPath = enhanceResult.outputPath;
+                        tempEnhancedPath = enhanceResult.outputPath;
+                    } else {
+                        console.error('[ImageHandler] AI Enhance failed, falling back to original:', enhanceResult.error);
                     }
-                );
-
-                if (enhanceResult.success) {
-                    processInputPath = enhanceResult.outputPath;
-                    tempEnhancedPath = enhanceResult.outputPath;
-                } else {
-                    console.error('[ImageHandler] AI Enhance failed, falling back to original:', enhanceResult.error);
-                }
                 }
             } catch (error) {
                 console.error('[ImageHandler] AI Enhance exception:', error);
@@ -190,11 +190,15 @@ const setupImageHandlers = (ipcMain) => {
                 res.file = require('path').basename(inputPath);
                 if (res.success) {
                     // Prefer sizes from compress(); fall back to disk stats
-                    if (res.inputSize == null && fs.existsSync(inputPath)) {
-                        res.inputSize = fs.statSync(inputPath).size;
+                    if (res.inputSize === undefined || res.inputSize === null) {
+                        if (fs.existsSync(inputPath)) {
+                            res.inputSize = fs.statSync(inputPath).size;
+                        }
                     }
-                    if (res.outputSize == null && fs.existsSync(outputPath)) {
-                        res.outputSize = fs.statSync(outputPath).size;
+                    if (res.outputSize === undefined || res.outputSize === null) {
+                        if (fs.existsSync(outputPath)) {
+                            res.outputSize = fs.statSync(outputPath).size;
+                        }
                     }
                 }
 

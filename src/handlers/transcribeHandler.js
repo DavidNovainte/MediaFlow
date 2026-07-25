@@ -141,7 +141,9 @@ const setupTranscribeHandlers = (ipcMain) => {
         return await transcribeService.downloadSherpaModels((progress) => {
             try {
                 event.sender.send('transcribe:sherpaModelProgress', progress);
-            } catch (_) { /* window may be gone */ }
+            } catch {
+                /* window may be gone */
+            }
         });
     });
 

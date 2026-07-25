@@ -114,9 +114,7 @@ class Router {
         if (page === 'compress') {
             const paths = Array.isArray(params.imagePaths)
                 ? params.imagePaths.filter(Boolean)
-                : params.imagePath
-                  ? [params.imagePath]
-                  : [];
+                : (params.imagePath ? [params.imagePath] : []);
             if (paths.length) {
                 setTimeout(async () => {
                     try {
