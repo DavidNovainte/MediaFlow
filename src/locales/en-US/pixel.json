@@ -1,0 +1,9 @@
+{
+  "pixel": {
+    "skipNonImages": "Skipped {count} non-image file(s). Use AI Enhance for short videos.",
+    "unsupportedPreview": "Cannot preview this file as an image",
+    "aiEnhancingPercent": "AI enhancing... {percent}%",
+    "confirmDeletePreset": "Delete preset \"{name}\"? This cannot be undone.",
+    "aiEnhancing": "AI enhancing..."
+  }
+}

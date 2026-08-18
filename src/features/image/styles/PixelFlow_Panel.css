@@ -1,0 +1,827 @@
+/* =========================================
+   PixelFlow Premium Panel Styles
+   Design: Material Glass & Dynamic Breath
+   ========================================= */
+
+/* ----------------------------------
+   1. Global Panel Basics
+   ---------------------------------- */
+.pixelflow-settings-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scrollable inspector body — extra bottom pad clears fixed footer */
+.pixelflow-settings-panel .settings-scroll-content,
+.settings-scroll-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    padding-right: 4px;
+    padding-bottom: 24px;
+    overscroll-behavior: contain;
+}
+
+#page-compress .pixelflow-settings-panel > .category-tabs {
+    flex-shrink: 0;
+}
+
+.settings-scroll-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.settings-scroll-content::-webkit-scrollbar-thumb {
+    background: var(--fill-hover);
+    border-radius: 4px;
+}
+
+.settings-scroll-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ----------------------------------
+   2. Category Tabs — mono segmented control
+   ---------------------------------- */
+#page-compress .category-tabs,
+.pixelflow-settings-panel .category-tabs {
+    position: relative;
+    display: flex;
+    padding: 4px;
+    gap: 2px;
+    z-index: 50;
+    margin: 0 0 12px;
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+}
+
+#page-compress .category-tab,
+.pixelflow-settings-panel .category-tab {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+    opacity: 1;
+    z-index: 2;
+}
+
+#page-compress .category-tab.active,
+.pixelflow-settings-panel .category-tab.active {
+    color: #18181b;
+    background: #fafafa;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+#page-compress .category-tab:hover:not(.active),
+.pixelflow-settings-panel .category-tab:hover:not(.active) {
+    color: var(--text-primary);
+    background: var(--fill-hover);
+}
+
+#page-compress .category-tab.active::before,
+#page-compress .category-tab.active::after,
+.pixelflow-settings-panel .category-tab.active::before,
+.pixelflow-settings-panel .category-tab.active::after {
+    display: none;
+}
+
+html[data-theme="light"] #page-compress .category-tab.active,
+html[data-theme="light"] .pixelflow-settings-panel .category-tab.active {
+    color: #fafafa;
+    background: #18181b;
+    box-shadow: none;
+}
+
+.tab-icon {
+    display: none;
+}
+
+/* ----------------------------------
+   3. Glass Cards Sections
+   ---------------------------------- */
+.pixelflow-settings-panel .settings-section {
+    position: relative;
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 24px;
+    animation: contentFadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The Glass Card Container */
+.settings-group {
+    background: var(--fill-subtle);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--fill-muted);
+    border-radius: 16px;
+    padding: 16px;
+    padding-top: 40px;
+    /* Make room for the internal label */
+    position: relative;
+    box-shadow: inset 0 1px 0 var(--fill-muted),
+        0 4px 24px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 16px;
+    /* Ensure spacing between cards */
+}
+
+.settings-group:hover {
+    border-color: rgba(77, 130, 201, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Minimalist Group Title - Moved INSIDE the card */
+.group-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 16px;
+    background: var(--fill-subtle);
+    /* Slightly lighter header */
+    border-bottom: 1px solid var(--fill-muted);
+    border-radius: 12px 12px 0 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    /* display: flex; align-items: center; */
+}
+
+/* ----------------------------------
+   4. Refined Parameters Layout
+   ---------------------------------- */
+.param-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Equal columns grid */
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.param-row:last-child {
+    margin-bottom: 0;
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.option-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.option-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ----------------------------------
+   5. Form Controls (Inputs, Selects)
+   ---------------------------------- */
+.setting-input,
+.setting-select,
+.inline-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--fill-hover);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+    padding: 8px 14px;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    /* Ensure full width */
+    box-sizing: border-box;
+    /* Fix padding issues */
+}
+
+.setting-input:focus,
+.setting-select:focus,
+.inline-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: var(--overlay-scrim);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(77, 130, 201, 0.2);
+}
+
+/* Color Picker Customization */
+.color-picker-wrapper {
+    position: relative;
+    height: 36px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--fill-hover);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+    /* Hide default input UI but keep clickable */
+}
+
+/* 显示当前颜色的色块（需要 JS 动态设置背景色，或者让 Input 本身只显示颜色区域）
+   由于 input type=color 在不同浏览器表现不一，我们这里使用一个小技巧：
+   在 wrapper 上显示颜色，或者用一个 span 来显示。
+   简单方案：让 wrapper 背景色透明，依靠 input 自身的颜色（如果 input 支持），
+   但 input 通常有边框。
+   
+   Better approach: Use a pseudo-element or separate div for the color preview if JS updates it,
+   BUT, input[type=color] standard behavior allows us to see the color.
+   Let's try to style the wrapper to show the color or use the input as the background.
+*/
+
+/* 修复：直接让 input 充当点击触发器，背景色由 JS 绑定到 wrapper 还是直接显示？
+   Current implementation relies on native rendering which is ugly.
+   User provided screenshot shows white box.
+*/
+.color-picker-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: 36px;
+    border-radius: 6px;
+    background-color: var(--current-color, #fff);
+    /* CSS variable updated by JS */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+/* We need to update this CSS variable in JS or use style attribute on wrapper */
+
+#watermark-color-hex {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: monospace;
+    font-size: 11px;
+    color: #fff;
+    text-shadow: 0 1px 2px var(--overlay-scrim);
+    pointer-events: none;
+}
+
+/* ----------------------------------
+   6. Premium Sliders
+   ---------------------------------- */
+.quality-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--fill-hover);
+    border-radius: 2px;
+    margin: 12px 0 6px 0;
+    position: relative;
+}
+
+.quality-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 0 4px var(--fill-hover), 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s, box-shadow 0.2s;
+    margin-top: -6px;
+    /* Center it */
+}
+
+/* Spacing Helpers */
+.settings-group>.option-group,
+.settings-group>.param-row {
+    margin-bottom: 12px;
+}
+
+.settings-group>.option-group:last-child,
+.settings-group>.param-row:last-child {
+    margin-bottom: 0;
+}
+
+.quality-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px rgba(77, 130, 201, 0.25), 0 6px 12px rgba(0, 0, 0, 0.4);
+    background: var(--accent-primary);
+}
+
+.quality-slider::-webkit-slider-runnable-track {
+    background: var(--accent-primary);
+    /* Solid color instead of gradient for sharpness */
+    height: 4px;
+    border-radius: 2px;
+}
+
+/* ----------------------------------
+   7. Position Matrix (The Dot Grid)
+   ---------------------------------- */
+/* Position Grid styles moved to PixelFlow_Watermark.css */
+
+/* ----------------------------------
+   11. Advanced Settings Preview (Rename)
+   ---------------------------------- */
+.rename-preview {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    border: 1px solid var(--fill-muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.preview-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.preview-text {
+    font-size: 13px;
+    color: var(--accent-light);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    word-break: break-all;
+    opacity: 0.9;
+}
+
+/* Scrollbar adjustment for the whole panel to ensure it looks premium */
+.pixelflow-settings-panel ::-webkit-scrollbar {
+    width: 4px;
+}
+
+.pixelflow-settings-panel ::-webkit-scrollbar-thumb {
+    background: var(--fill-hover);
+    border-radius: 10px;
+}
+
+.pixelflow-settings-panel ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* ----------------------------------
+   8. Toggles & Checkboxes
+   ---------------------------------- */
+.toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--fill-muted);
+    background: transparent !important;
+    gap: 12px;
+}
+
+.toggle-row:last-child {
+    border-bottom: none;
+}
+
+/* Concurrency row: label+hint left, select right (aligned with toggles) */
+.compress-concurrency-row .toggle-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.compress-concurrency-row .toggle-hint {
+    display: block;
+    line-height: 1.35;
+}
+
+.compress-concurrency-select,
+#compress-concurrency.compress-concurrency-select {
+    flex: 0 0 auto;
+    width: 108px;
+    min-width: 108px;
+    max-width: 108px;
+    height: 32px;
+    margin: 0;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    box-sizing: border-box;
+    align-self: center;
+}
+
+.toggle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toggle-label {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.toggle-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Custom Switch */
+.toggle-switch {
+    width: 40px;
+    height: 22px;
+}
+
+.toggle-slider {
+    background-color: var(--fill-hover);
+    border-radius: 20px;
+}
+
+.toggle-slider:before {
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked+.toggle-slider {
+    background-color: #fafafa;
+}
+
+html[data-theme="light"] input:checked+.toggle-slider {
+    background-color: #18181b;
+}
+
+input:checked+.toggle-slider:before {
+    transform: translateX(18px);
+    background-color: #18181b;
+}
+
+html[data-theme="light"] input:checked+.toggle-slider:before {
+    background-color: #fafafa;
+}
+
+/* ----------------------------------
+   9. Pro Feature Styling
+   ---------------------------------- */
+.pro-badge {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #333;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    box-shadow: 0 2px 6px rgba(255, 165, 0, 0.3);
+    vertical-align: middle;
+}
+
+/* ----------------------------------
+   10. Rename Section & Output Bar
+   ---------------------------------- */
+.output-dir-bar {
+    background: var(--fill-subtle);
+    border: 1px dashed var(--fill-hover);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.output-dir-bar:hover {
+    border-color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.05);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Keyframes */
+@keyframes contentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================= 
+   11. Preset Buttons — flat mono chips
+   ========================================= */
+#page-compress .preset-group,
+.preset-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+#page-compress .preset-btn,
+.preset-btn {
+    position: relative;
+    height: 34px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0 12px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+    color: var(--text-secondary);
+    overflow: hidden;
+    box-shadow: none;
+    transform: none;
+}
+
+#page-compress .preset-btn:hover,
+.preset-btn:hover {
+    background: var(--fill-muted);
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+    transform: none;
+}
+
+#page-compress .preset-btn.active,
+.preset-btn.active {
+    background: #fafafa;
+    color: #18181b;
+    border-color: #fafafa;
+    box-shadow: none;
+}
+
+html[data-theme="light"] #page-compress .preset-btn.active,
+html[data-theme="light"] .preset-btn.active {
+    background: #18181b;
+    color: #fafafa;
+    border-color: #18181b;
+}
+
+.preset-icon {
+    display: none;
+}
+
+.preset-label {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Save preset — secondary outline, not blue dashed CTA */
+#page-compress #btn-save-preset,
+#btn-save-preset {
+    grid-column: span 2;
+    justify-content: center;
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    margin-top: 2px;
+    height: 32px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+}
+
+#page-compress #btn-save-preset:hover,
+#btn-save-preset:hover {
+    background: var(--fill-muted);
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+}
+
+/* Custom Presets Area Optimization */
+#custom-presets-wrapper {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--fill-muted);
+}
+
+.preset-dropdown-group {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preset-select-wrapper {
+    flex: 1;
+}
+
+.custom-select-trigger {
+    height: 38px !important;
+    border-radius: 19px !important;
+    background: var(--fill-subtle) !important;
+    border: 1px solid var(--fill-hover) !important;
+    padding: 0 16px !important;
+}
+
+.custom-select-trigger:hover {
+    background: var(--fill-muted) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-cancel-preset {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    background: var(--fill-subtle) !important;
+    border: 1px solid var(--fill-hover) !important;
+    color: var(--text-muted) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-cancel-preset:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+    color: #fca5a5 !important;
+}
+
+
+/* ========================================= 
+   Rename Section (Checkbox Options)
+   ========================================= */
+/* Rename Section Label */
+.rename-group .group-label {
+    color: var(--accent-light);
+}
+
+.rename-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toggle-row.compact {
+    padding: 6px 0;
+    border: none;
+    min-height: 32px;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Target Size Input Row */
+.target-size-input {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    padding: 12px 0;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.target-size-input .setting-input {
+    flex: 1;
+    max-width: 120px;
+    margin-bottom: 0;
+}
+
+.target-size-input .setting-select {
+    width: 80px;
+    margin-bottom: 0;
+}
+
+.toggle-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Fix inline input alignment */
+.inline-input {
+    width: 120px;
+    height: 28px;
+    padding: 0 8px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--fill-hover);
+    border-radius: 6px;
+    color: var(--text-primary);
+    margin: 0;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================= 
+   12. Checkboxes & Radio Customization
+   ========================================= */
+.checkbox-row,
+.checkbox-row-grid {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.checkbox-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--fill-muted);
+}
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.checkbox-option:hover {
+    color: var(--text-primary);
+}
+
+.checkbox-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.checkbox-option input[type="checkbox"]:checked {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.checkbox-option input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}

@@ -1,0 +1,244 @@
+/* Queue Layout - 横向滚动布局
+ * Single source of truth for tile size: thumbs / + / clear must match exactly.
+ */
+#image-queue,
+#image-queue.image-queue-horizontal,
+.image-queue-horizontal#image-queue {
+    --queue-tile-size: 72px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center; /* vertical center: prevents short tiles sitting mid-row oddly */
+    gap: 10px;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-height: calc(var(--queue-tile-size) + 20px);
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+#image-queue .queue-item,
+#image-queue .queue-action-btn,
+#image-queue .queue-action-btn.queue-add-tile,
+#image-queue .queue-action-btn.queue-clear-tile {
+    position: relative;
+    flex: 0 0 var(--queue-tile-size);
+    flex-shrink: 0;
+    width: var(--queue-tile-size) !important;
+    height: var(--queue-tile-size) !important;
+    min-width: var(--queue-tile-size) !important;
+    min-height: var(--queue-tile-size) !important;
+    max-width: var(--queue-tile-size) !important;
+    max-height: var(--queue-tile-size) !important;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box !important; /* border inside 72px — equal outer height */
+    margin: 0 !important;
+    padding: 0 !important;
+    align-self: center;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.15s ease;
+}
+
+#image-queue .queue-item:not(.queue-action-btn) {
+    border: 2px solid transparent;
+}
+
+.queue-thumb {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg-tertiary, var(--bg-card));
+    box-sizing: border-box;
+}
+
+.queue-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.compare-img[src=""],
+.compare-img:not([src]) {
+    opacity: 0;
+}
+
+/* Selection: color only — never change border width (keeps height equal to + / trash) */
+#image-queue .queue-item:has(.queue-thumb.active),
+#image-queue .queue-item.active {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #fafafa;
+    box-shadow: none;
+}
+
+html[data-theme="light"] #image-queue .queue-item:has(.queue-thumb.active),
+html[data-theme="light"] #image-queue .queue-item.active {
+    border-color: #18181b;
+}
+
+/* fallback if :has unsupported */
+.queue-thumb.active {
+    outline: none;
+}
+
+/* Remove Button */
+.queue-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--overlay-scrim);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+
+.queue-item:hover .queue-remove {
+    opacity: 1;
+}
+
+.queue-remove:hover {
+    background: rgba(239, 68, 68, 0.9);
+}
+
+/* Actions wrapper: keep as flex row sibling (not contents) so align-items works */
+.queue-actions-wrapper {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 10px;
+}
+
+/*
+ * Icon-only dashed tiles (+ / trash) — same outer size as thumbs.
+ * No label text; no inner fill “chip” (transparent until hover).
+ */
+.queue-action-btn.queue-add-tile,
+.queue-action-btn.queue-clear-tile {
+    width: var(--queue-tile-size, 72px) !important;
+    height: var(--queue-tile-size, 72px) !important;
+    min-width: var(--queue-tile-size, 72px) !important;
+    min-height: var(--queue-tile-size, 72px) !important;
+    max-width: var(--queue-tile-size, 72px) !important;
+    max-height: var(--queue-tile-size, 72px) !important;
+    flex-shrink: 0;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--border-color, rgba(255, 255, 255, 0.22)) !important;
+    background: transparent !important; /* kill nested dark square */
+    transition: background var(--ws-transition, 0.12s ease),
+        border-color var(--ws-transition, 0.12s ease),
+        color var(--ws-transition, 0.12s ease);
+    border-radius: 8px;
+    box-sizing: border-box !important;
+    cursor: pointer;
+    color: var(--text-muted, #a1a1aa);
+    margin: 0;
+    padding: 0 !important;
+    overflow: hidden;
+    box-shadow: none !important;
+    transform: none;
+}
+
+.queue-action-btn.queue-add-tile:hover,
+.queue-action-btn.queue-clear-tile:hover {
+    background: var(--fill-hover, rgba(255, 255, 255, 0.06)) !important;
+    border-color: var(--text-muted, #a1a1aa) !important;
+    color: var(--text-primary, #fafafa);
+}
+
+.queue-action-btn.queue-clear-tile:hover {
+    background: rgba(239, 68, 68, 0.08) !important;
+    border-color: rgba(239, 68, 68, 0.45) !important;
+    color: #fca5a5;
+}
+
+/* Override .queue-item fill that drew the inner dark rounded rect */
+#image-queue .queue-item.queue-action-btn {
+    background: transparent !important;
+}
+
+.queue-action-btn .queue-btn-icon,
+.queue-action-btn .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    pointer-events: none;
+    line-height: 0;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.queue-btn-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    display: block;
+}
+
+/* Labels removed — keep rule inert if old markup remains */
+.queue-action-btn .btn-text {
+    display: none !important;
+}
+
+/* legacy helpers */
+.queue-action-btn {
+    box-sizing: border-box;
+}
+
+.btn-text {
+    font-size: var(--ws-font-meta, 11px);
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+}
+
+/* Drag & Drop Feedback */
+.queue-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.queue-item.drag-over-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -6px;
+    width: 2px;
+    background: #4d82c9;
+    z-index: 10;
+}
+
+.queue-item.drag-over-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -6px;
+    width: 2px;
+    background: #4d82c9;
+    z-index: 10;
+}

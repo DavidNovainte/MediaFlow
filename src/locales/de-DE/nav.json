@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "tools": "Werkzeuge",
+    "toggleSidebar": "Seitenleiste (Strg+B)",
+    "download": "Medien-Download",
+    "transcribe": "Audio transkribieren",
+    "compress": "Bildwerkzeuge",
+    "enhance": "KI Bildverbesserung",
+    "creator": "Schnelle Videotools",
+    "editor": "Timeline-Editor",
+    "subtitle": "Untertitel-Übersetzung",
+    "mobile": "Mobile Kopplung",
+    "history": "Verlauf",
+    "settings": "Einstellungen",
+    "groupVideo": "Video-Workflow",
+    "groupAdvanced": "Erweitert",
+    "creatorHint": "One-Shot",
+    "editorHint": "Multi-Track",
+    "experimental": "Labor",
+    "groupAdvancedExpand": "Erweitert anzeigen",
+    "groupAdvancedCollapse": "Erweitert ausblenden",
+    "extension": "Browser-Erweiterung",
+    "donation": "Support"
+  }
+}

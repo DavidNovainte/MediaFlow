@@ -1,0 +1,433 @@
+/* 
+   MediaFlow Subtitle Pro - Main Entry
+   This file imports modular parts and defines page-level layout.
+*/
+
+@import "subtitle_parts/editor.css";
+@import "subtitle_parts/video.css";
+@import "subtitle_parts/settings.css";
+@import "subtitle_parts/layout.css";
+@import "subtitle_parts/injector.css";
+
+/* Global Page Layout Override */
+#page-subtitle {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    background: transparent;
+    /* 允许看到底层背景 */
+}
+
+#page-subtitle .page-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    /* 紧凑边距 */
+    gap: 12px;
+}
+
+/* Header */
+#page-subtitle .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+#page-subtitle .page-title {
+    font-size: var(--ws-font-title, 15px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+}
+
+#page-subtitle .header-center {
+    flex: 1;
+    justify-content: center;
+    padding: 0 40px;
+    margin-top: -4px;
+    /* Slight optical adjustment */
+}
+
+/* ====================
+   Dropdown Header
+   ==================== */
+#page-subtitle .header-dropdown-pro {
+    position: relative;
+    display: inline-block;
+}
+
+#page-subtitle .dropdown-content-pro {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    box-shadow: var(--shadow-lg);
+    z-index: 99999;
+    /* Force it to overlay everything below */
+    min-width: 280px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    pointer-events: auto;
+    /* Ensure it is clickable */
+}
+
+#page-subtitle .dropdown-content-pro.show {
+    display: block;
+    animation: fadeInSlideUp 0.15s ease-out forwards;
+}
+
+/* Main Grid Layout - Refactored to layout.css */
+/* Removed Flex rules that were overriding the Grid expansion logic */
+
+/* Resizers - Specifics in component files */
+#page-subtitle .layout-resizer {
+    background: transparent;
+    transition: background 0.2s;
+}
+
+#page-subtitle .layout-resizer:hover {
+    background: var(--accent-glow);
+}
+
+/* ==================
+   Removed Action Bar
+   ================== */
+
+/* Main layout stretch */
+#page-subtitle .subtitle-main-layout {
+    /* 整个工作区域的高度：减去 header 即可 */
+    height: calc(100% - 40px);
+    /* Assumes header is roughly 40px */
+}
+
+/* Specialized Buttons — workspace tokens */
+#page-subtitle .btn-glass {
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0 12px;
+    height: var(--ws-control-height, 32px);
+    min-height: var(--ws-control-height, 32px);
+    font-size: var(--ws-font-ui, 12px);
+    font-weight: 600;
+    border-radius: var(--ws-control-radius, 8px);
+    cursor: pointer;
+    transition: background var(--ws-transition, 0.12s ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+}
+
+#page-subtitle .btn-glass:hover {
+    background: var(--fill-hover);
+    transform: none;
+}
+
+#page-subtitle .btn-glass,
+#page-subtitle .btn-accent-pro,
+#page-subtitle .btn-primary-pro,
+#page-subtitle .header-right .btn,
+#page-subtitle .header-right .btn-sm,
+#page-subtitle #subtitle-btn-toggle-inspector {
+    padding: 0 12px;
+    height: var(--ws-control-height, 32px);
+    min-height: var(--ws-control-height, 32px);
+    font-size: var(--ws-font-ui, 12px);
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: var(--ws-control-radius, 8px);
+    box-sizing: border-box;
+}
+
+#page-subtitle .btn-secondary-pro {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0 10px;
+    font-size: var(--ws-font-ui, 12px);
+    border-radius: var(--ws-control-radius, 8px);
+    cursor: pointer;
+    transition: background var(--ws-transition, 0.12s ease);
+    height: var(--ws-control-height-sm, 28px);
+    min-height: var(--ws-control-height-sm, 28px);
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#page-subtitle .btn-secondary-pro:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--accent-primary);
+}
+
+#page-subtitle .btn-link-pro {
+    background: transparent;
+    border: none;
+    color: var(--accent-primary);
+    font-size: var(--ws-font-ui, 12px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#page-subtitle .btn-link-pro:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+#page-subtitle .btn-xs {
+    padding: 0 8px;
+    height: var(--ws-control-height-sm, 28px);
+    min-height: var(--ws-control-height-sm, 28px);
+    font-size: var(--ws-font-meta, 11px);
+    border-radius: var(--ws-control-radius, 8px);
+    box-sizing: border-box;
+}
+
+#page-subtitle .track-item .track-type {
+    font-size: 10px;
+    background: var(--fill-muted);
+    color: var(--text-muted);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+#page-subtitle .btn-accent-pro,
+#page-subtitle .btn-primary-pro {
+    background: var(--ws-cta-bg, #18181b);
+    color: var(--ws-cta-fg, #fafafa);
+    padding: 0 12px;
+    height: var(--ws-control-height, 32px);
+    font-size: var(--ws-font-ui, 12px);
+    font-weight: 600;
+    border: 1px solid var(--ws-cta-bg, #18181b);
+    border-radius: var(--ws-control-radius, 8px);
+    cursor: pointer;
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background var(--ws-transition, 0.12s ease), border-color var(--ws-transition, 0.12s ease);
+}
+
+#page-subtitle .btn-accent-pro:hover,
+#page-subtitle .btn-primary-pro:hover {
+    background: #27272a;
+    border-color: #27272a;
+    color: #fafafa;
+    box-shadow: none;
+    transform: none;
+}
+
+html[data-theme="dark"] #page-subtitle .btn-accent-pro,
+html[data-theme="dark"] #page-subtitle .btn-primary-pro {
+    background: #fafafa;
+    color: #18181b;
+    border-color: #fafafa;
+}
+
+html[data-theme="dark"] #page-subtitle .btn-accent-pro:hover,
+html[data-theme="dark"] #page-subtitle .btn-primary-pro:hover {
+    background: #e4e4e7;
+    color: #18181b;
+    border-color: #e4e4e7;
+}
+
+/* Export CTA: keep the label readable against the premium modal in both themes. */
+#page-subtitle #btn-confirm-export {
+    background: #4d82c9;
+    color: #ffffff;
+    border: 1px solid #4d82c9;
+    -webkit-text-fill-color: #ffffff;
+}
+
+#page-subtitle #btn-confirm-export:hover {
+    background: #3f6fae;
+    border-color: #3f6fae;
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+}
+
+#page-subtitle .page-header {
+    min-height: 40px;
+    align-items: center;
+    gap: 8px;
+}
+
+#page-subtitle .header-center .task-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Category Tabs Fixes */
+#page-subtitle .category-tabs {
+    flex-shrink: 0;
+}
+
+#page-subtitle .tab-content {
+    display: none;
+    flex-direction: column;
+    /* 移除固定高度和 overflow:hidden，允许父级滚动条感知内容高度 */
+    min-height: 0;
+}
+
+#page-subtitle .tab-content.active {
+    display: flex;
+}
+
+#page-subtitle .settings-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+#page-subtitle .settings-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Progress Overlay */
+#page-subtitle .progress-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-scrim);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#page-subtitle .progress-card {
+    width: 420px;
+    padding: 40px;
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px var(--overlay-scrim);
+}
+
+#page-subtitle .progress-card h3 {
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#page-subtitle .progress-card .progress-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+#page-subtitle .progress-track-pro {
+    height: 6px;
+    background: var(--fill-hover);
+    border-radius: 10px;
+    margin: 24px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#page-subtitle .progress-fill-pro {
+    height: 100%;
+    background: var(--text-primary, #18181b);
+    width: 0%;
+    transition: width 0.3s ease;
+    box-shadow: none;
+    position: relative;
+}
+
+#page-subtitle .progress-fill-pro::after {
+    content: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+#page-subtitle .btn-outline-danger-pro {
+    background: transparent;
+    border: 1.5px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+#page-subtitle .btn-outline-danger-pro:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    transform: translateY(-1px);
+}
+
+html[data-theme="light"] #page-subtitle {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+html[data-theme="light"] #page-subtitle .page-container {
+    background: var(--bg-primary);
+}
+html[data-theme="light"] #page-subtitle .page-header {
+    background: transparent;
+    color: var(--text-primary);
+}
+html[data-theme="light"] #page-subtitle .subtitle-main-layout {
+    background: var(--bg-primary);
+}
+/* Keep video monitor dark for preview contrast */
+html[data-theme="light"] #page-subtitle .pro-monitor,
+html[data-theme="light"] #page-subtitle .video-placeholder {
+    background: var(--video-chrome, #0f1419);
+}
+html[data-theme="light"] #page-subtitle .video-stage-pro {
+    background: var(--bg-primary);
+}
+/* Timeline chrome light */
+html[data-theme="light"] #page-subtitle .timeline-section-pro {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+html[data-theme="light"] #page-subtitle .timeline-header {
+    background: var(--bg-tertiary);
+}
+html[data-theme="light"] #page-subtitle .timeline-body,
+html[data-theme="light"] #page-subtitle .ruler-area,
+html[data-theme="light"] #page-subtitle .timeline-sidebar-label,
+html[data-theme="light"] #page-subtitle .timeline-track-headers,
+html[data-theme="light"] #page-subtitle .timeline-body::before {
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+html[data-theme="light"] #page-subtitle .timeline-tracks-list,
+html[data-theme="light"] #page-subtitle .tracks-viewport {
+    background: var(--bg-card);
+}
+html[data-theme="light"] #page-subtitle .inspector-aside-pro,
+html[data-theme="light"] #page-subtitle .tab-content,
+html[data-theme="light"] #page-subtitle .panel-section {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}

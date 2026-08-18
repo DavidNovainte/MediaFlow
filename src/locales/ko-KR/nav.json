@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "tools": "도구",
+    "download": "미디어 다운로드",
+    "history": "히스토리",
+    "transcribe": "오디오 전사",
+    "compress": "이미지 도구",
+    "enhance": "AI 이미지 개선",
+    "creator": "빠른 영상 도구",
+    "editor": "타임라인 편집",
+    "subtitle": "자막 번역",
+    "mobile": "모바일 연동",
+    "settings": "설정",
+    "toggleSidebar": "사이드바 (Ctrl+B)",
+    "groupVideo": "영상 워크플로",
+    "groupAdvanced": "고급",
+    "creatorHint": "원샷 작업",
+    "editorHint": "멀티트랙",
+    "experimental": "실험",
+    "groupAdvancedExpand": "고급 표시",
+    "groupAdvancedCollapse": "고급 숨기기",
+    "extension": "브라우저 확장",
+    "donation": "Support"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "MediaFlow へようこそ",
+    "welcomeBody": "オフラインでのダウンロード、ローカル文字起こし、画像圧縮 — すべての機能が無料で解放されており、アクティベーションは不要です。",
+    "downloadTitle": "最初のダウンロード",
+    "downloadBody": "ダウンロードページに公開動画 URL を貼り付け → 解析 → ダウンロード。単一リンクのダウンロードは無料です。保存フォルダは設定でいつでも変更できます。",
+    "clipboardTitle": "クリップボード監視（任意）",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick download. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "クリップボードのリンク検出を有効にする",
+    "enginesTitle": "コアエンジンをインストール",
+    "enginesBody": "不足しているツール: {{list}}。設定 → コアエンジン で修復するか、アプリを再インストールしてください。",
+    "doneTitle": "準備完了",
+    "doneBody": "まずは 1 件のダウンロードから始めましょう。必要なときに詳細ツールを使ってください — 一部は実験的機能です。",
+    "next": "次へ",
+    "skip": "スキップ",
+    "getStarted": "はじめる"
+  }
+}

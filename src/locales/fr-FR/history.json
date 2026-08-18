@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "Historique des téléchargements",
+    "clear": "Vider l'historique",
+    "confirmClear": "Voulez-vous vraiment vider tout l'historique ?",
+    "confirmDelete": "Supprimer cet enregistrement ?",
+    "historyCleared": "Historique vidé",
+    "searchPlaceholder": "Rechercher un titre...",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsTitle": "Aucun résultat",
+    "noResultsDesc": "Essayez avec d'autres mots-clés",
+    "clearSearchBtn": "Réinitialiser la recherche",
+    "empty": "Aucune téléchargement",
+    "emptyTitle": "Historique vide",
+    "emptyDesc": "Vos vidéos téléchargées apparaîtront ici,<br>pour une gestion facile.",
+    "goDownload": "Télécharger ma première vidéo",
+    "openFile": "Lire",
+    "openFolder": "Ouvrir le dossier",
+    "copyLink": "Copier le lien",
+    "shareMobile": "Partager sur mobile",
+    "showQRCode": "Afficher le QR Code",
+    "delete": "Supprimer",
+    "fileDeleted": "Fichier supprimé",
+    "deletedTag": "Supprimé",
+    "qrTip": "📱 Scannez le QR Code pour synchroniser",
+    "close": "Fermer",
+    "filter": {
+      "allPlatforms": "Plateformes",
+      "other": "Autres",
+      "allTime": "Toute période",
+      "today": "Aujourd'hui",
+      "week": "Cette semaine",
+      "month": "Ce mois"
+    },
+    "batch": {
+      "selectAll": "Tout sélectionner",
+      "selected": "{count} sélectionné(s)",
+      "delete": "Suppression groupée",
+      "copy": "Copier fichiers",
+      "confirmDelete": "Supprimer les {count} sélectionnés ?",
+      "deleteSuccess": "Supprimé avec succès",
+      "noLocalFile": "Aucun fichier local pour ces enregistrements",
+      "copySuccess": "{count} fichiers copiés, vous pouvez les coller ailleurs",
+      "copyFail": "Fallo de copia"
+    },
+    "stats": {
+      "filtered": "Affichage {filtered} / {total} enregistrements",
+      "total": "{total} enregistrements au total"
+    },
+    "qrProOnly": "QR / partage mobile est une fonction Pro. Passez à Pro pour débloquer.",
+    "showQRCodePro": "Afficher le QR · Pro"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "Bestätigung",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "defaultMessage": "Sind Sie sicher, dass Sie fortfahren möchten?",
+    "promptTitle": "Eingabe",
+    "confirmBtn": "Bestätigen",
+    "cancelBtn": "Abbrechen"
+  }
+}

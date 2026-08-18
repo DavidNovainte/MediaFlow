@@ -1,0 +1,45 @@
+/* Layout Resizer */
+.layout-resizer {
+    width: 4px !important;
+    height: 100% !important;
+    cursor: col-resize !important;
+    background: transparent !important;
+    /* Invisible usually */
+    transition: background 0.2s, width 0.2s;
+    flex-shrink: 0 !important;
+    z-index: 20 !important;
+    margin: 0 !important;
+    /* Removed negative margin to align with gap: 0 */
+    position: relative;
+}
+
+.layout-resizer::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 48px;
+    background: var(--border-color);
+    border-radius: 2px;
+    transition: background 0.2s;
+}
+
+.layout-resizer:hover,
+.layout-resizer.resizing {
+    background: rgba(77, 130, 201, 0.2);
+    /* Highlight on hover */
+    width: 6px;
+}
+
+.layout-resizer:hover::after,
+.layout-resizer.resizing::after {
+    background: var(--primary-color);
+}
+
+@media (max-width: 950px) {
+    .layout-resizer {
+        display: none;
+    }
+}

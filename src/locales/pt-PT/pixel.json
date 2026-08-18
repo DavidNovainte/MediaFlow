@@ -1,0 +1,9 @@
+{
+  "pixel": {
+    "skipNonImages": "{count} ficheiro(s) não imagem ignorado(s). Use AI Enhance para vídeos curtos.",
+    "unsupportedPreview": "Não é possível pré-visualizar este ficheiro como imagem",
+    "aiEnhancingPercent": "Melhoria IA... {percent}%",
+    "confirmDeletePreset": "Eliminar a predefinição \"{name}\"? Não pode ser anulado.",
+    "aiEnhancing": "Melhoria IA…"
+  }
+}

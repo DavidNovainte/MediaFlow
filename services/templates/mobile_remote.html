@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediaFlow Remote</title>
+    <script>
+        // Apply theme before paint to avoid flash
+        (function () {
+            try {
+                var t = localStorage.getItem('mf-remote-theme');
+                if (t !== 'light' && t !== 'dark') {
+                    t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+                }
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Zinc mono — dark (default) */
+        :root,
+        html[data-theme="dark"] {
+            --bg: #09090b;
+            --bg-elevated: #18181b;
+            --bg-card: #27272a;
+            --border: #3f3f46;
+            --text: #fafafa;
+            --text-secondary: #d4d4d8;
+            --text-muted: #a1a1aa;
+            --accent: #fafafa;
+            --accent-ink: #18181b;
+            --danger: #ef4444;
+            --ok: #22c55e;
+            --overlay: rgba(0, 0, 0, 0.55);
+            --panel: rgba(24, 24, 27, 0.96);
+        }
+
+        /* Zinc mono — light */
+        html[data-theme="light"] {
+            --bg: #fafafa;
+            --bg-elevated: #ffffff;
+            --bg-card: #f4f4f5;
+            --border: #e4e4e7;
+            --text: #18181b;
+            --text-secondary: #3f3f46;
+            --text-muted: #71717a;
+            --accent: #18181b;
+            --accent-ink: #fafafa;
+            --danger: #dc2626;
+            --ok: #16a34a;
+            --overlay: rgba(24, 24, 27, 0.45);
+            --panel: rgba(255, 255, 255, 0.97);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Top-right theme toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 1100;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.96);
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        html[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+        html[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 8px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 650;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .logo h1 .title-icon {
+            color: var(--text);
+        }
+
+        .logo h1 .title-icon rect,
+        .logo h1 .title-icon path {
+            stroke: var(--text-secondary) !important;
+        }
+
+        .logo p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        .login-box {
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .login-box p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 22px;
+            text-align: center;
+            letter-spacing: 8px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-elevated);
+            color: var(--text);
+            outline: none;
+            margin-bottom: 14px;
+        }
+
+        .pin-input:focus {
+            border-color: var(--text-muted);
+        }
+
+        .pin-input::placeholder {
+            letter-spacing: 0;
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .login-error {
+            color: var(--danger);
+            font-size: 13px;
+            margin-bottom: 12px;
+            min-height: 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 20px;
+            gap: 2px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 4px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+            user-select: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: var(--accent-ink);
+            font-weight: 600;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Input Styles */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            font-size: 12.5px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea,
+        .clipboard-textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg-elevated);
+            color: var(--text);
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .input-group input,
+        .input-group select {
+            height: 48px;
+            min-height: 48px;
+            padding: 0 14px;
+        }
+
+        .input-group textarea,
+        .clipboard-textarea {
+            min-height: 120px;
+            padding: 12px 14px;
+            line-height: 1.45;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            resize: vertical;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus,
+        .clipboard-textarea:focus {
+            border-color: var(--text-muted);
+        }
+
+        .input-group select option {
+            background: var(--bg-elevated);
+            color: var(--text);
+        }
+
+        .options-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .options-row .input-group {
+            flex: 1;
+        }
+
+        /* Unified button system: same height / type size */
+        .btn {
+            width: 100%;
+            height: 48px;
+            min-height: 48px;
+            max-height: 48px;
+            padding: 0 14px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1;
+            cursor: pointer;
+            transition: transform 0.12s ease, filter 0.12s ease;
+            margin-top: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--accent-ink);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(0.96);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.12);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.35);
+        }
+
+        .btn-primary:active,
+        .btn-secondary:active,
+        .btn-danger:active {
+            transform: scale(0.98);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .btn-group.btn-group-col {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-group .btn {
+            margin-top: 0;
+            flex: 1;
+        }
+
+        .btn-primary:disabled,
+        .btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .logo h1 {
+            font-size: 20px !important;
+        }
+
+        .logo p {
+            font-size: 12px !important;
+        }
+
+        .upload-text {
+            font-size: 13px !important;
+            line-height: 1.4;
+        }
+
+        .cast-btn {
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+        }
+
+        /* File Upload */
+        .upload-area {
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.15s ease, background 0.15s ease;
+            margin-bottom: 14px;
+            background: var(--bg-elevated);
+        }
+
+        .upload-area:hover,
+        .upload-area.drag-over {
+            border-color: var(--text-muted);
+            background: var(--bg-card);
+        }
+
+        .upload-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .upload-icon svg,
+        .icon-svg,
+        .browser-icon svg,
+        .file-item-icon svg,
+        .fab-remote svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .upload-icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .browser-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .file-item-icon {
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .fab-remote svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .remote-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .upload-text {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--bg-card);
+            border-radius: 2px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text);
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 16px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            color: var(--text-secondary);
+        }
+
+        .status.success {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.35);
+            color: var(--ok);
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: var(--danger);
+        }
+
+        .status-text {
+            font-size: 12.5px;
+            margin-top: 8px;
+            text-align: center;
+            min-height: 18px;
+            color: var(--text-muted);
+        }
+
+        .status-text.success {
+            color: var(--ok);
+        }
+
+        .status-text.error {
+            color: var(--danger);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .file-item-icon {
+            font-size: 20px;
+        }
+
+        .file-item-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Browser Styles */
+        .browser-item {
+            background: var(--bg-elevated);
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.15s ease;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+
+        .browser-item:active {
+            transform: scale(0.99);
+            background: var(--bg-card);
+        }
+
+        .browser-item.dir {
+            border-left: 3px solid var(--text-secondary);
+        }
+
+        .browser-icon {
+            font-size: 22px;
+        }
+
+        .browser-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .browser-name {
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text);
+        }
+
+        .browser-meta {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .browser-action {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .browser-actions-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cast-btn {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .browser-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .nav-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            white-space: nowrap;
+            color: var(--text-muted);
+        }
+
+        /* Remote Control Styles */
+        .remote-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background: var(--panel);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .remote-panel.active {
+            transform: translateY(0);
+        }
+
+        .remote-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 2px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .remote-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remote-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 10px;
+            flex: 1;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remote-btn:active {
+            background: var(--accent);
+            color: var(--accent-ink);
+            transform: scale(0.97);
+        }
+
+        .btn-speed {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .remote-close {
+            position: absolute;
+            top: -8px;
+            right: -4px;
+            background: var(--danger);
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            border: 2px solid var(--bg);
+        }
+
+        /* Floating Remote Toggle — mono zinc + 🎮 (no purple) */
+        .fab-remote {
+            position: fixed;
+            bottom: 72px;
+            right: 18px;
+            width: 56px;
+            height: 56px;
+            background: var(--accent);
+            color: var(--accent-ink);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+            border: 1px solid var(--border);
+            z-index: 9999;
+            cursor: pointer;
+            font-size: 26px;
+            line-height: 1;
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        html[data-theme="light"] .fab-remote {
+            box-shadow: 0 6px 18px rgba(24, 24, 27, 0.14);
+        }
+
+        .fab-remote:active {
+            transform: scale(0.92);
+        }
+
+        .fab-remote.hidden {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fab-remote .fab-emoji {
+            display: block;
+            transform: translateY(1px);
+            filter: grayscale(0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+    <div class="fab-remote" id="fabRemote" onclick="toggleRemote(true)" title="Remote" aria-label="Remote">
+        <span class="fab-emoji" aria-hidden="true">🎮</span>
+    </div>
+    <div class="container">
+        <div class="logo">
+            <h1>
+                <svg viewBox="0 0 24 24" fill="none" class="title-icon"
+                    style="width: 24px; height: 24px; vertical-align: middle;">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 18h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                MediaFlow Remote
+            </h1>
+            <p>{{mobile.remote.subtitleDesc}}</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="link" onclick="window.switchTab && window.switchTab('link')">{{mobile.remote.tabSend}}</div>
+            <div class="tab" data-tab="file" onclick="window.switchTab && window.switchTab('file')">{{mobile.remote.tabUpload}}</div>
+            <div class="tab" data-tab="browser" onclick="window.switchTab && window.switchTab('browser')">{{mobile.remote.tabFiles}}</div>
+            <div class="tab" data-tab="clipboard" onclick="window.switchTab && window.switchTab('clipboard')">{{mobile.remote.tabClipboard}}</div>
+        </div>
+
+        <!-- SECTION: SEND LINK -->
+        <div id="section-link" class="section active">
+            <div class="input-group">
+                <label>{{mobile.remote.labelUrl}}</label>
+                <input type="url" id="urlInput" placeholder="https://..." autocomplete="off">
+            </div>
+
+            <div class="options-row">
+                <div class="input-group">
+                    <label>{{mobile.remote.labelQuality}}</label>
+                    <select id="qualitySelect">
+                        <option value="best">{{mobile.remote.optBest}}</option>
+                        <option value="1080">1080p</option>
+                        <option value="720" selected>720p</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>{{mobile.remote.labelFormat}}</label>
+                    <select id="formatSelect">
+                        <option value="video" selected>{{mobile.remote.optVideo}}</option>
+                        <option value="audio">{{mobile.remote.optAudio}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="sendBtn">{{mobile.remote.btnSend}}</button>
+                <button class="btn btn-secondary" id="playBtn">{{mobile.remote.btnPlay}}</button>
+            </div>
+        </div>
+
+        <!-- SECTION: UPLOAD FILE -->
+        <div id="section-file" class="section">
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()" id="uploadDropZone">
+                <div class="upload-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div class="upload-text">{{mobile.remote.uploadText}}<br>({{mobile.remote.uploadHint}})</div>
+            </div>
+            <input type="file" id="fileInput" multiple>
+
+            <div id="filePreviewList" class="file-list"></div>
+
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+
+            <button class="btn btn-primary" id="uploadBtn"
+                style="display: none;">{{mobile.remote.btnStartUpload}}</button>
+        </div>
+
+        <!-- SECTION: CLIPBOARD -->
+        <div id="section-clipboard" class="section">
+            <div class="input-group">
+                <label>{{mobile.remote.labelClipboard}}</label>
+                <textarea id="clipboardText" rows="5" class="clipboard-textarea"
+                    placeholder="{{mobile.remote.clipboardPlaceholder}}"></textarea>
+            </div>
+
+            <div id="clipboardStatus" class="status-text"></div>
+
+            <div class="btn-group btn-group-col">
+                <button class="btn btn-primary" type="button" onclick="sendToPC()">{{mobile.remote.btnSendClipboard}}</button>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" type="button"
+                        onclick="fetchPCClipboard()">{{mobile.remote.btnFetchClipboard}}</button>
+                    <button class="btn btn-secondary" type="button"
+                        onclick="copyToMobile()">{{mobile.remote.btnCopyClipboard}}</button>
+                </div>
+                <button class="btn btn-danger" type="button"
+                    onclick="clearClipboard()">{{mobile.remote.btnClearClipboard}}</button>
+            </div>
+        </div>
+
+        <!-- SECTION: PC FILE BROWSER -->
+        <div id="section-browser" class="section">
+            <div class="browser-nav" id="browserNav">
+                <!-- <div class="nav-btn">根目录</div> -->
+            </div>
+
+            <div id="browserList">
+                <div style="text-align: center; color: #a1a1aa; padding: 20px;">{{mobile.remote.loadingFiles}}</div>
+            </div>
+        </div>
+
+        <div id="statusMsg" class="status hidden"></div>
+    </div>
+
+    <!-- REMOTE CONTROL PANEL -->
+    <div class="remote-panel" id="remotePanel">
+        <div class="remote-close" onclick="toggleRemote(false)">✕</div>
+        <div class="remote-title">{{mobile.remote.remoteTitle}}</div>
+        <div class="remote-row">
+            <button class="remote-btn" onclick="sendControl('seek', -10)" aria-label="Back 10s">
+                <svg viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+            </button>
+            <button class="remote-btn" id="remotePlayPause" onclick="sendControl('toggle')" aria-label="Play/Pause">
+                <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor" stroke="none"/></svg>
+            </button>
+            <button class="remote-btn" onclick="sendControl('seek', 10)" aria-label="Forward 10s">
+                <svg viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            </button>
+            <button class="remote-btn" onclick="sendControl('close')" style="color: #ef4444;" aria-label="Stop">
+                <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1" fill="currentColor" stroke="none"/></svg>
+            </button>
+        </div>
+        <div class="remote-row">
+            <button class="remote-btn" onclick="sendControl('volume', -0.1)" aria-label="Volume down">
+                <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <button class="remote-btn" onclick="sendControl('volume', 0.1)" aria-label="Volume up">
+                <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19 9a5 5 0 0 1 0 6"/><path d="M15 7a8 8 0 0 1 0 10"/></svg>
+            </button>
+            <button class="remote-btn btn-speed" onclick="nextSpeed()" style="font-size: 11px;">1.0x</button>
+            <button class="remote-btn" id="remoteDownload" style="display:none;" onclick="downloadCurrent()" aria-label="Download">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- LOGIN OVERLAY -->
+    <div id="loginOverlay" class="login-overlay hidden">
+        <div class="login-box">
+            <div class="logo">
+                <h1>MediaFlow</h1>
+            </div>
+            <h2>{{mobile.remote.loginTitle}}</h2>
+            <p>{{mobile.remote.loginDesc}}</p>
+            <input type="password" id="pinInput" class="pin-input" placeholder="{{mobile.remote.pinPlaceholder}}"
+                maxlength="6" inputmode="numeric" pattern="[0-9]*">
+            <div id="loginError" class="login-error"></div>
+            <button class="btn btn-primary" id="loginBtn">{{mobile.remote.btnLogin}}</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== AUTH LOGIC ====================
+        let isAuthenticated = false;
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/check');
+                const data = await res.json();
+
+                if (!data.requirePin) {
+                    // No PIN required, hide login
+                    isAuthenticated = true;
+                    document.getElementById('loginOverlay').classList.add('hidden');
+                    return true;
+                }
+
+                if (data.authenticated) {
+                    isAuthenticated = true;
+                    document.getElementById('loginOverlay').classList.add('hidden');
+                    return true;
+                } else {
+                    isAuthenticated = false;
+                    document.getElementById('loginOverlay').classList.remove('hidden');
+                    document.getElementById('pinInput').focus();
+                    return false;
+                }
+            } catch (e) {
+                console.error('Auth check failed:', e);
+                return false;
+            }
+        }
+
+        async function doLogin() {
+            const pin = document.getElementById('pinInput').value.trim();
+            const errorEl = document.getElementById('loginError');
+
+            if (!pin || pin.length < 4) {
+                errorEl.textContent = '{{mobile.remote.loginErrorPin}}';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    isAuthenticated = true;
+                    errorEl.textContent = '';
+                    document.getElementById('loginOverlay').classList.add('hidden');
+                    document.getElementById('pinInput').value = '';
+                } else {
+                    errorEl.textContent = data.error || '{{mobile.remote.loginErrorFail}}';
+                    document.getElementById('pinInput').select();
+                }
+            } catch (e) {
+                errorEl.textContent = '{{mobile.remote.loginErrorNet}}';
+            }
+        }
+
+        // Wrap fetch to handle 401 globally
+        const originalFetch = window.fetch;
+        window.fetch = async function (...args) {
+            const response = await originalFetch.apply(this, args);
+            if (response.status === 401) {
+                // Show login overlay
+                isAuthenticated = false;
+                document.getElementById('loginOverlay').classList.remove('hidden');
+                document.getElementById('pinInput').focus();
+            }
+            return response;
+        };
+
+        // Login button and Enter key
+        function applyRemoteTheme(theme) {
+            const t = theme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', t);
+            try { localStorage.setItem('mf-remote-theme', t); } catch (e) { /* ignore */ }
+            const btn = document.getElementById('themeToggle');
+            if (btn) {
+                btn.setAttribute('aria-label', t === 'light' ? 'Switch to dark' : 'Switch to light');
+                btn.title = t === 'light' ? 'Dark' : 'Light';
+            }
+        }
+
+        function toggleRemoteTheme() {
+            const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+            applyRemoteTheme(cur === 'light' ? 'dark' : 'light');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('themeToggle')?.addEventListener('click', toggleRemoteTheme);
+            // Sync button title with current theme
+            applyRemoteTheme(document.documentElement.getAttribute('data-theme') || 'dark');
+
+            document.getElementById('loginBtn')?.addEventListener('click', doLogin);
+            document.getElementById('pinInput')?.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') doLogin();
+            });
+
+            // Check auth on page load
+            checkAuth();
+        });
+
+        // ==================== Main Logic ====================
+        let currentDirId = null;
+
+        // 传递翻译词条给外部脚本 (如 clipboard.js)
+        window.i18nRemote = {
+            fetching: '{{mobile.remote.fetching}}',
+            fetchSuccess: '{{mobile.remote.fetchSuccess}}',
+            fetchFail: '{{mobile.remote.fetchFail}}',
+            sending: '{{mobile.remote.sending}}',
+            sendSuccess: '{{mobile.remote.sendSuccess}}',
+            sendFail: '{{mobile.remote.sendFail}}',
+            emptyContent: '{{mobile.remote.emptyContent}}',
+            copiedToPhone: '{{mobile.remote.copiedToPhone}}',
+            copied: '{{mobile.remote.copied}}'
+        };
+
+        /**
+         * 路径名称翻译助手
+         */
+        function translatePathName(name) {
+            if (!name) return name;
+            const map = {
+                'ROOT': '{{mobile.remote.navComputer}}',
+                'Local Disk': '{{mobile.remote.navLocalDisk}}',
+                'Desktop': '{{mobile.remote.navDesktop}}',
+                'Downloads': '{{mobile.remote.navDownloads}}',
+                'Documents': '{{mobile.remote.navDocuments}}',
+                'Pictures': '{{mobile.remote.navPictures}}',
+                'Videos': '{{mobile.remote.navVideos}}',
+                'MediaFlow Downloads': '{{mobile.remote.navMediaFlow}}',
+                'Home': '{{mobile.remote.navHome}}'
+            };
+
+            for (const [key, val] of Object.entries(map)) {
+                if (name.includes(key)) return name.replace(key, val);
+            }
+            return name;
+        }
+
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tabs .tab');
+            const sections = document.querySelectorAll('.section');
+
+            tabs.forEach((t) => t.classList.remove('active'));
+            sections.forEach((s) => s.classList.remove('active'));
+
+            // Match by data-tab first (stable), fall back to onclick string
+            let activeTab = document.querySelector(`.tabs .tab[data-tab="${tab}"]`);
+            if (!activeTab) {
+                activeTab = document.querySelector(`.tabs .tab[onclick*="switchTab('${tab}')"]`);
+            }
+            if (activeTab) activeTab.classList.add('active');
+
+            const activeSection = document.getElementById('section-' + tab);
+            if (activeSection) {
+                activeSection.classList.add('active');
+                // Auto-load root if opening browser tab
+                if (tab === 'browser') {
+                    const params = new URLSearchParams(window.location.search);
+                    const initialPath = params.get('path');
+                    if (initialPath && !currentDirId) {
+                        loadDir(initialPath);
+                    } else if (!currentDirId) {
+                        loadDir();
+                    }
+                }
+            }
+
+            const statusMsg = document.getElementById('statusMsg');
+            if (statusMsg) statusMsg.className = 'status hidden';
+        }
+        // Explicit global so later scripts cannot “lose” the binding silently
+        window.switchTab = switchTab;
+        window.__mfRemoteSwitchTab = switchTab;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab) {
+                switchTab(tab);
+            }
+        });
+
+        function showStatus(msg, type) {
+            const el = document.getElementById('statusMsg');
+            el.textContent = msg;
+            el.className = 'status ' + type;
+        }
+
+        // --- Remote Control Logic ---
+        const remotePanel = document.getElementById('remotePanel');
+        const remoteDownload = document.getElementById('remoteDownload');
+        let currentSpeed = 1;
+        let currentFileId = null;
+        const speeds = [1, 1.25, 1.5, 2];
+
+        function toggleRemote(show) {
+            remotePanel.classList.toggle('active', show);
+            document.getElementById('fabRemote').classList.toggle('hidden', show);
+            if (show) {
+                remoteDownload.style.display = currentFileId ? 'flex' : 'none';
+            }
+        }
+
+
+        function downloadCurrent() {
+            if (currentFileId) {
+                window.location.href = '/download/' + currentFileId;
+            }
+        }
+
+        async function sendControl(action, value = 0) {
+            try {
+                await fetch('/api/player/command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, value })
+                });
+            } catch (e) { }
+        }
+
+        // Wait, my player.html onCommand does:
+        // case 'play': video.play(); break;
+        // case 'pause': video.pause(); break;
+        // I should add 'toggle' to player.html
+
+        async function nextSpeed() {
+            const idx = speeds.indexOf(currentSpeed);
+            currentSpeed = speeds[(idx + 1) % speeds.length];
+            document.querySelector('.btn-speed').textContent = currentSpeed + 'x';
+            await sendControl('speed', currentSpeed);
+        }
+
+        // --- Link Push Logic ---
+        const urlInput = document.getElementById('urlInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        if (sendBtn) {
+            sendBtn.addEventListener('click', () => handlePush('download'));
+        }
+
+        const playBtn = document.getElementById('playBtn');
+        if (playBtn) {
+            playBtn.addEventListener('click', () => handlePush('play'));
+        }
+
+        async function handlePush(action) {
+            const url = urlInput.value.trim();
+            if (!url) return showStatus('{{mobile.messages.noUrl}}', 'error');
+
+            const btn = action === 'play' ? playBtn : sendBtn;
+            const originalText = btn.textContent;
+
+            btn.disabled = true;
+            btn.textContent = action === 'play' ? '{{mobile.remote.pushing}}' : '{{mobile.remote.sending}}';
+
+            try {
+                const res = await fetch('/api/push-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url,
+                        action,
+                        quality: document.getElementById('qualitySelect').value,
+                        audioOnly: document.getElementById('formatSelect').value === 'audio'
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showStatus(action === 'play' ? '{{mobile.remote.pushPlaySuccess}}' : '{{mobile.remote.pushDownloadSuccess}}', 'success');
+                    if (action !== 'play') urlInput.value = '';
+                    if (action === 'play') {
+                        currentFileId = null; // Reset for stream URLs
+                        toggleRemote(true);
+                    }
+                } else {
+                    showStatus(data.error || '{{mobile.remote.pushFail}}', 'error');
+                }
+            } catch (e) {
+                showStatus('{{mobile.remote.netError}}', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        // --- File Upload Logic ---
+        const fileInput = document.getElementById('fileInput');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileList = document.getElementById('filePreviewList');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        if (fileInput) {
+            fileInput.addEventListener('change', () => {
+                fileList.innerHTML = '';
+                if (fileInput.files.length > 0) {
+                    Array.from(fileInput.files).forEach(file => {
+                        const div = document.createElement('div');
+                        div.className = 'file-item';
+                        div.innerHTML = '<span class="file-item-icon">' + iconSvg('file') + '</span><span class="file-item-name">' + file.name + '</span>';
+                        fileList.appendChild(div);
+                    });
+                    uploadBtn.style.display = 'block';
+                    uploadBtn.textContent = '{{mobile.remote.btnStartUpload}} (' + fileInput.files.length + ')';
+                } else {
+                    uploadBtn.style.display = 'none';
+                }
+            });
+        }
+
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', () => {
+                const files = fileInput.files;
+                if (files.length === 0) return;
+
+                uploadBtn.disabled = true;
+                progressContainer.style.display = 'block';
+
+                const formData = new FormData();
+                Array.from(files).forEach(file => formData.append('files', file));
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/upload-file', true);
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        progressFill.style.width = percent + '%';
+                        progressText.textContent = percent + '%';
+                    }
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.success) {
+                            showStatus('{{mobile.remote.uploadSuccess}}', 'success');
+                            fileInput.value = '';
+                            fileList.innerHTML = '';
+                            uploadBtn.style.display = 'none';
+                        } else {
+                            showStatus('{{mobile.remote.uploadFail}}: ' + data.error, 'error');
+                        }
+                    } else {
+                        showStatus('{{mobile.remote.uploadFail}}', 'error');
+                    }
+                    uploadBtn.disabled = false;
+                    progressContainer.style.display = 'none';
+                };
+
+                xhr.onerror = () => {
+                    showStatus('{{mobile.remote.netError}}', 'error');
+                    uploadBtn.disabled = false;
+                    progressContainer.style.display = 'none';
+                };
+
+                xhr.send(formData);
+            });
+        }
+
+        // --- Browser Logic ---
+
+        function iconSvg(kind) {
+            const common = 'class="icon-svg" viewBox="0 0 24 24"';
+            const map = {
+                file: `<svg ${common}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+                folder: `<svg ${common}><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
+                image: `<svg ${common}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`,
+                video: `<svg ${common}><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>`,
+                audio: `<svg ${common}><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
+                archive: `<svg ${common}><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>`,
+                drive: `<svg ${common}><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="10" y1="12" x2="14" y2="12"/></svg>`,
+                home: `<svg ${common}><path d="M3 10.5L12 3l9 7.5"/><path d="M5 10v10h14V10"/></svg>`,
+                back: `<svg ${common}><polyline points="15 18 9 12 15 6"/></svg>`,
+                pc: `<svg ${common}><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+                download: `<svg ${common}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`
+            };
+            return map[kind] || map.file;
+        }
+
+        function getFileIcon(ext) {
+            if (!ext) return iconSvg('file');
+            ext = ext.toLowerCase().replace('.', '');
+            if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(ext)) return iconSvg('file');
+            if (['zip', 'rar', '7z'].includes(ext)) return iconSvg('archive');
+            if (['mp3', 'wav', 'flac', 'ogg', 'm4a'].includes(ext)) return iconSvg('audio');
+            if (['mp4', 'mkv', 'mov', 'avi', 'webm', 'm4v'].includes(ext)) return iconSvg('video');
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(ext)) return iconSvg('image');
+            return iconSvg('file');
+        }
+
+        function formatSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', '{{mobile.remote.unit.kb}}', '{{mobile.remote.unit.mb}}', '{{mobile.remote.unit.gb}}', '{{mobile.remote.unit.tb}}'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function isMedia(ext) {
+            if (!ext) return false;
+            const mediaExts = [
+                'mp4', 'mkv', 'webm', 'mov', 'avi', 'm4v',
+                'mp3', 'wav', 'ogg', 'm4a', 'flac',
+                'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'
+            ];
+            return mediaExts.includes(ext.toLowerCase().replace('.', ''));
+        }
+
+        async function loadDir(id) {
+            const list = document.getElementById('browserList');
+            const nav = document.getElementById('browserNav');
+            if (!list || !nav) return;
+
+            list.innerHTML = '<div style="text-align: center; color: #a1a1aa; padding: 20px;">{{mobile.remote.readingDir}}</div>';
+
+            try {
+                const url = id ? '/api/files/browse?id=' + id : '/api/files/browse';
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (data.success) {
+                    currentDirId = id;
+
+                    // Render Nav
+                    nav.innerHTML = '';
+
+                    // Home button
+                    const homeBtn = document.createElement('div');
+                    homeBtn.className = 'nav-btn';
+                    homeBtn.innerHTML = iconSvg('home') + ' {{mobile.remote.navHome}}';
+                    homeBtn.style.display = 'inline-flex';
+                    homeBtn.style.alignItems = 'center';
+                    homeBtn.style.gap = '6px';
+                    homeBtn.onclick = () => loadDir();
+                    nav.appendChild(homeBtn);
+
+                    // Back button
+                    if (data.parent) {
+                        const btn = document.createElement('div');
+                        btn.className = 'nav-btn';
+                        btn.style.display = 'inline-flex';
+                        btn.style.alignItems = 'center';
+                        btn.style.gap = '4px';
+                        btn.innerHTML = iconSvg('back') + ' {{mobile.remote.navBack}}';
+                        btn.onclick = () => loadDir(data.parent);
+                        nav.appendChild(btn);
+                    }
+
+                    // Current path display
+                    const pathSpan = document.createElement('div');
+                    pathSpan.className = 'nav-btn';
+                    pathSpan.style.background = 'transparent';
+                    pathSpan.style.color = 'var(--text)';
+                    pathSpan.style.fontWeight = 'bold';
+                    pathSpan.style.flex = '1';
+                    pathSpan.style.overflow = 'hidden';
+                    pathSpan.style.textOverflow = 'ellipsis';
+                    pathSpan.style.textAlign = 'right';
+                    pathSpan.style.display = 'inline-flex';
+                    pathSpan.style.alignItems = 'center';
+                    pathSpan.style.justifyContent = 'flex-end';
+                    pathSpan.style.gap = '6px';
+                    if (data.path === 'ROOT') {
+                        pathSpan.innerHTML = iconSvg('pc') + ' <span>{{mobile.remote.navComputer}}</span>';
+                    } else {
+                        pathSpan.textContent = translatePathName(data.path);
+                    }
+                    nav.appendChild(pathSpan);
+
+                    // Render List
+                    list.innerHTML = '';
+                    if (data.items.length === 0) {
+                        list.innerHTML = '<div style="text-align: center; color: #a1a1aa; padding: 20px;">{{mobile.remote.emptyDir}}</div>';
+                    }
+
+                    data.items.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'browser-item' + (item.isDir ? ' dir' : '');
+
+                        let icon = item.isDir ? iconSvg('folder') : getFileIcon(item.ext);
+                        // Special icons for drives / special folders
+                        if (item.name.includes('本地磁盘') || item.name.includes(' 盘') || /^[A-Z]:/.test(item.name)) icon = iconSvg('drive');
+                        if (item.name === '桌面') icon = iconSvg('pc');
+                        if (item.name === 'MediaFlow 下载' || /MediaFlow/i.test(item.name)) icon = iconSvg('download');
+
+                        const size = item.isDir ? '' : formatSize(item.size);
+
+                        div.innerHTML = '<div class="browser-icon">' + icon + '</div>' +
+                            '<div class="browser-info">' +
+                            '<span class="browser-name">' + translatePathName(item.name) + '</span>' +
+                            '<span class="browser-meta">' + (item.isDir ? '{{mobile.remote.navFolder}}' : size) + '</span>' +
+                            '</div>' +
+                            '<div class="browser-actions-group">' +
+                            (item.isDir ?
+                                '<div class="browser-action action-zip" title="ZIP">' + iconSvg('archive') + '</div>' :
+                                ((isMedia(item.ext) ? '<div class="cast-btn">{{mobile.remote.actionCast}}</div>' : '') +
+                                    '<div class="browser-action">{{mobile.remote.actionView}}</div>')
+                            ) +
+                            '</div>';
+
+                        div.onclick = (e) => {
+                            if (e.target.classList.contains('cast-btn')) {
+                                e.stopPropagation();
+                                castFile(item.id);
+                                return;
+                            }
+                            if (e.target.classList.contains('action-zip')) {
+                                e.stopPropagation();
+                                if (confirm('{{mobile.remote.confirmZip}}'.replace('{name}', item.name))) {
+                                    const link = document.createElement('a');
+                                    link.href = '/api/download-folder-zip/' + item.id;
+                                    link.style.display = 'none';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                }
+                                return;
+                            }
+                            if (item.isDir) {
+                                loadDir(item.id);
+                            } else {
+                                window.location.href = '/file/' + item.id;
+                            }
+                        };
+                        list.appendChild(div);
+                    });
+                } else {
+                    list.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">{{mobile.remote.uploadFail}}: ' + data.error + '</div>';
+                }
+            } catch (e) {
+                list.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">{{mobile.remote.netError}}</div>';
+            }
+        }
+
+        async function castFile(id) {
+            try {
+                const res = await fetch('/api/files/cast?id=' + id);
+                const data = await res.json();
+                if (data.success) {
+                    showStatus('{{mobile.remote.pushPlaySuccess}}', 'success');
+                    currentFileId = id;
+                    toggleRemote(true); // Show remote when casting file
+                } else {
+                    currentFileId = null;
+                    showStatus(data.error || '{{mobile.remote.pushFail}}', 'error');
+                }
+            } catch (e) {
+                currentFileId = null;
+                showStatus('{{mobile.remote.netError}}', 'error');
+            }
+        }
+    </script>
+    <script src="/static/js/clipboard.js"></script>
+    <script>
+        // Defensive: if clipboard.js ever redefines switchTab, restore page implementation
+        if (typeof window.__mfRemoteSwitchTab === 'function') {
+            window.switchTab = window.__mfRemoteSwitchTab;
+        } else if (typeof switchTab === 'function') {
+            window.__mfRemoteSwitchTab = switchTab;
+            window.switchTab = switchTab;
+        }
+    </script>
+</body>
+
+</html>

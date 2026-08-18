@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' blob: data: https: http:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https: http: media-file: file:; media-src 'self' blob: data: file: media-file: https: http:; worker-src 'self' blob: data:;">
+    <title>MediaFlow Player</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --accent: #4d82c9;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 48px;
+            padding: 0 12px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s;
+            -webkit-app-region: drag;
+        }
+
+        .header.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 70%;
+            overflow: hidden;
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .title {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text);
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+            -webkit-app-region: no-drag;
+        }
+
+        .control-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+
+        .control-btn.btn-close:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            outline: none;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-msg {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Speed Selector */
+        .speed-control {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 2px;
+            margin-right: 15px;
+            -webkit-app-region: no-drag;
+        }
+
+        .speed-btn {
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .speed-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* OSD - On Screen Display */
+        .osd {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .osd.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header" id="header">
+        <div class="title-section">
+            <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM10 16.5V7.5L16 12L10 16.5Z"
+                    fill="#4d82c9" />
+            </svg>
+            <div class="title" id="video-title">正在准备播放...</div>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div class="speed-control" id="speed-selector">
+                <button class="speed-btn active" data-speed="1">1x</button>
+                <button class="speed-btn" data-speed="1.25">1.25x</button>
+                <button class="speed-btn" data-speed="1.5">1.5x</button>
+                <button class="speed-btn" data-speed="2">2x</button>
+            </div>
+            <div class="window-controls">
+                <button class="control-btn" id="btn-minimize" title="最小化">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2 6H10" stroke="currentColor" stroke-width="1.2" />
+                    </svg>
+                </button>
+                <button class="control-btn btn-close" id="btn-close" title="关闭">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2.5 2.5L9.5 9.5M9.5 2.5L2.5 9.5" stroke="currentColor" stroke-width="1.2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <video id="player" controls autoplay></video>
+        <img id="image-viewer" style="display: none; max-width: 100%; max-height: 100%; object-fit: contain;">
+        <iframe id="file-viewer"
+            style="display: none; width: 100%; height: 100%; border: none; background: #fff;"></iframe>
+    </div>
+
+    <div class="loading" id="loading-overlay">
+        <div class="spinner"></div>
+        <div class="status-msg" id="status-msg">正在请求资源...</div>
+    </div>
+
+    <!-- OSD -->
+    <div class="osd" id="osd">
+        <div id="osd-icon"></div>
+        <div id="osd-text">100%</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const video = document.getElementById('player');
+        const imageViewer = document.getElementById('image-viewer');
+        const fileViewer = document.getElementById('file-viewer');
+        const titleEl = document.getElementById('video-title');
+        const header = document.getElementById('header');
+        const loading = document.getElementById('loading-overlay');
+        const statusMsg = document.getElementById('status-msg');
+        const osd = document.getElementById('osd');
+        const osdText = document.getElementById('osd-text');
+        const osdIcon = document.getElementById('osd-icon');
+
+        // Window controls
+        document.getElementById('btn-minimize').onclick = function () {
+            this.blur();
+            window.mediaflow.window.minimize();
+        };
+        document.getElementById('btn-close').onclick = function () {
+            this.blur();
+            window.mediaflow.window.close();
+        };
+
+        let hideTimeout;
+        let osdTimeout;
+        let hls = null;
+
+        function showHeader() {
+            header.classList.remove('hidden');
+            clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(() => {
+                if (!video.paused) {
+                    header.classList.add('hidden');
+                }
+            }, 3000);
+        }
+
+        function showOSD(text, icon = '') {
+            osdText.textContent = text;
+            if (osdIcon) {
+                osdIcon.textContent = icon;
+                osdIcon.style.display = icon ? 'block' : 'none';
+            }
+            osd.classList.add('active');
+            clearTimeout(osdTimeout);
+            osdTimeout = setTimeout(() => {
+                osd.classList.remove('active');
+            }, 1000);
+        }
+
+        // Speed control
+        document.querySelectorAll('.speed-btn').forEach(btn => {
+            btn.onclick = function () {
+                this.blur();
+                const speed = parseFloat(this.dataset.speed);
+                setSpeed(speed);
+            };
+        });
+
+        function setSpeed(speed) {
+            video.playbackRate = speed;
+            document.querySelectorAll('.speed-btn').forEach(b => {
+                b.classList.toggle('active', parseFloat(b.dataset.speed) === speed);
+            });
+            showOSD(`${speed}x 播放速度`);
+        }
+
+        // Keyboard shortcuts
+        let currentUrl = '';
+        let isCompatibleStream = false;
+
+        window.addEventListener('keydown', (e) => {
+            const focused = document.activeElement;
+            if (focused && (focused.tagName === 'INPUT' || focused.tagName === 'TEXTAREA')) return;
+
+            const key = e.key.toLowerCase();
+            const code = e.code;
+
+            // Play/Pause: Space or 'k'
+            if (key === ' ' || code === 'Space' || key === 'k') {
+                e.preventDefault();
+                e.stopPropagation(); // Stop native controls
+                if (e.repeat) return; // Prevent strobe on hold
+
+                if (video.paused) {
+                    video.play().catch(() => { });
+                    showOSD('播放', '▶️');
+                } else {
+                    video.pause();
+                    showOSD('暂停', '⏸️');
+                }
+                showHeader();
+                return;
+            }
+
+            switch (key) {
+                case 'arrowleft':
+                    e.preventDefault();
+                    if (isCompatibleStream) {
+                        const newTime = Math.max(0, video.currentTime - 10);
+                        reloadStreamAt(newTime);
+                        showOSD('-10s', '⏪');
+                    } else {
+                        video.currentTime = Math.max(0, video.currentTime - 5);
+                        showOSD('-5s', '⏪');
+                    }
+                    break;
+                case 'arrowright':
+                    e.preventDefault();
+                    if (isCompatibleStream) {
+                        // Compatible Stream: Reload with start param
+                        const newTime = video.currentTime + 10; // 10s for seek
+                        reloadStreamAt(newTime);
+                        showOSD('+10s', '⏩');
+                    } else {
+                        video.currentTime = Math.min(video.duration, video.currentTime + 5);
+                        showOSD('+5s', '⏩');
+                    }
+                    break;
+                case 'arrowup':
+                    e.preventDefault();
+                    video.volume = Math.min(1, video.volume + 0.1);
+                    showOSD(`${Math.round(video.volume * 100)}%`, '🔊');
+                    break;
+                case 'arrowdown':
+                    e.preventDefault();
+                    video.volume = Math.max(0, video.volume - 0.1);
+                    showOSD(`${Math.round(video.volume * 100)}%`, '🔉');
+                    break;
+                case 'm':
+                    if (e.repeat) return;
+                    video.muted = !video.muted;
+                    showOSD(video.muted ? '静音' : '取消静音', video.muted ? '🔇' : '🔊');
+                    break;
+                case 'f':
+                    if (e.repeat) return;
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                        showOSD('退出全屏', '📺');
+                    } else {
+                        video.requestFullscreen();
+                        showOSD('全屏', '🖥️');
+                    }
+                    break;
+                case '1': setSpeed(1); break;
+                case '2': setSpeed(1.25); break;
+                case '3': setSpeed(1.5); break;
+                case '4': setSpeed(2); break;
+            }
+            showHeader();
+        }, true); // Use Capture Phase to beat native controls
+
+        // Reload stream at specific time (Pseudo-seeking)
+        function reloadStreamAt(time) {
+            if (!currentUrl) return;
+
+            // Construct new URL with start param
+            const urlObj = new URL(currentUrl);
+            urlObj.searchParams.set('start', Math.floor(time)); // server uses seconds
+            const newUrl = urlObj.toString();
+
+            video.src = newUrl;
+            video.currentTime = time; // Try setting it (though it might reset to 0 visually until metadata loads)
+            video.play().catch(console.error);
+        }
+
+        window.addEventListener('mousemove', showHeader);
+
+        // Use events for OSD to cover all triggers (Click, Space, Remote)
+        video.addEventListener('play', () => { showHeader(); showOSD('播放', '▶️'); });
+        video.addEventListener('pause', () => { showHeader(); showOSD('暂停', '⏸️'); });
+
+        window.mediaflow.player.onPlay(async (data) => {
+            const { url, title, type } = data;
+
+            currentUrl = url;
+            isCompatibleStream = url && url.includes('/stream-compatible/');
+
+            if (!url) {
+                loading.classList.add('active');
+                statusMsg.textContent = (window.i18n && window.i18n.t('player.resolving')) || 'Resolving media URL...';
+                if (title) titleEl.textContent = title;
+                return;
+            }
+
+            titleEl.textContent = title || ((window.i18n && window.i18n.t('player.preparing')) || 'Preparing playback...');
+            loading.classList.add('active');
+            statusMsg.textContent = (window.i18n && window.i18n.t('player.loading')) || 'Loading...';
+
+            if (type === 'error') {
+                loading.classList.remove('active');
+                titleEl.textContent = ((window.i18n && window.i18n.t('player.castError', { message: data.message || ((window.i18n && window.i18n.t('player.unknownError')) || 'Unknown error') })) || ('Cast error: ' + (data.message || 'Unknown error')));
+                showOSD('投屏失败', '❌');
+                return;
+            }
+
+            if (type === 'image') {
+                // Image Mode
+                if (hls) { hls.destroy(); hls = null; }
+                video.pause();
+                video.style.display = 'none';
+                fileViewer.style.display = 'none';
+                imageViewer.style.display = 'block';
+                imageViewer.src = url;
+                imageViewer.onload = () => {
+                    loading.classList.remove('active');
+                    showOSD('图片已加载', '🖼️');
+                };
+                imageViewer.onerror = () => {
+                    loading.classList.remove('active');
+                    titleEl.textContent = (window.i18n && window.i18n.t('player.imageLoadFailed')) || 'Image failed to load';
+                    showOSD('加载失败', '❌');
+                };
+                return;
+            }
+
+            if (type === 'file') {
+                // Document Mode (PDF etc)
+                if (hls) { hls.destroy(); hls = null; }
+                video.pause();
+                video.style.display = 'none';
+                imageViewer.style.display = 'none';
+                fileViewer.style.display = 'block';
+                fileViewer.src = url;
+                fileViewer.onload = () => {
+                    loading.classList.remove('active');
+                    showOSD('文档已加载', '📄');
+                };
+                return;
+            }
+
+            // Video Mode
+            imageViewer.style.display = 'none';
+            fileViewer.style.display = 'none';
+            video.style.display = 'block';
+
+            // Check if we need to resolve the URL (if it's not a direct media file)
+            let playUrl = url;
+            const isDirectMedia = /\.(mp4|mkv|webm|mov|m3u8|flv|avi)$/i.test(url.split('?')[0]) || url.includes('/stream-compatible/');
+
+            if (!data.resolved && !isDirectMedia && window.mediaflow.video?.getInfo) {
+                // Try to resolve generic URL (e.g. YouTube, Douyin)
+                statusMsg.textContent = (window.i18n && window.i18n.t('player.parsingLink')) || 'Parsing link...';
+                try {
+                    const info = await window.mediaflow.video.getInfo(url);
+                    if (info.success && info.url) {
+                        playUrl = info.url;
+                        if (info.title) {
+                            titleEl.textContent = info.title;
+                        }
+                    } else if (!info.success) {
+                        console.warn('Resolve failed, trying original URL', info.error);
+                        // Show error clearly
+                        loading.classList.remove('active');
+                        titleEl.textContent = ((window.i18n && window.i18n.t('player.parseFailed', { error: info.error || ((window.i18n && window.i18n.t('player.unsupportedLink')) || 'Unsupported link') })) || ('Parse failed: ' + (info.error || 'Unsupported link')));
+                        showOSD('解析失败', '⚠️');
+                        // Do not proceed to playUrl if parsing failed and it's not a verified direct file
+                        // But maybe we should return here to prevent "trying original URL" if we know it failed?
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Resolve error:', e);
+                    loading.classList.remove('active');
+                    titleEl.textContent = ((window.i18n && window.i18n.t('player.parseError', { error: e.message })) || ('Parse error: ' + e.message));
+                    return;
+                }
+            }
+
+            // Clean up previous HLS instance
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+
+            // Click to toggle play/pause (Background only)
+            const container = document.querySelector('.container');
+            container.onclick = (e) => {
+                // Only handle click if it is strictly the container (black background)
+                // If user clicks video, native controls handle it (toggling play/pause)
+                if (e.target === container) {
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                    showHeader();
+                }
+            };
+
+            if (playUrl.includes('.m3u8')) {
+                if (window.Hls && Hls.isSupported()) {
+                    hls = new Hls();
+                    hls.loadSource(playUrl);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        loading.classList.remove('active');
+                        video.play().catch(e => console.log('Auto-play blocked'));
+                    });
+                    hls.on(Hls.Events.ERROR, (event, data) => {
+                        if (data.fatal) {
+                            loading.classList.remove('active');
+                            titleEl.textContent = (window.i18n && window.i18n.t('player.hlsFatal')) || 'Playback failed: fatal HLS error';
+                            showHeader();
+                        }
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    // Native support (Safari/iOS)
+                    video.src = playUrl;
+                } else {
+                    titleEl.textContent = (window.i18n && window.i18n.t('player.hlsUnsupported')) || 'Playback failed: browser does not support HLS';
+                    loading.classList.remove('active');
+                    showHeader();
+                }
+            } else {
+                // Regular video
+                video.src = playUrl;
+            }
+
+            video.oncanplay = () => {
+                loading.classList.remove('active');
+                if (title) titleEl.textContent = title;
+                // If we pseudo-seeked, we might want to ensure time is correct, 
+                // but since source changed, currentTime resets to 0 usually.
+                // However, since we requested with -ss, the video STARTS at 'time'.
+                // So video.currentTime SHOULD be 0 (relative to stream start).
+                // Displaying correct time (absolute) is hard without offset logic.
+                // We'll accept that the timestamp resets to 0:00 for simplicity in this hack.
+            };
+
+            video.onerror = () => {
+                loading.classList.remove('active');
+                let errStr = '资源无法加载';
+                if (video.error) {
+                    switch (video.error.code) {
+                        case 1: errStr = '加载中断'; break;
+                        case 2: errStr = '网络错误'; break;
+                        case 3: errStr = '解码错误'; break;
+                        case 4: errStr = '格式不支持'; break;
+                    }
+                }
+                titleEl.textContent = ((window.i18n && window.i18n.t('player.playbackFailed', { error: errStr })) || ('Playback failed: ' + errStr));
+                showHeader();
+            };
+
+            try {
+                if (!url.includes('.m3u8')) {
+                    await video.play();
+                }
+            } catch (e) {
+                console.error('Auto-play blocked or failed:', e);
+                loading.classList.remove('active');
+            }
+        });
+
+        // Listen for remote commands from mobile
+        window.mediaflow.player.onCommand?.((command) => {
+            const { action, value } = command;
+            switch (action) {
+                case 'play': video.play(); showOSD('播放', '▶️'); break;
+                case 'pause': video.pause(); showOSD('暂停', '⏸️'); break;
+                case 'toggle':
+                    if (video.paused) {
+                        video.play();
+                        showOSD('播放', '▶️');
+                    } else {
+                        video.pause();
+                        showOSD('暂停', '⏸️');
+                    }
+                    break;
+                case 'seek':
+                    video.currentTime += value;
+                    showOSD(value > 0 ? `+${value}s` : `${value}s`, value > 0 ? '⏩' : '⏪');
+                    break;
+                case 'volume':
+                    video.volume = Math.max(0, Math.min(1, video.volume + value));
+                    showOSD(`${Math.round(video.volume * 100)}%`, value > 0 ? '🔊' : '🔉');
+                    break;
+                case 'speed': setSpeed(value); break;
+                case 'close': window.mediaflow.window.close(); break;
+            }
+            showHeader();
+        });
+    </script>
+</body>
+
+</html>

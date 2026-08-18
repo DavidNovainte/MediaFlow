@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Welcome to MediaFlow",
+    "welcomeBody": "Offline downloads, local transcription, and image compression — every feature is free and open, no activation needed.",
+    "downloadTitle": "Your first download",
+    "downloadBody": "Open Media Download → paste a public link → Analyze → Save. Downloads are unlimited; change the save folder in Settings anytime.",
+    "clipboardTitle": "Clipboard watch (optional)",
+    "clipboardBody": "Optionally detect video page links you copy for a quick download. Off by default — turn on only if you want it. Change anytime in Settings.",
+    "clipboardEnableLabel": "Enable clipboard link detection",
+    "enginesTitle": "Install core engines",
+    "enginesBody": "Missing tools: {{list}}. Open Settings → Core engines to fix, or reinstall the app.",
+    "doneTitle": "You are ready",
+    "doneBody": "Start with a single download — batch, enhance, subtitles, and mobile bridge are all included and free.",
+    "next": "Next",
+    "skip": "Skip",
+    "getStarted": "Get started"
+  }
+}

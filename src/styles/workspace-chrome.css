@@ -1,0 +1,612 @@
+/**
+ * workspace-chrome.css
+ * Shared layout + chrome for tool workspaces:
+ *   #page-subtitle, #page-creator, #page-enhance, #page-compress
+ * Loaded LAST so it wins over page CSS / flat-chrome for these rules.
+ * See UI_SPEC.md
+ */
+
+/* =====================================================================
+   1) Workspace page headers — one toolbar row, 32px controls
+   ===================================================================== */
+#page-subtitle .page-header,
+#page-creator .page-header,
+#page-enhance .preview-header,
+#page-compress .page-header {
+    display: flex;
+    align-items: center;
+    min-height: var(--ws-header-height);
+    height: auto;
+    gap: var(--ws-gap);
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Primary / accent / sm buttons in workspace headers */
+#page-subtitle .page-header .btn,
+#page-subtitle .page-header .btn-sm,
+#page-subtitle .page-header .btn-primary,
+#page-subtitle .page-header .btn-primary-pro,
+#page-subtitle .page-header .btn-accent-pro,
+#page-subtitle .page-header .btn-glass,
+#page-subtitle #subtitle-btn-toggle-inspector,
+#page-creator .page-header .btn,
+#page-creator .page-header .btn-sm,
+#page-creator .page-header .btn-primary,
+#page-creator .page-header .btn-primary-pro,
+#page-creator .page-header .btn-glass,
+#page-creator #btn-creator-export-dialog,
+#page-creator #btn-toggle-creator-mode,
+#page-creator #creator-btn-toggle-inspector,
+#page-enhance .preview-header .btn,
+#page-enhance .preview-controls .btn,
+#page-enhance .preview-controls button {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    padding: 0 12px !important;
+    font-size: var(--ws-font-ui) !important;
+    font-weight: 600 !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-enhance .preview-header h3 {
+    font-size: var(--ws-font-title) !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+}
+
+#page-enhance .empty-icon {
+    font-size: 40px !important;
+    color: var(--text-secondary) !important;
+    filter: none !important;
+    animation: none !important;
+}
+
+/* Empty drop copy: same type scale as compress upload-zone */
+#page-enhance .empty-state h3 {
+    font-size: var(--ws-font-title, 15px) !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    margin: 0 0 6px !important;
+}
+
+#page-enhance .empty-state p {
+    font-size: var(--ws-font-ui, 12px) !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    line-height: 1.5 !important;
+    margin: 0 0 16px !important;
+    max-width: 360px !important;
+}
+
+/* Creator empty drop — was larger than UI_SPEC (default h3 / padded CTA) */
+#page-creator #creator-upload-zone .placeholder-content h3 {
+    font-size: var(--ws-font-title, 15px) !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    margin: 0 0 6px !important;
+    color: var(--text-primary) !important;
+}
+
+#page-creator #creator-upload-zone .placeholder-content .hint,
+#page-creator #creator-upload-zone .placeholder-content p {
+    font-size: var(--ws-font-ui, 12px) !important;
+    font-weight: 400 !important;
+    color: var(--text-muted) !important;
+    line-height: 1.5 !important;
+    margin: 0 0 16px !important;
+    max-width: 360px !important;
+    opacity: 1 !important;
+}
+
+#page-creator #creator-upload-zone .floating-icon {
+    font-size: 40px !important;
+    margin-bottom: 12px !important;
+    color: var(--text-secondary) !important;
+}
+
+#page-creator #creator-upload-zone .btn-primary-pro,
+#page-creator #btn-creator-select-media {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    padding: 0 14px !important;
+    font-size: var(--ws-font-ui) !important;
+    font-weight: 600 !important;
+    border-radius: var(--ws-control-radius) !important;
+    margin-top: 4px !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+#page-enhance #btn-enhance-start.btn-lg {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    font-size: var(--ws-font-ui) !important;
+    padding: 0 14px !important;
+    border-radius: var(--ws-control-radius) !important;
+}
+
+/* Mono primary CTAs in headers */
+#page-subtitle .page-header .btn-primary-pro,
+#page-subtitle .page-header .btn-accent-pro,
+#page-creator .page-header .btn-primary,
+#page-creator .page-header .btn-primary-pro {
+    background: var(--ws-cta-bg) !important;
+    color: var(--ws-cta-fg) !important;
+    border: 1px solid var(--ws-cta-bg) !important;
+    -webkit-text-fill-color: var(--ws-cta-fg) !important;
+}
+
+#page-subtitle .page-header .btn-primary-pro span,
+#page-subtitle .page-header .btn-primary-pro i,
+#page-subtitle .page-header .btn-accent-pro span,
+#page-subtitle .page-header .btn-accent-pro i,
+#page-creator .page-header .btn-primary span,
+#page-creator .page-header .btn-primary i {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
+
+/* Secondary header actions (outline) */
+#page-subtitle #subtitle-btn-toggle-inspector,
+#page-creator #btn-toggle-creator-mode,
+#page-creator #creator-btn-toggle-inspector {
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    border: 1px solid var(--border-color) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+}
+
+#page-subtitle #subtitle-btn-toggle-inspector:hover,
+#page-creator #btn-toggle-creator-mode:hover,
+#page-creator #creator-btn-toggle-inspector:hover {
+    background: var(--fill-muted) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--text-muted) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+/* =====================================================================
+   1b) Subtitle inspector segmented radios (AI 自动 / 导入 SRT / …)
+   Same mono pair as tabs — must stay readable on dark panels
+   ===================================================================== */
+#page-subtitle .segmented-control {
+    background: var(--fill-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--ws-segment-radius) !important;
+    padding: 4px !important;
+    gap: 2px !important;
+    box-shadow: none !important;
+}
+
+#page-subtitle .segmented-control span {
+    min-height: 30px !important;
+    font-size: var(--ws-font-ui) !important;
+    font-weight: 600 !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: var(--ws-control-radius) !important;
+}
+
+#page-subtitle .segmented-control input:checked + span {
+    background: var(--ws-segment-active-bg, #fafafa) !important;
+    color: var(--ws-segment-active-fg, #18181b) !important;
+    -webkit-text-fill-color: var(--ws-segment-active-fg, #18181b) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] #page-subtitle .segmented-control input:checked + span {
+    background: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+/* =====================================================================
+   2) Segmented tabs — inspector / category / compare
+   Dark: light chip + dark ink | Light: dark chip + light ink
+   ===================================================================== */
+#page-subtitle .inspector-tabs,
+#page-creator .inspector-tabs,
+#page-enhance .category-tabs,
+#page-compress .category-tabs,
+#page-compress .compare-tabs,
+#page-creator .category-tabs {
+    display: flex !important;
+    align-items: center;
+    gap: 2px !important;
+    padding: 4px !important;
+    margin: 0 !important;
+    background: var(--fill-muted) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--ws-segment-radius) !important;
+    box-shadow: none !important;
+}
+
+#page-compress .category-tabs {
+    margin: 0 0 12px !important;
+}
+
+#page-enhance .category-tabs {
+    margin: 10px 12px 0 !important;
+}
+
+#page-subtitle .inspector-tab,
+#page-creator .inspector-tab,
+#page-enhance .category-tab,
+#page-compress .category-tab,
+#page-compress .compare-tab {
+    flex: 1;
+    height: 30px !important;
+    min-height: 30px !important;
+    padding: 0 10px !important;
+    font-size: var(--ws-font-ui) !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: var(--ws-control-radius) !important;
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer;
+    z-index: 2;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+}
+
+#page-subtitle .inspector-tab:hover:not(.active),
+#page-creator .inspector-tab:hover:not(.active),
+#page-enhance .category-tab:hover:not(.active),
+#page-compress .category-tab:hover:not(.active),
+#page-compress .compare-tab:hover:not(.active) {
+    background: var(--fill-hover) !important;
+    color: var(--text-primary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+#page-subtitle .inspector-tab.active,
+#page-creator .inspector-tab.active,
+#page-enhance .category-tab.active,
+#page-compress .category-tab.active,
+#page-compress .compare-tab.active,
+#page-compress .settings-tab.active {
+    background: var(--ws-segment-active-bg, #fafafa) !important;
+    color: var(--ws-segment-active-fg, #18181b) !important;
+    -webkit-text-fill-color: var(--ws-segment-active-fg, #18181b) !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-color: transparent !important;
+}
+
+html[data-theme="light"] #page-compress .settings-tab.active,
+html[data-theme="light"] #page-compress .compare-tab.active {
+    background: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+#page-subtitle .inspector-tab.active i,
+#page-subtitle .inspector-tab.active span,
+#page-creator .inspector-tab.active i,
+#page-creator .inspector-tab.active span,
+#page-enhance .category-tab.active span,
+#page-compress .category-tab.active span,
+#page-compress .compare-tab.active span,
+#page-compress .settings-tab.active {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    opacity: 1 !important;
+}
+
+#page-compress .settings-tab:not(.active) {
+    color: var(--text-secondary, #a1a1aa) !important;
+    -webkit-text-fill-color: var(--text-secondary, #a1a1aa) !important;
+    background: transparent !important;
+}
+
+/* Kill sliding pill indicators that paint white-on-white */
+#page-subtitle .tab-indicator,
+#page-enhance .category-tab.active::before,
+#page-compress .category-tab.active::before {
+    display: none !important;
+}
+
+/* =====================================================================
+   3) Flat inspector sections — no nested card chrome
+   ===================================================================== */
+#page-enhance .settings-section,
+#page-compress .pixelflow-settings-panel .settings-section,
+#page-subtitle .inspector-aside-pro .settings-section {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    border-radius: 0 !important;
+}
+
+#page-enhance .settings-section:hover,
+#page-compress .pixelflow-settings-panel .settings-section:hover {
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-enhance .settings-section:not(:last-child),
+#page-compress .pixelflow-settings-panel .settings-section:not(:last-child) {
+    border-bottom: 1px solid var(--border-color) !important;
+    margin-bottom: 12px;
+    padding-bottom: 14px;
+}
+
+/* Inspector width */
+#page-enhance .enhance-settings-panel {
+    width: var(--ws-inspector-width) !important;
+}
+
+/* =====================================================================
+   4) Preset / chip buttons (compress modes, etc.)
+   ===================================================================== */
+#page-compress .preset-btn {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    border-radius: var(--ws-control-radius) !important;
+    font-size: var(--ws-font-ui) !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-compress .preset-btn.active {
+    background: var(--ws-segment-active-bg) !important;
+    color: var(--ws-segment-active-fg) !important;
+    border-color: var(--ws-segment-active-bg) !important;
+    -webkit-text-fill-color: var(--ws-segment-active-fg) !important;
+}
+
+#page-compress #btn-save-preset {
+    background: transparent !important;
+    border: 1px dashed var(--border-color) !important;
+    color: var(--text-secondary) !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+}
+
+/* =====================================================================
+   5) Footer clearance (fixed bars)
+   ===================================================================== */
+#page-compress .pixelflow-layout {
+    padding-bottom: var(--ws-footer-clearance) !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+}
+
+#page-compress .settings-scroll-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding-bottom: 28px !important;
+}
+
+/* =====================================================================
+   6) Form density in inspectors
+   ===================================================================== */
+#page-subtitle .inspector-aside-pro input[type="text"],
+#page-subtitle .inspector-aside-pro input[type="number"],
+#page-subtitle .inspector-aside-pro select,
+#page-enhance .setting-select,
+#page-compress .pixelflow-settings-panel select,
+#page-compress .pixelflow-settings-panel input[type="text"],
+#page-compress .pixelflow-settings-panel input[type="number"] {
+    min-height: var(--ws-control-height);
+    height: var(--ws-control-height);
+    font-size: var(--ws-font-ui);
+    border-radius: var(--ws-control-radius);
+    box-sizing: border-box;
+}
+
+#page-subtitle .inspector-aside-pro label,
+#page-enhance .setting-label,
+#page-compress .option-label {
+    font-size: var(--ws-font-label) !important;
+    color: var(--text-muted) !important;
+}
+
+/* =====================================================================
+   7) Empty drop zones stay inside content box
+   ===================================================================== */
+#page-compress.active #upload-zone-image:not(.hidden),
+#page-transcribe.active #upload-zone-audio:not(.hidden) {
+    box-sizing: border-box !important;
+    height: auto !important;
+    max-height: 100% !important;
+}
+
+/* =====================================================================
+   8) Transcribe — workspace density
+   ===================================================================== */
+#page-transcribe .btn,
+#page-transcribe .btn-sm,
+#page-transcribe .btn-secondary,
+#page-transcribe .btn-primary {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    padding: 0 12px !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+}
+
+#page-transcribe .btn-sm {
+    height: var(--ws-control-height-sm) !important;
+    min-height: var(--ws-control-height-sm) !important;
+    padding: 0 10px !important;
+}
+
+#page-transcribe .option-label,
+#page-transcribe label.option-label {
+    font-size: var(--ws-font-label) !important;
+    color: var(--text-muted) !important;
+}
+
+#page-transcribe .setting-select,
+#page-transcribe select,
+#page-transcribe input[type="text"],
+#page-transcribe input[type="number"] {
+    min-height: var(--ws-control-height);
+    height: var(--ws-control-height);
+    font-size: var(--ws-font-ui);
+    border-radius: var(--ws-control-radius);
+    box-sizing: border-box;
+}
+
+#page-transcribe #scribe-queue-count,
+#page-transcribe .scribe-queue-header {
+    font-size: var(--ws-font-ui) !important;
+    color: var(--text-secondary);
+}
+
+#page-transcribe .input-hint,
+#page-transcribe .upload-hint {
+    font-size: var(--ws-font-meta) !important;
+    color: var(--text-muted) !important;
+}
+
+#page-transcribe #lang-dropdown-menu .dropdown-item {
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+}
+
+/* =====================================================================
+   9) Download — toolbar / actions density
+   ===================================================================== */
+#page-download .btn,
+#page-download .btn-secondary,
+#page-download .btn-primary,
+#page-download #btn-add-queue {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    padding: 0 12px !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+    line-height: 1 !important;
+}
+
+#page-download .input-field,
+#page-download input[type="text"],
+#page-download select {
+    min-height: var(--ws-control-height);
+    height: var(--ws-control-height);
+    font-size: var(--ws-font-ui);
+    border-radius: var(--ws-control-radius);
+    box-sizing: border-box;
+}
+
+#page-download .quality-btn,
+#page-download .audio-format-btn {
+    height: var(--ws-control-height) !important;
+    min-height: var(--ws-control-height) !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+}
+
+/* =====================================================================
+   10) History / Settings — header actions + form density
+   ===================================================================== */
+#page-history .page-header .btn,
+#page-history .batch-actions .btn,
+#page-history .btn-small,
+#page-history .btn-sm {
+    height: var(--ws-control-height-sm) !important;
+    min-height: var(--ws-control-height-sm) !important;
+    padding: 0 10px !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+}
+
+#page-settings input[type="text"],
+#page-settings input[type="number"],
+#page-settings input[type="password"],
+#page-settings select,
+#page-settings .setting-input,
+#page-settings .setting-select {
+    min-height: var(--ws-control-height) !important;
+    height: var(--ws-control-height) !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+    box-sizing: border-box !important;
+}
+
+#page-settings .setting-label,
+#page-settings label {
+    font-size: var(--ws-font-label) !important;
+}
+
+#page-settings .setting-desc,
+#page-settings .setting-hint,
+#page-settings .settings-page-subtitle {
+    font-size: var(--ws-font-meta) !important;
+    color: var(--text-muted) !important;
+}
+
+#page-settings .setting-item-title,
+#page-settings .settings-section-title,
+#page-settings h3 {
+    font-size: var(--ws-font-title) !important;
+    font-weight: 600 !important;
+}
+
+/* =====================================================================
+   11) Creator inspector form density + cancel chip
+   ===================================================================== */
+#page-creator .inspector-aside-pro input[type="text"],
+#page-creator .inspector-aside-pro input[type="number"],
+#page-creator .inspector-aside-pro select,
+#page-creator .setting-select {
+    min-height: var(--ws-control-height);
+    height: var(--ws-control-height);
+    font-size: var(--ws-font-ui);
+    border-radius: var(--ws-control-radius);
+    box-sizing: border-box;
+}
+
+#page-creator .inspector-aside-pro label,
+#page-creator .option-label {
+    font-size: var(--ws-font-label) !important;
+    color: var(--text-muted) !important;
+}
+
+#page-creator #btn-cancel-process {
+    height: var(--ws-control-height-sm) !important;
+    min-height: var(--ws-control-height-sm) !important;
+    padding: 0 10px !important;
+    font-size: var(--ws-font-ui) !important;
+    border-radius: var(--ws-control-radius) !important;
+}
+
+/* =====================================================================
+   12) Global chrome utilities (replace inline font-size hacks)
+   ===================================================================== */
+.ws-text-meta { font-size: var(--ws-font-meta) !important; }
+.ws-text-ui { font-size: var(--ws-font-ui) !important; }
+.ws-text-body { font-size: var(--ws-font-body) !important; }
+.ws-text-title { font-size: var(--ws-font-title) !important; }
+.ws-text-muted { color: var(--text-muted) !important; }
+.ws-text-secondary { color: var(--text-secondary) !important; }

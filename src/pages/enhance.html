@@ -1,0 +1,280 @@
+<!-- AI 画质增强页面内容 -->
+<div class="enhance-container">
+    <!-- 左侧：预览区域 -->
+    <div class="enhance-preview-area">
+        <div class="preview-header">
+            <h3 data-i18n="enhance.previewTitle">效果预览</h3>
+            <div class="preview-controls">
+                <button class="btn btn-secondary btn-sm" id="btn-quick-compare"
+                    data-i18n-title="enhance.holdToCompare">
+                    <i class="fas fa-eye"></i> <span data-i18n="enhance.quickCompare">按住对比</span>
+                </button>
+                <button class="btn btn-secondary btn-sm" id="btn-enhance-preview">
+                    <i class="fas fa-bolt"></i> <span data-i18n="enhance.quickPreview">重新生成预览</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="preview-container" id="enhance-preview-container">
+            <!-- 悬浮工具栏 (专业版) -->
+            <div class="enhance-zoom-toolbar" id="enhance-zoom-toolbar">
+                <button class="toolbar-btn" id="btn-zoom-fit" data-i18n-title="enhance.viewFit" title="Fit to Screen">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" id="btn-zoom-out" data-i18n-title="enhance.viewZoomOut" title="Zoom Out">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <span class="zoom-percentage" id="enhance-zoom-info">100%</span>
+                <button class="toolbar-btn" id="btn-zoom-in" data-i18n-title="enhance.viewZoomIn" title="Zoom In">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn" id="btn-zoom-reset" data-i18n-title="enhance.viewReset" title="100%">1:1</button>
+                <div class="toolbar-divider"></div>
+                <button class="toolbar-btn primary" id="btn-enhance-export-region" data-i18n-title="enhance.exportRegion" title="Export current view">
+                    <i class="fas fa-crop-alt"></i>
+                </button>
+            </div>
+
+            <!-- 空状态 -->
+            <div class="empty-state" id="enhance-empty-state">
+                <div class="empty-icon"><i class="fas fa-image"></i></div>
+                <h3 data-i18n="enhance.emptyTitle">拖入图片或视频</h3>
+                <p data-i18n="enhance.emptyDesc">支持 PNG / JPG / WEBP；短视频 MVP（≤45s，最长边 ≤1280，仅 2×）</p>
+                <button class="btn btn-primary" id="btn-enhance-add-files">
+                    <i class="fas fa-plus"></i> <span data-i18n="enhance.addFiles">添加文件</span>
+                </button>
+            </div>
+
+            <!-- Before/After 对比预览（图片用 img，视频用 video） -->
+            <div class="comparison-slider hidden" id="enhance-comparison">
+                <div class="comparison-before">
+                    <img id="enhance-before-img" class="enhance-media enhance-media-img" alt="" src="">
+                    <video id="enhance-before-video" class="enhance-media enhance-media-video hidden" muted playsinline preload="metadata" controls></video>
+                    <span class="comparison-label" id="enhance-label-original" data-i18n="enhance.labelOriginal">原图</span>
+                </div>
+                <div class="comparison-after">
+                    <img id="enhance-after-img" class="enhance-media enhance-media-img" alt="" src="">
+                    <video id="enhance-after-video" class="enhance-media enhance-media-video hidden" muted playsinline preload="metadata" controls></video>
+                    <span class="comparison-label" id="enhance-label-enhanced" data-i18n="enhance.labelEnhanced">增强后</span>
+                </div>
+                <!-- 滑块已移除，改为按住对比 -->
+            </div>
+
+            <!-- 底部信息条 (专业版) -->
+            <div class="enhance-info-bar hidden" id="enhance-info-bar">
+                <div class="info-content">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="enhance-res-info"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 进度条 -->
+        <div class="enhance-progress-container hidden" id="enhance-progress-container">
+            <div class="enhance-progress-bar">
+                <div class="enhance-progress-fill" id="enhance-progress-fill"></div>
+            </div>
+            <div class="enhance-progress-info">
+                <span id="enhance-progress-text">处理中... 0%</span>
+                <span id="enhance-progress-eta">预计剩余: --</span>
+            </div>
+        </div>
+
+        <!-- 完成后快捷操作：打开目录 / 定位文件 / 送去压缩 -->
+        <div class="enhance-complete-actions hidden" id="enhance-complete-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-enhance-open-dir">
+                <i class="fas fa-folder-open"></i> <span data-i18n="enhance.actionOpenDir">打开输出文件夹</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-enhance-reveal-file">
+                <i class="fas fa-search-location"></i> <span data-i18n="enhance.actionRevealFile">定位结果文件</span>
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-enhance-to-compress">
+                <i class="fas fa-file-archive"></i> <span data-i18n="enhance.actionToCompress">送去压缩</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 拖动调整宽度的把手 -->
+    <div id="enhance-layout-resizer" class="layout-resizer"></div>
+
+    <!-- 右侧：设置面板 -->
+    <div class="enhance-settings-panel">
+        <!-- Product limits -->
+        <div class="enhance-limits-banner" id="enhance-limits-banner" role="note">
+            <i class="fas fa-info-circle" aria-hidden="true"></i>
+            <div class="enhance-limits-text">
+                <p class="enhance-limits-title" data-i18n="enhance.limitsTitle">Video enhance limits</p>
+                <p class="enhance-limits-body" data-i18n="enhance.limitsBody">Short clips only: ≤45s · max long edge 1280 · scale 2× only · local GPU recommended.</p>
+            </div>
+        </div>
+        <!-- [NEW] 分类导航 Tab -->
+        <div class="category-tabs" id="enhance-category-tabs">
+            <button type="button" class="category-tab active" data-category="model"><span data-i18n="enhance.tabModel">引擎</span></button>
+            <button type="button" class="category-tab" data-category="params"><span data-i18n="enhance.tabParams">参数</span></button>
+            <button type="button" class="category-tab" data-category="output"><span data-i18n="enhance.tabOutput">输出</span></button>
+        </div>
+
+        <div class="enhance-settings-scroll">
+            <!-- 引擎设置 (Model) -->
+            <div class="category-content" id="cat-model">
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h4 data-i18n="enhance.modelTitle">AI 模型</h4>
+                        <button class="btn-text-link" id="btn-sync-all"
+                            data-i18n-title="enhance.syncAllTooltip">
+                            <i class="fas fa-sync-alt"></i> <span data-i18n="enhance.syncAll">同步到所有</span>
+                        </button>
+                    </div>
+                    <div class="setting-group">
+                        <label class="setting-label" data-i18n="enhance.selectModel">选择模型</label>
+                        <select id="enhance-engine-select" class="setting-select">
+                            <option value="cugan" data-i18n="enhance.modelCugan">CUGAN (动漫专用)</option>
+                            <option value="esrgan" data-i18n="enhance.modelEsrgan">Real-ESRGAN (通用)</option>
+                            <option value="gfpgan" data-i18n="enhance.modelGfpgan">人像增强 (Photo)</option>
+                        </select>
+                        <p class="setting-desc" id="enhance-engine-desc" data-i18n="enhance.modelDescCugan">
+                            二次元专用，线条锐利，无油画感</p>
+                        <!-- 动态模型风格容器 -->
+                        <div id="enhance-model-style-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 增强参数 (Params) -->
+            <div class="category-content hidden" id="cat-params">
+                <div class="settings-section" id="enhance-options-container">
+                    <div class="section-header">
+                        <h4 data-i18n="enhance.paramsTitle">增强参数</h4>
+                    </div>
+
+                    <div class="section-content" id="enhance-params-content">
+                        <!-- 放大倍率 -->
+                        <div class="setting-group">
+                            <label class="setting-label" data-i18n="enhance.scaleLabel">放大倍率</label>
+                            <div class="scale-buttons" id="enhance-scale-buttons">
+                                <button class="scale-btn active" data-scale="2">2x</button>
+                                <button class="scale-btn" data-scale="3">3x</button>
+                                <button class="scale-btn" data-scale="4">4x</button>
+                            </div>
+                        </div>
+
+                        <!-- 降噪等级 (仅 CUGAN) -->
+                        <div class="setting-group" id="enhance-denoise-group">
+                            <label class="setting-label" data-i18n="enhance.denoiseLabel">降噪等级</label>
+                            <input type="range" id="enhance-denoise-slider" min="-1" max="3" value="0"
+                                class="setting-slider">
+                            <div class="slider-labels">
+                                <span data-i18n="enhance.denoiseNone">无</span>
+                                <span data-i18n="enhance.denoiseAuto">自动</span>
+                                <span data-i18n="enhance.denoiseLow">弱</span>
+                                <span data-i18n="enhance.denoiseMedium">中</span>
+                                <span data-i18n="enhance.denoiseHigh">强</span>
+                            </div>
+                        </div>
+
+                        <!-- 性能模式 -->
+                        <div class="setting-group" id="enhance-performance-group">
+                            <label class="setting-label" data-i18n="enhance.perfTitle">性能模式</label>
+                            <select id="enhance-performance-mode" class="setting-select">
+                                <option value="eco" data-i18n="enhance.perfEco">🌱 节能模式 (减少显存占用)</option>
+                                <option value="balanced" selected data-i18n="enhance.perfBalanced">⚖️ 平衡模式 (默认)</option>
+                                <option value="turbo" data-i18n="enhance.perfTurbo">🚀 全速模式 (最大化 GPU)</option>
+                            </select>
+                        </div>
+
+                        <!-- 细节锐化 -->
+                        <div class="setting-group">
+                            <label class="setting-checkbox">
+                                <input type="checkbox" id="enhance-sharpen-toggle">
+                                <span data-i18n="enhance.sharpenToggle">✨ 细节锐化 (让老照片更清晰)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 输出设置 (Output) -->
+            <div class="category-content hidden" id="cat-output">
+                <div class="settings-section">
+                    <div class="section-header">
+                        <h4 data-i18n="enhance.outputSettings">📁 输出设置</h4>
+                    </div>
+
+                    <div class="section-content" id="enhance-output-content">
+                        <div class="setting-group">
+                            <label class="setting-label" data-i18n="enhance.outputFormat">输出格式</label>
+                            <select id="enhance-output-format" class="setting-select">
+                                <option value="png" data-i18n="enhance.formatPng">PNG (无损，画质最佳)</option>
+                                <option value="jpg" data-i18n="enhance.formatJpg">JPG (高画质，体积更小)</option>
+                                <option value="webp" data-i18n="enhance.formatWebp">WebP (平衡均衡)</option>
+                                <option value="auto" selected data-i18n="enhance.formatAuto">自动 (跟随源文件)</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label class="setting-label" data-i18n="enhance.outputDir">输出目录</label>
+                            <div class="output-path-group">
+                                <input type="text" id="enhance-output-path" class="setting-input" placeholder="Same as source" data-i18n-placeholder="enhance.outputDirPlaceholder"
+                                    readonly>
+                                <button class="btn btn-secondary btn-sm" id="btn-enhance-select-output">
+                                    <i class="fas fa-folder-open"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label class="setting-label" data-i18n="enhance.nameTemplate">文件名模板</label>
+                            <input type="text" id="enhance-name-template" class="setting-input"
+                                placeholder="{name}_{model}_{scale}x">
+                            <div class="template-presets" id="enhance-template-presets">
+                                <span class="template-chip" data-template="{name}_enhanced"
+                                    data-i18n="enhance.templateClassic">经典</span>
+                                <span class="template-chip" data-template="{name}_{model}_{scale}x"
+                                    data-i18n="enhance.templatePro">专业</span>
+                                <span class="template-chip" data-template="{name}_{scale}x"
+                                    data-i18n="enhance.templateSimple">简单</span>
+                                <span class="template-chip" data-template="enhanced_{name}"
+                                    data-i18n="enhance.templatePrefix">前缀</span>
+                            </div>
+                            <p class="setting-desc" data-i18n="enhance.templateHint">可用: {name} (原名) {model} (引擎)
+                                {scale} (倍率)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="enhance-actions">
+            <button class="btn btn-primary btn-lg" id="btn-enhance-start" disabled>
+                <i class="fas fa-magic"></i> <span data-i18n="enhance.startBtn">开始增强</span>
+            </button>
+            <button class="btn btn-secondary hidden" id="btn-enhance-cancel">
+                <i class="fas fa-times"></i> <span data-i18n="enhance.cancelBtn">取消</span>
+            </button>
+        </div>
+        <p class="hardware-warning" data-i18n="enhance.hardwareWarning">建议使用独立显卡。视频增强为本地抽帧 MVP（≤45s / 2×），耗时与帧数成正比，可随时取消。</p>
+
+        <!-- 文件列表 -->
+        <div class="enhance-file-list-container">
+            <div class="list-header" id="btn-toggle-file-list" data-i18n-title="enhance.toggleListTooltip" style="cursor: pointer;">
+                <h4>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                    <span data-i18n="enhance.fileListTitle">📄 待处理文件</span>
+                    <span id="enhance-file-count">(0)</span>
+                </h4>
+                <div class="list-actions">
+                    <button class="btn-text-link sm" id="btn-enhance-clear-finished" data-i18n-title="enhance.clearFinishedTooltip">
+                        <i class="fas fa-broom"></i> <span data-i18n="enhance.clearFinished">清除已完成</span>
+                    </button>
+                    <button class="btn-text-link sm danger" id="btn-enhance-clear-all" data-i18n-title="enhance.clearAllTooltip">
+                        <i class="fas fa-trash-alt"></i> <span data-i18n="enhance.clearAll">清除全部</span>
+                    </button>
+                </div>
+            </div>
+            <div class="enhance-file-list" id="enhance-file-list">
+                <!-- 文件项将动态插入 -->
+            </div>
+        </div>
+    </div>
+</div>

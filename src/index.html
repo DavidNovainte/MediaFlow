@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' blob: data: https: http:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: blob: https: http: media-file: file:; media-src 'self' blob: data: file: media-file: https: http:; worker-src 'self' blob: data:;">
+    <title>MediaFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/batch.css">
+    <link rel="stylesheet" href="styles/batch_chips.css">
+    <link rel="stylesheet" href="styles/download.css">
+    <link rel="stylesheet" href="styles/platforms.css">
+    <link rel="stylesheet" href="styles/history.css">
+    <link rel="stylesheet" href="styles/features.css">
+
+    <link rel="stylesheet" href="styles/creator.css">
+    <link rel="stylesheet" href="styles/creator_timeline_layout.css">
+    <link rel="stylesheet" href="styles/editor.css">
+    <link rel="stylesheet" href="styles/subtitle.css">
+    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="styles/scribe-player.css">
+    <link rel="stylesheet" href="styles/scribe-search.css">
+    <link rel="stylesheet" href="styles/celebration.css">
+    <link rel="stylesheet" href="styles/onboarding.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/enhance.css">
+    <link rel="stylesheet" href="styles/extension.css">
+    <link rel="stylesheet" href="styles/donation.css">
+    <link rel="stylesheet" href="styles/transitions.css">
+    <link rel="stylesheet" href="styles/video_transitions.css">
+    <link rel="stylesheet" href="styles/light-theme-overrides.css">
+    <!-- Last: flatten residual glass / glow chrome across all pages -->
+    <link rel="stylesheet" href="styles/flat-chrome.css">
+    <!-- Workspace design tokens + shared chrome (must load last among app CSS) -->
+    <link rel="stylesheet" href="styles/ui-tokens.css">
+    <link rel="stylesheet" href="styles/workspace-chrome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+
+<body ondragover="event.preventDefault();" ondrop="event.preventDefault();">
+
+    <!-- ... -->
+
+    <!-- 庆祝动画组件与空状态 -->
+    <script src="components/common/EmptyState.js"></script>
+    <!-- 自定义标题栏 -->
+    <header class="titlebar" id="titlebar">
+        <div class="titlebar-drag">
+            <div class="titlebar-logo">
+                <button class="btn-icon sidebar-toggle" id="btn-toggle-sidebar" data-i18n-title="nav.toggleSidebar"
+                    title="Toggle Sidebar (Ctrl+B)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                </svg>
+                <span class="logo-text" id="app-title">MediaFlow <small id="app-version-display"
+                        style="font-size: 10px; opacity: 0.5;">v2.4.4</small></span>
+            </div>
+        </div>
+        <div class="titlebar-controls">
+            <button class="titlebar-btn" id="btn-minimize" data-i18n-title="common.actions.minimize" title="Minimize">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14" />
+                </svg>
+            </button>
+            <button class="titlebar-btn" id="btn-maximize" data-i18n-title="common.actions.maximize" title="Maximize">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                </svg>
+            </button>
+            <button class="titlebar-btn titlebar-btn-close" id="btn-close" data-i18n-title="common.actions.close" title="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 6l12 12M6 18L18 6" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-label" data-i18n="nav.tools">工具</div>
+                <button class="nav-item active" data-page="download">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span data-i18n="nav.download">媒体下载</span>
+                </button>
+                <button class="nav-item" data-page="history">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span data-i18n="nav.history">历史记录</span>
+                </button>
+                <button class="nav-item" data-page="transcribe">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+                        <path d="M19 10v2a7 7 0 01-14 0v-2" />
+                        <line x1="12" y1="19" x2="12" y2="23" />
+                        <line x1="8" y1="23" x2="16" y2="23" />
+                    </svg>
+                    <span data-i18n="nav.transcribe">音视频转文字</span>
+                </button>
+                <button class="nav-item" data-page="compress">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" />
+                        <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    <span data-i18n="nav.compress">图片压缩</span>
+                </button>
+                <button class="nav-item" data-page="enhance">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <span data-i18n="nav.enhance">AI 画质增强</span>
+                </button>
+                <div class="nav-group-label" data-i18n="nav.groupVideo">视频工作流</div>
+                <button class="nav-item" data-page="creator" title="Quick one-shot tools: convert, vertical, GIF…">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+                        <line x1="7" y1="2" x2="7" y2="22" />
+                        <line x1="17" y1="2" x2="17" y2="22" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <line x1="2" y1="7" x2="7" y2="7" />
+                        <line x1="2" y1="17" x2="7" y2="17" />
+                        <line x1="17" y1="17" x2="22" y2="17" />
+                        <line x1="17" y1="7" x2="22" y2="7" />
+                    </svg>
+                    <span class="nav-item-label">
+                        <span data-i18n="nav.creator">快捷视频工具</span>
+                        <small class="nav-item-hint" data-i18n="nav.creatorHint">一键处理</small>
+                    </span>
+                </button>
+                <button class="nav-item" data-page="editor" title="Multi-track timeline editor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="6" cy="6" r="3" />
+                        <circle cx="6" cy="18" r="3" />
+                        <path d="M8.12 8.12 12 12" />
+                        <path d="M20 4 8.12 15.88" />
+                        <path d="M14.8 14.8 20 20" />
+                    </svg>
+                    <span class="nav-item-label">
+                        <span data-i18n="nav.editor">多轨时间线</span>
+                        <small class="nav-item-hint" data-i18n="nav.editorHint">精修剪辑</small>
+                    </span>
+                </button>
+                <button class="nav-item" data-page="subtitle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        <text x="12" y="11" text-anchor="middle" font-size="8" fill="currentColor"
+                            stroke="none">A字</text>
+                    </svg>
+                    <span data-i18n="nav.subtitle">字幕翻译</span>
+                </button>
+                <div class="nav-group-label" data-i18n="nav.groupAdvanced">进阶</div>
+                <button class="nav-item" data-page="mobile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                        <line x1="12" y1="18" x2="12" y2="18" />
+                    </svg>
+                    <span data-i18n="nav.mobile">手机/电脑互联</span>
+                </button>
+                <button class="nav-item" data-page="extension">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 8h4V4h4v4h4v4h-4v4H8v-4H4V8z" />
+                        <rect x="14" y="14" width="6" height="6" rx="1" />
+                    </svg>
+                    <span data-i18n="nav.extension">浏览器扩展</span>
+                </button>
+
+            </div>
+
+            <div class="nav-section nav-bottom">
+                <button class="nav-item nav-item-donation" data-page="donation">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span data-i18n="nav.donation">支持项目</span>
+                </button>
+                <button class="nav-item" data-page="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
+                    <span data-i18n="nav.settings">设置</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- 主内容区 -->
+        <main class="main-content" id="main-content">
+            <!-- 视频下载页面 (Loaded dynamically) -->
+            <!-- <section class="page active" id="page-download"></section> -->
+
+            <!-- 音频转文字页面 (ScribeFlow) -->
+            <!-- 音频转文字页面 (ScribeFlow) (Loaded dynamically) -->
+            <!-- <section class="page" id="page-transcribe"></section> -->
+
+            <!-- 图片压缩页面 (PixelFlow) -->
+            <!-- 图片压缩页面 (PixelFlow) (Loaded dynamically) -->
+            <section class="page" id="page-compress"></section>
+
+            <!-- CreatorFlow - 视频工具页面 (Loaded dynamically) -->
+            <section class="page" id="page-creator"></section>
+            <section class="page" id="page-editor"></section>
+
+            <!-- SubtitleFlow - 字幕工具 (Loaded dynamically) -->
+            <section class="page" id="page-subtitle"></section>
+
+            <!-- 订阅管理页面 (Loaded dynamically) -->
+            <!-- <section class="page" id="page-subscriptions"></section> -->
+
+            <!-- 历史记录页面 (Loaded dynamically) -->
+            <!-- <section class="page" id="page-history"></section> -->
+
+            <!-- 升级专业版页面 (Loaded dynamically) -->
+            <!-- <section class="page" id="page-donation"></section> -->
+
+            <!-- 设置页面 (Loaded dynamically) -->
+            <!-- <section class="page" id="page-settings"></section> -->
+
+            <!-- Mobile Flow View (Loaded dynamically) -->
+            <!-- <section id="page-mobile" class="page"></section> -->
+
+            <!-- AI 画质增强页面 (Loaded dynamically) -->
+            <section class="page" id="page-enhance"></section>
+        </main>
+    </div>
+
+
+    <!-- 自定义确认对话框 -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" data-i18n="modal.confirmTitle">确认</span>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message" data-i18n="modal.defaultMessage">确定要执行此操作吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-cancel" class="btn btn-secondary" data-i18n="modal.cancel">取消</button>
+                <button id="confirm-ok" class="btn btn-primary" data-i18n="modal.confirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 自定义输入对话框 (Prompt) -->
+    <div id="prompt-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="prompt-title">输入</span>
+            </div>
+            <div class="modal-body">
+                <p id="prompt-message" style="margin-bottom: 12px; font-size: 14px; color: var(--text-secondary);"></p>
+                <input type="text" id="prompt-input" class="setting-input" style="width: 100%; box-sizing: border-box;">
+            </div>
+            <div class="modal-footer">
+                <button id="prompt-cancel" class="btn btn-secondary" data-i18n="modal.cancel">Cancel</button>
+                <button id="prompt-ok" class="btn btn-primary" data-i18n="modal.confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Speaker Edit Modal -->
+    <div id="global-speaker-edit-modal" class="modal-overlay hidden"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2147483647; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(2px);">
+        <div class="modal-content"
+            style="background:var(--bg-secondary); padding:24px; border-radius:12px; width:340px; box-shadow:0 10px 25px rgba(0,0,0,0.5); border: 1px solid var(--border-color);">
+            <h3 style="margin:0 0 20px 0; color:var(--text-main); font-size:18px;" data-i18n="ui.editSpeaker">Edit Speaker</h3>
+
+            <div style="margin-bottom:20px;">
+                <label style="color:var(--text-muted); font-size:12px; display:block; margin-bottom:6px;" data-i18n="ui.nameChangeBatchHint">Name (Batch update after modification)</label>
+                <input type="text" id="global-speaker-name-input" class="setting-input"
+                    style="width:100%; background:var(--bg-primary); border-color:var(--border-color);">
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="color:var(--text-muted); font-size:12px; display:block; margin-bottom:8px;" data-i18n="ui.speakerColor">Exclusive Color</label>
+                <div id="global-speaker-color-palette" style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <!-- Colors injected by JS -->
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <button class="btn-secondary"
+                    onclick="document.getElementById('global-speaker-edit-modal').classList.add('hidden')"
+                    style="padding: 6px 16px;" data-i18n="modal.cancel">Cancel</button>
+                <button class="btn-primary" id="global-btn-save-speaker" style="padding: 6px 16px;" data-i18n="modal.confirm">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 通知 -->
+    <!-- Toast 通知 -->
+    <div id="toast-container" class="toast-container"></div>
+
+
+    <!-- Core Scripts -->
+    <script src="utils/rendererLogger.js"></script>
+    <script src="utils/urlUtils.js"></script>
+    <script src="utils/HistoryManager.js"></script>
+    <script src="components/common/ErrorBoundary.js?v=1.3.1"></script>
+    <script src="utils/pageLoader.js"></script>
+    <script src="utils/scriptLoader.js"></script>
+    <script src="utils/prodConsole.js"></script>
+    <script src="core/featureLoader.js"></script>
+    <script src="core/i18n.js"></script>
+    <script src="utils/errorUtils.js"></script>
+    <script src="components/common/speedMonitor.js"></script>
+    <script src="features/scribe/ScribeService.js"></script>
+    <script src="features/scribe/ScribeModelManager.js"></script>
+    <script src="features/scribe/ScribeClipHandler.js"></script>
+    <script src="features/scribe/ScribeSpeakerManager.js"></script>
+    <script src="features/scribe/ScribeUIManager.js"></script>
+    <script src="features/scribe/ScribeExporter.js"></script>
+    <script src="features/scribe/ScribeTranslator.js"></script>
+    <script src="features/scribe/ScribeAIHandler.js"></script>
+    <script src="features/scribe/ScribeQueueManager.js"></script>
+    <script src="features/scribe/ScribeSettingsManager.js"></script>
+    <script src="features/scribe/ScribeTranscriber.js"></script>
+    <script src="features/scribe/ScribeEventManager.js"></script>
+    <script src="features/scribe/ScribeMediaPlayer.js"></script>
+    <script src="features/scribe/ScribeSearchReplace.js"></script>
+    <script src="features/scribe/ScribeFlow.js"></script>
+    <script src="utils/imageAiErrorMap.js"></script>
+    <script src="features/image/PixelService.js?v=1.3.16"></script>
+    <script src="features/image/PixelFileManager.js?v=1.3.16"></script>
+    <script src="features/image/PixelListRenderer.js?v=1.3.16"></script>
+    <script src="features/image/PixelPreviewManager.js?v=1.3.17"></script>
+    <script src="features/image/PixelAIMediator.js"></script>
+    <script src="features/image/PixelCompareManager.js"></script>
+    <script src="features/image/PixelPresetUI.js?v=1.3.17"></script>
+    <script src="features/image/PixelWatermarkUI.js?v=1.3.17"></script>
+    <script src="features/image/PixelUIEvents.js?v=1.3.17"></script>
+    <script src="features/image/PixelPresetManager.js?v=1.3.16"></script>
+    <script src="features/image/PixelResizer.js"></script>
+    <script src="features/image/PixelUIManager.js?v=1.3.17"></script>
+    <script src="features/image/PixelFlow.js?v=1.3.17"></script>
+    <script src="features/shared/workflow/LocalizedEditProject.js"></script>
+    <script src="features/shared/workflow/LocalizedEditProjectStore.js"></script>
+    <script src="features/shared/workflow/SubtitleSegmentAdapter.js"></script>
+    <script src="features/subtitle/shared/SubtitleDisplayMode.js"></script>
+    <!-- Shared export planner (Editor + Creator) — keep on cold start -->
+    <script src="features/video/export/CreatorExportCapabilityMatrix.js"></script>
+    <script src="features/video/export/TimelineProjectSnapshot.js"></script>
+    <script src="features/video/export/CreatorExportPlanner.js"></script>
+    <!-- Creator toolbox scripts: lazy-loaded via FeatureLoader.ensureCreator() -->
+    <!-- Editor scripts: lazy-loaded via FeatureLoader.ensureEditor() -->
+    <script src="features/mobile/MobileFlowService.js"></script>
+    <script src="features/mobile/MobileFlowUIManager.js"></script>
+    <script src="features/mobile/MobileFlow.js"></script>
+    <!-- Shared translation (download/scribe/subtitle) — keep on cold start -->
+    <script src="features/common/TranslationService.js"></script>
+    <!-- Subtitle scripts: lazy-loaded via FeatureLoader.ensureSubtitle() -->
+    <script src="features/download/DownloadService.js"></script>
+    <script src="features/download/PlaylistUIManager.js"></script>
+    <script src="features/download/BatchSettingsModalUI.js"></script>
+    <script src="features/download/DownloadProgressUI.js"></script>
+    <script src="features/download/VideoInfoUIManager.js"></script>
+    <script src="features/download/DownloadUIManager.js"></script>
+    <script src="features/download/QueueUIManager.js"></script>
+    <script src="features/download/QueueStore.js"></script>
+    <script src="features/download/QueueExecutionSvc.js"></script>
+    <script src="features/download/QueueManager.js"></script>
+    <script src="features/download/DownloadExecutor.js"></script>
+    <script src="features/download/DownloadActionHandler.js"></script>
+    <script src="features/download/DownloadManager.js"></script>
+    <script src="features/history/HistoryService.js"></script>
+    <script src="features/history/HistoryUI.js"></script>
+    <script src="features/history/HistoryEvents.js"></script>
+    <script src="features/history/HistoryFlow.js"></script>
+    <script src="features/settings/SettingsFlow.js"></script>
+    <script src="utils/AsyncQueue.js"></script>
+    <script src="utils/shortcuts.js"></script>
+    <!-- Platform Plugins -->
+    <script src="platforms/BasePlatform.js"></script>
+    <script src="platforms/YouTube.js"></script>
+    <script src="platforms/TikTok.js"></script>
+    <script src="platforms/Douyin.js"></script>
+    <script src="platforms/Bilibili.js"></script>
+    <script src="platforms/Instagram.js"></script>
+    <script src="platforms/FacebookPlatform.js"></script> <!-- 🆕 Added Facebook Script -->
+    <script src="platforms/registry.js"></script>
+
+    <!-- Managers -->
+    <script src="features/download/DownloadBatchFileManager.js"></script>
+    <script src="features/download/DownloadBatchUIManager.js"></script>
+    <script src="features/download/DownloadBatchService.js"></script>
+    <script src="features/download/BatchInputManager.js"></script>
+    <script src="features/download/BatchManager.js"></script>
+    <script src="features/common/VirtualScrollManager.js"></script>
+    <script src="features/common/TranslationManager.js"></script>
+    <script src="core/featureFlags.js"></script>
+    <script src="core/ThemeManager.js"></script>
+    <script src="features/common/DragDropManager.js"></script>
+    <script src="features/donation/DonationFlow.js"></script>
+    <script src="features/donation/DonationPrompt.js"></script>
+    <!-- Core Services -->
+    <script src="core/UIManager.js"></script>
+    <script src="core/Router.js"></script>
+    <script src="core/ClipboardAssistant.js"></script>
+    <script src="core/ProtocolHandler.js"></script>
+    <script src="core/App.js"></script>
+
+
+
+    <!-- Model Manager Modal — wide, short, tabbed -->
+    <div id="model-manager-modal" class="modal hidden">
+        <div class="modal-content model-manager-modal">
+            <div class="modal-header model-manager-header">
+                <h3 data-i18n="common.modelManager.title">本地模型管理</h3>
+                <button type="button" class="btn-close" id="btn-close-model-manager" aria-label="Close">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 6l12 12M6 18L18 6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body model-manager-body">
+                <p class="model-manager-desc" data-i18n="common.modelManager.desc">
+                    管理 Whisper 模型。删除可释放空间，需要时再获取。
+                </p>
+                <div class="model-tabs" role="tablist">
+                    <button type="button" class="model-tab active" data-model-tab="installed" id="model-tab-installed"
+                        data-i18n="common.modelManager.installedSection">已安装</button>
+                    <button type="button" class="model-tab" data-model-tab="available" id="model-tab-available"
+                        data-i18n="common.modelManager.availableSection">可选模型</button>
+                </div>
+                <div class="model-tab-panel active" id="model-panel-installed" data-model-panel="installed">
+                    <div class="model-list" id="model-manager-list">
+                        <div class="model-list-empty" data-i18n="common.status.processing">加载中...</div>
+                    </div>
+                </div>
+                <div class="model-tab-panel" id="model-panel-available" data-model-panel="available" hidden>
+                    <p class="model-manager-hint" data-i18n="common.modelManager.availableDesc">获取后缓存到本地，可离线使用。</p>
+                    <div class="model-list model-list-available" id="available-models-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer license-modal-actions">
+                <button type="button" class="btn btn-primary" id="btn-close-model-manager-action"
+                    data-i18n="common.actions.close">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 庆祝动画组件 -->
+    <script src="components/common/Confetti.js"></script>
+    <script src="components/common/Celebration.js"></script>
+    <script src="components/onboarding/Onboarding.js"></script>
+    <script src="utils/downloadErrorMap.js"></script>
+    <script src="components/common/QueueAnimation.js"></script>
+    <script src="features/common/UpdateManager.js"></script>
+
+
+    <!-- AI 画质增强: lazy-loaded via FeatureLoader.ensureEnhance() on first visit -->
+</body>
+
+</html>

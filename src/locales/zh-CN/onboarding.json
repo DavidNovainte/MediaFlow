@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "欢迎使用 MediaFlow",
+    "welcomeBody": "离线下载、本地转写、图片压缩——所有功能免费开放，无需激活。",
+    "downloadTitle": "完成第一次下载",
+    "downloadBody": "打开「媒体下载」→ 粘贴公开链接 → 解析 → 下载到本地。单链接不限次数；保存目录可在设置中修改。",
+    "clipboardTitle": "剪贴板链接检测（可选）",
+    "clipboardBody": "复制视频页链接时可提示快捷下载。默认关闭，需要再开；随时可在「设置」里开关。",
+    "clipboardEnableLabel": "开启剪贴板链接检测",
+    "enginesTitle": "安装核心引擎",
+    "enginesBody": "缺少组件：{{list}}。请打开 设置 → 核心引擎 修复，或重新安装应用。",
+    "doneTitle": "可以开始了",
+    "doneBody": "从一个视频开始。批量、AI 增强、字幕、手机互联全部免费包含，无需升级。",
+    "next": "下一步",
+    "skip": "跳过",
+    "getStarted": "开始使用"
+  }
+}

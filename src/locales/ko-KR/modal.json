@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "확인",
+    "confirm": "확인",
+    "cancel": "취소",
+    "defaultMessage": "정말로 계속하시겠습니까?",
+    "promptTitle": "입력",
+    "confirmBtn": "확인",
+    "cancelBtn": "취소"
+  }
+}

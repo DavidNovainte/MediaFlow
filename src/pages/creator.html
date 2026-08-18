@@ -1,0 +1,1336 @@
+<!-- CreatorFlow - 视频工具极致荣耀版 -->
+<section class="page" id="page-creator">
+    <div class="page-container glass-panel">
+
+        <!-- 1. 顶部状态栏 (Subtitle Pro Style) -->
+        <header class="page-header">
+            <div class="header-left">
+                <h2 class="page-title"><i class="fa-solid fa-toolbox"
+                        style="margin-right: 12px; color: var(--accent-primary);"></i><span
+                        data-i18n="creator.title">快捷视频工具</span></h2>
+            </div>
+
+            <div class="header-center" style="display: flex; gap: 12px; align-items: center;">
+                <div class="task-buttons" style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" id="btn-creator-export-dialog">
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="creator.exportTopBtn">导出</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="header-right" style="display: flex; gap: 8px;">
+                <button class="btn-glass btn-sm" id="btn-toggle-creator-mode">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span data-i18n="creator.mode.pro">进入精修模式</span>
+                </button>
+                <div class="vertical-divider"></div>
+                <button class="btn-primary btn-sm btn-glow" id="creator-btn-toggle-inspector">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span data-i18n="creator.showInspector">显示检查器</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 2. 主操作区 (Pro Layout Grid) -->
+        <div id="creator-single-view" class="view-wrapper">
+            <main class="creator-main-layout mode-quick" id="view-single-tool">
+
+            <!-- 2.1 中央工作区: 预览与上传 -->
+            <div class="workspace-center-pro">
+                <!-- 媒体上传区 -->
+                <div id="creator-upload-zone" class="upload-zone">
+                    <div class="placeholder-content">
+                        <div class="floating-icon"><i class="fa-solid fa-film"></i></div>
+                        <h3 data-i18n="creator.dragDrop">添加媒体开始创作</h3>
+                        <p class="hint" data-i18n="creator.dragDropHint">拖入视频或音频，开启极速处理流程</p>
+                        <button class="btn-primary-pro" id="btn-creator-select-media" type="button">
+                            <i class="fa-solid fa-plus"></i>
+                            <span data-i18n="creator.importNow">立即导入</span>
+                        </button>
+                    </div>
+                    <input type="file" id="creator-video-file" accept="video/*,audio/*" multiple hidden>
+                </div>
+
+                <!-- 预览舞台 (Preview Stage) -->
+
+
+
+                <!-- 预览舞台 (Preview Stage) -->
+                <div id="creator-video-info" class="video-stage-pro hidden">
+                    <div class="pro-monitor">
+                        <div class="video-preview-full">
+                            <div class="video-controls-overlay">
+                                <button type="button" class="btn-pip-video" id="btn-pip-video" data-i18n-title="creator.preview.pip" title="画中画">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                        <rect x="12" y="10" width="8" height="6" rx="1" ry="1" fill="currentColor">
+                                        </rect>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-close-video" id="btn-reset-video" data-i18n-title="creator.preview.reset_title" title="移除视频">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                            <video id="creator-video-preview"></video>
+
+                            <!-- 实时转场预览层 (Real-time Transition Overlay) -->
+                            <div id="creator-transition-overlay" class="transition-overlay hidden"></div>
+
+                            <!-- 帧捕获画布 (Hidden Canvas for Frame Capture) -->
+                            <canvas id="transition-capture-canvas" style="display: none;"></canvas>
+
+                            <!-- 音频占位符 (纯音频文件显示) -->
+                            <div id="audio-placeholder" class="audio-placeholder hidden">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64"
+                                    height="64">
+                                    <path d="M9 18V5l12-2v13"></path>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <circle cx="18" cy="16" r="3"></circle>
+                                </svg>
+                                <span class="audio-label" data-i18n="creator.fileInfo.audioFile">音频模式</span>
+                                <audio id="creator-audio-preview"></audio>
+                            </div>
+                        </div>
+
+                        <!-- 竖屏 9:16 参考框 (Hidden by default) 移至 pro-monitor 同级绝对定位 -->
+                        <div id="vertical-preview-guide" class="vertical-preview-guide hidden"
+                            style="pointer-events: none; z-index: 100;">
+                            <div class="guide-tag" data-i18n="creator.vertical.safeArea">9:16 边缘安全区</div>
+                        </div>
+                    </div>
+
+                    <!-- 视频信息条 -->
+                    <div class="video-meta-bar active" id="video-info-bar">
+                        <span class="info-filename" id="creator-filename">-</span>
+                        <button class="btn-icon-mini" id="btn-reveal-file"
+                            data-i18n="[title]creator.preview.showInFolder"
+                            style="margin-left: 4px; opacity: 0.6; padding: 2px;">
+                            <i class="fa-solid fa-folder-open" style="font-size: 11px;"></i>
+                        </button>
+                        <button class="btn-icon-mini" id="btn-quick-rotate" data-i18n="[title]creator.preview.rotate"
+                            style="margin-left: 4px; opacity: 0.6; padding: 2px;">
+                            <i class="fa-solid fa-rotate-right" style="font-size: 11px;"></i>
+                        </button>
+                        <button class="btn-icon-mini" id="btn-quick-mirror" data-i18n="[title]creator.preview.mirror"
+                            style="margin-left: 4px; opacity: 0.6; padding: 2px;">
+                            <i class="fa-solid fa-arrows-left-right" style="font-size: 11px;"></i>
+                        </button>
+                        <button class="btn-icon-mini" id="btn-quick-crop" data-i18n="[title]creator.preview.crop"
+                            style="margin-left: 4px; opacity: 0.6; padding: 2px;">
+                            <i class="fa-solid fa-crop-simple" style="font-size: 11px;"></i>
+                        </button>
+                        <span class="info-divider">|</span>
+                        <span class="info-stat" id="creator-duration">-</span>
+                        <span class="info-divider">|</span>
+                        <span class="info-stat" id="creator-resolution">-</span>
+                        <span class="info-divider">|</span>
+                        <span class="info-stat" id="creator-fps">-</span>
+                        <span class="info-divider">|</span>
+                        <span class="info-stat" id="creator-codec">-</span>
+                        <span class="info-divider">|</span>
+                        <span class="info-stat" id="creator-filesize">-</span>
+                    </div>
+                </div>
+
+                <!-- 3. 快捷模式工具网格 (Quick Flow Grid) -->
+                <div id="creator-quick-tools" class="quick-tools-grid hidden">
+                    <!-- 卡片由 JS 动态生成 -->
+                </div>
+            </div>
+
+            <!-- 2.2 右侧属性检查器 (Inspector) -->
+            <aside class="inspector-aside-pro">
+                <nav class="inspector-tabs" id="creator-inspector-tabs">
+                    <button class="inspector-tab active" id="tab-btn-project" data-tab="tab-project">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span data-i18n="creator.inspector.tabProject">项目</span>
+                    </button>
+                    <button class="inspector-tab hidden" id="tab-btn-properties" data-tab="tab-properties">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span data-i18n="creator.inspector.tabProperties">属性</span>
+                    </button>
+                </nav>
+
+                <div class="inspector-content editor-scroll-pro">
+                    <!-- Tab 1: 项目全局设置 (Project) -->
+                    <div class="tab-content active" id="tab-project">
+                        <div class="v-stack-pro">
+                            <!-- 精修模式下的项目工具箱 -->
+                            <div class="settings-section" id="section-inspector-toolbox">
+                                <div id="inspector-guide-edit" class="empty-guide-content">
+                                    <h3 class="ws-text-title" style="margin-bottom: 5px;"
+                                        data-i18n="creator.inspector.toolboxTitle">项目工具箱</h3>
+                                    <p class="ws-text-meta ws-text-muted" style="margin-bottom: 15px;"
+                                        data-i18n="creator.inspector.toolboxDesc">选择功能，开启 AI 智能处理流</p>
+
+                                    <div id="inspector-toolbox" class="inspector-toolbox">
+                                        <!-- 由 QuickToolsRenderer 渲染 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 0. 初始引导 -->
+                            <div class="settings-section" id="section-empty-guide">
+                                <!-- 快捷模式下的引导文案 (通常在属性页显示) -->
+                                <div id="inspector-guide-quick" class="empty-guide-content">
+                                    <div class="guide-icon-pulse">
+                                        <i class="fa-solid fa-hand-pointer"></i>
+                                    </div>
+                                    <h3 data-i18n="creator.inspector.pickCardTitle">点选下方卡片以开始</h3>
+                                    <p data-i18n="creator.inspector.pickCardDesc">在下方工具箱选择一个功能卡片，即可在此处展开详细参数调节</p>
+                                </div>
+                            </div>
+
+                            <!-- 1.1 竖屏转换 -->
+                            <div class="settings-section" id="section-vertical">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-mobile-screen"></i>
+                                        <span data-i18n="creator.tools.vertical">竖屏转换</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.bgStyle">背景样式</span>
+                                    <select id="vertical-bg-style" class="setting-select">
+                                        <option value="blur" selected data-i18n="creator.vertical.bgBlur">模糊背景
+                                        </option>
+                                        <option value="color" data-i18n="creator.vertical.bgColor">纯色背景</option>
+                                        <option value="gradient" data-i18n="creator.vertical.bgGradient">渐变背景
+                                        </option>
+                                    </select>
+                                </div>
+                                <div id="vertical-color-ctrl" class="ctrl-row-pro"
+                                    style="display: none; margin-bottom: 4px; white-space: nowrap !important;">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.bgColor">背景颜色</span>
+                                    <div
+                                        style="display: flex !important; align-items: center !important; gap: 3px !important; flex-wrap: nowrap !important; justify-content: flex-end; flex: 1; min-width: 0;">
+                                        <label for="vertical-bg-color" id="vertical-color-box"
+                                            class="color-picker-label"
+                                            style="width: 16px; height: 16px; margin: 0; padding: 0; border: none; flex-shrink: 0; display: inline-flex;"><input
+                                                type="color" id="vertical-bg-color" value="#000000"
+                                                style="position: absolute; width: 0; height: 0; opacity: 0;"></label>
+                                        <div class="value-badge" id="vertical-color-value"
+                                            style="font-family: monospace; font-size: 9px; padding: 1px 3px; margin: 0; flex-shrink: 0; display: inline-block;">
+                                            #000000</div>
+                                        <span id="vertical-color2-wrapper"
+                                            style="display: inline-flex !important; align-items: center !important; gap: 3px !important; flex-shrink: 0; flex-wrap: nowrap !important; margin-left: 4px;">
+                                            <label for="vertical-bg-color2" id="vertical-color2-box"
+                                                class="color-picker-label"
+                                                style="background: #16213E; width: 16px; height: 16px; margin: 0; padding: 0; border: none; flex-shrink: 0; display: inline-flex;"><input
+                                                    type="color" id="vertical-bg-color2" value="#16213E"
+                                                    style="position: absolute; width: 0; height: 0; opacity: 0;"></label>
+                                            <div class="value-badge" id="vertical-color2-value"
+                                                style="font-family: monospace; font-size: 9px; padding: 1px 3px; margin: 0; flex-shrink: 0; display: inline-block;">
+                                                #16213E</div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="vertical-blur-ctrl" class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.blurIntensity">模糊强度</span>
+                                    <input type="range" id="vertical-blur-radius" min="0" max="50" value="20"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-blur-value" min="0"
+                                        max="50" value="20" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.scaleUniform">等比缩放</span>
+                                    <input type="range" id="vertical-content-scale" min="10" max="150" value="100"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-scale-value" min="10"
+                                        max="150" value="100" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.scaleX">宽度缩放</span>
+                                    <input type="range" id="vertical-content-scale-x" min="10" max="150" value="100"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-scale-x-value" min="10"
+                                        max="150" value="100" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.scaleY">高度缩放</span>
+                                    <input type="range" id="vertical-content-scale-y" min="10" max="150" value="100"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-scale-y-value" min="10"
+                                        max="150" value="100" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.offsetX">横向偏移</span>
+                                    <input type="range" id="vertical-content-offset-x" min="-100" max="100" value="0"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-offset-x-value"
+                                        min="-100" max="100" value="0" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.vertical.offsetY">垂直偏移</span>
+                                    <input type="range" id="vertical-content-offset" min="-100" max="100" value="0"
+                                        class="pro-slider">
+                                    <input type="number" class="value-badge-input" id="vertical-offset-value" min="-100"
+                                        max="100" value="0" data-i18n="[title]creator.vertical.inputTip">
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-make-vertical"
+                                    style="margin-top: 10px;">
+                                    <i class="fa-solid fa-sync"></i> <span
+                                        data-i18n="creator.vertical.startBtn">开始转换</span>
+                                </button>
+
+                                <!-- 垂直预览区 (PIP Box) -->
+                                <div id="vertical-pip-container" class="vertical-pip-container pip-hidden">
+                                    <div class="pip-header"><span><i class="fa-solid fa-mobile-screen"></i>
+                                            <span data-i18n="creator.vertical.previewTitle">实时效果预演</span></span>
+                                    </div>
+                                    <canvas id="vertical-pip-canvas"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- 1.2 视频水印 -->
+                            <div class="settings-section" id="section-watermark">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-stamp"></i>
+                                        <span data-i18n="creator.tools.watermark">视频水印</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.watermark.type">类型</span>
+                                    <div class="segmented-control">
+                                        <label><input type="radio" name="watermark-type" value="text" checked><span
+                                                data-i18n="creator.watermark.typeText">文字</span></label>
+                                        <label><input type="radio" name="watermark-type" value="image"><span
+                                                data-i18n="creator.watermark.typeImage">图片</span></label>
+                                    </div>
+                                </div>
+                                <div id="watermark-text-options">
+                                    <input type="text" id="watermark-text" class="setting-input-pro flex-1"
+                                        value="MediaFlow" style="margin-bottom: 8px;">
+                                </div>
+                                <div id="watermark-image-options" class="hidden"
+                                    style="display: none; flex-direction: column; gap: 8px; margin-bottom: 8px;">
+                                    <button class="btn btn-secondary-pro btn-full" id="btn-select-watermark-image"
+                                        type="button">
+                                        <i class="fa-solid fa-image"></i> <span
+                                            data-i18n="creator.watermark.selectImage">选择水印图片</span>
+                                    </button>
+                                    <div id="watermark-image-path" class="setting-hint" data-path="" title=""
+                                        data-i18n="creator.watermark.noImage">未选择图片</div>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-start-watermark">
+                                    <i class="fa-solid fa-plus"></i> <span
+                                        data-i18n="creator.watermark.startBtn">添加水印</span>
+                                </button>
+                            </div>
+
+                            <!-- 1.3 导出设置：精细化拆分 -->
+
+                            <!-- 智能压缩专区 -->
+                            <div class="settings-section" id="section-compress">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-file-zipper"></i>
+                                        <span data-i18n="creator.tools.compress">智能压缩调节</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.compress.quality">质量预设</span>
+                                    <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+                                        <select id="compress-quality-only" class="setting-select">
+                                            <option value="high" data-i18n="creator.compress.qualityHigh">高画质
+                                            </option>
+                                            <option value="medium" selected data-i18n="creator.compress.qualityMedium">
+                                                平衡 (推荐)</option>
+                                            <option value="low" data-i18n="creator.compress.qualityLow">高压缩
+                                            </option>
+                                            <option value="extreme" data-i18n="creator.compress.qualityExtreme">
+                                                极限压缩
+                                            </option>
+                                            <option value="target" data-i18n="creator.compress.qualityTarget">
+                                                固定目标体积
+                                                (自定义)</option>
+                                        </select>
+                                        <div id="target-size-wrapper"
+                                            style="display: none; align-items: center; gap: 8px; margin-top: 4px;">
+                                            <input type="number" id="compress-target-size" class="setting-input-pro"
+                                                style="width: 80px;" data-i18n="[placeholder]creator.batch.formatTitle">
+                                            <span class="ws-text-meta ws-text-muted">MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="compress-est-size"
+                                    style="font-size: 11px; color: var(--accent-primary); margin: -4px 0 8px 120px; font-weight: 600;"
+                                    data-i18n="creator.compress.estSizeMsg">
+                                    预计输出: ~-- MB (缩减 --%)
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-compress-final"
+                                    style="margin-top: 10px;">
+                                    <i class="fa-solid fa-bolt"></i> <span
+                                        data-i18n="creator.compress.startBtn">开始压缩</span>
+                                </button>
+                            </div>
+
+                            <!-- 格式转换专区 -->
+                            <div class="settings-section" id="section-convert">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-shuffle"></i>
+                                        <span data-i18n="creator.tools.convert">格式转换</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.convert.format">目标格式</span>
+                                    <select id="convert-format-only" class="setting-select">
+                                        <option value="mp4" selected>MP4 (H.264)</option>
+                                        <option value="webm">WebM</option>
+                                        <option value="mov">MOV</option>
+                                        <option value="mkv">MKV</option>
+                                        <option value="mp3">MP3 (<span data-i18n="creator.advanced.audio">音频</span>)
+                                        </option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-convert-final"
+                                    style="margin-top: 10px;">
+                                    <i class="fa-solid fa-sync"></i> <span
+                                        data-i18n="creator.convert.startBtn">开始转换</span>
+                                </button>
+                            </div>
+
+                            <!-- 生成 GIF 专区 -->
+                            <div class="settings-section" id="section-gif">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-images"></i> <span
+                                            data-i18n="creator.gif.modeGif">GIF
+                                            制作参数</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.gif.fps">帧率 (FPS)</span>
+                                    <select id="gif-fps" class="setting-select">
+                                        <option value="10" data-i18n="creator.gif.fps10">10 FPS (小体积)</option>
+                                        <option value="15" selected data-i18n="creator.gif.fps15">15 FPS (平衡)
+                                        </option>
+                                        <option value="24" data-i18n="creator.gif.fps24">24 FPS (流畅)</option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.gif.width">输出宽度</span>
+                                    <select id="gif-width" class="setting-select">
+                                        <option value="320" data-i18n="creator.gif.width320">320px</option>
+                                        <option value="480" selected data-i18n="creator.gif.width480">480px (推荐)
+                                        </option>
+                                        <option value="640" data-i18n="creator.gif.width640">640px</option>
+                                        <option value="0" data-i18n="creator.crop.origRes">原始尺寸</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-create-gif-final"
+                                    style="margin-top: 10px;">
+                                    <i class="fa-solid fa-wand-sparkles"></i> <span
+                                        data-i18n="creator.gif.generateBtn">生成 GIF</span>
+                                </button>
+                            </div>
+
+                            <!-- 混合导出专区 (仅在 Edit 模式下更常用) -->
+                            <div class="settings-section" id="section-export-merged">
+                                <label class="section-label"><i class="fa-solid fa-file-export"></i>
+                                    <span data-i18n="creator.dialogs.exportCenter">导出与合并</span></label>
+                                <div class="btn-group-pro"
+                                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                    <button class="btn btn-secondary btn-full" id="btn-export-separate-pro">
+                                        <i class="fa-solid fa-list-check"></i> <span
+                                            data-i18n="creator.dialogs.btnSeparate">单独导出</span>
+                                    </button>
+                                    <button class="btn btn-secondary btn-full" id="btn-export-merged-pro">
+                                        <i class="fa-solid fa-layer-group"></i> <span
+                                            data-i18n="creator.dialogs.btnMerge">合并导出</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 高级参数 (公用，在所有导出类卡片中显示) -->
+                            <div class="settings-section" id="section-advanced-codec">
+                                <details class="advanced-settings-pro"
+                                    style="background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--fill-muted); transition: all 0.3s ease;">
+                                    <summary
+                                        style="padding: 10px; cursor: pointer; font-size: 13px; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fa-solid fa-gear" style="margin-right: 6px;"></i> <span
+                                                data-i18n="creator.advanced.title">高级专家设置</span></span>
+                                        <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                                    </summary>
+                                    <div
+                                        style="padding: 12px 10px 10px 10px; border-top: 1px solid var(--fill-muted);">
+                                        <div class="preset-group-container" style="margin-bottom: 12px;">
+                                            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;"
+                                                data-i18n="creator.advanced.presets">
+                                                常用平台预设:</div>
+                                            <div class="preset-chips" style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                                <button class="chip-item" data-preset="wechat"
+                                                    data-i18n="creator.advanced.wechat">适配微信</button>
+                                                <button class="chip-item" data-preset="douyin"
+                                                    data-i18n="creator.advanced.douyin">抖音高清</button>
+                                                <button class="chip-item" data-preset="iphone"
+                                                    data-i18n="creator.advanced.iphone">iPhone 兼容</button>
+                                                <button class="chip-item" data-preset="audio"
+                                                    data-i18n="creator.advanced.audio">提取 MP3</button>
+                                            </div>
+                                        </div>
+                                        <style>
+                                            .preset-chips .chip-item {
+                                                background: var(--fill-muted);
+                                                border: 1px solid var(--fill-hover);
+                                                border-radius: 4px;
+                                                padding: 4px 8px;
+                                                font-size: 10px;
+                                                color: var(--text-secondary);
+                                                cursor: pointer;
+                                                transition: all 0.2s;
+                                            }
+
+                                            .preset-chips .chip-item:hover {
+                                                background: rgba(var(--accent-primary-rgb), 0.15);
+                                                border-color: var(--accent-primary);
+                                                color: var(--accent-primary);
+                                            }
+
+                                            .preset-chips .chip-item.active {
+                                                background: var(--accent-primary);
+                                                color: white;
+                                                border-color: transparent;
+                                            }
+                                        </style>
+                                        <div class="ctrl-row-pro">
+                                            <span class="ctrl-label" data-i18n="creator.advanced.codec">编码格式</span>
+                                            <select id="adv-compress-codec" class="setting-select">
+                                                <option value="hevc" selected data-i18n="creator.advanced.codecH265">
+                                                    HEVC/H.265 (推荐)</option>
+                                                <option value="h264" data-i18n="creator.advanced.codecH264">
+                                                    H.264 (兼容性好)
+                                                </option>
+                                                <option value="av1" data-i18n="creator.advanced.codecAv1">AV1
+                                                    (最强压缩)
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div style="font-size: 10px; color: var(--text-muted); margin: -6px 0 12px 0; padding-left: 2px; line-height: 1.4;"
+                                            data-i18n="creator.advanced.info">
+                                            <i class="fa-solid fa-circle-info"
+                                                style="font-size: 9px; opacity: 0.7; margin-right: 4px;"></i>
+                                            HEVC 同画质下比 H.264 体积缩小约 40%，AV1 则更进一步。
+                                        </div>
+                                        <div class="ctrl-row-pro">
+                                            <span class="ctrl-label" data-i18n="creator.advanced.preset">压缩预设</span>
+                                            <select id="adv-compress-preset" class="setting-select">
+                                                <option value="fast" data-i18n="creator.advanced.presetFast">快速
+                                                    (质量稍降)
+                                                </option>
+                                                <option value="balanced" selected
+                                                    data-i18n="creator.advanced.presetBalanced">平衡</option>
+                                                <option value="extreme" data-i18n="creator.advanced.presetExtreme">极致
+                                                    (更慢但更小)</option>
+                                            </select>
+                                        </div>
+                                        <div class="ctrl-row-pro">
+                                            <span class="ctrl-label"
+                                                data-i18n="creator.advanced.audio_process">音频处理</span>
+                                            <select id="adv-compress-audio" class="setting-select">
+                                                <option value="copy" data-i18n="creator.advanced.audioCopy">
+                                                    采样流直过 (不压缩)
+                                                </option>
+                                                <option value="keep" data-i18n="creator.advanced.audioKeep">标准采样
+                                                    (128k)
+                                                </option>
+                                                <option value="low" selected data-i18n="creator.advanced.audioLow">极限采样
+                                                    (64k)</option>
+                                                <option value="remove" data-i18n="creator.advanced.audioRemove">
+                                                    移除音频
+                                                    (静音)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: 片段/上下文属性 (Properties) - 动态显示 -->
+                    <div class="tab-content" id="tab-properties">
+                        <div class="v-stack-pro">
+                            <!-- 0. 初始引导占位 (属性页) -->
+                            <div class="settings-section empty-guide-section" id="section-empty-guide-properties">
+                                <div class="empty-guide-content">
+                                    <div class="guide-icon-pulse">
+                                        <i class="fa-solid fa-i-cursor"></i>
+                                    </div>
+                                    <h3 data-i18n="creator.properties.tabTitle">轨道属性面板</h3>
+                                    <p data-i18n="creator.properties.tabDesc">在下方时间轴选中一个片段，即可在此调节倍速、旋转、裁剪或音频增强参数
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- 2.1 播放播放速度 -->
+                            <div id="prop-section-speed" class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-gauge-high"></i>
+                                    <span data-i18n="creator.speed.title">播放速度</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.speed.label">速度调节</span>
+                                    <input type="range" id="prop-speed-slider" min="0.25" max="4" value="1" step="0.25"
+                                        class="pro-slider">
+                                    <div class="value-badge" id="prop-speed-value">1.0x</div>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-prop-apply-speed"
+                                    style="margin-top: 10px; display: none;">
+                                    <i class="fa-solid fa-bolt"></i> <span
+                                        data-i18n="creator.speed.applyBtn">应用变速</span>
+                                </button>
+                            </div>
+
+                            <!-- 2.1.2 画面详细处理 (已移除简单的旋转/镜像区块，由播放器下方工具栏承载) -->
+
+                            <!-- 2.1.4 智能裁剪 -->
+                            <div id="prop-section-crop" class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-crop-simple"></i>
+                                    <span data-i18n="creator.crop.title">智能裁剪</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.crop.preset">比例预设</span>
+                                    <select id="prop-crop-ratio" class="setting-select">
+                                        <option value="9:16">9:16 (<span data-i18n="creator.crop.mobile">手机全屏</span>)
+                                        </option>
+                                        <option value="1:1">1:1 (<span data-i18n="creator.crop.square">正方形</span>)
+                                        </option>
+                                        <option value="16:9" selected>16:9 (<span
+                                                data-i18n="creator.crop.desktop">电脑全屏</span>)</option>
+                                        <option value="4:3">4:3 (<span data-i18n="creator.crop.classic">经典比例</span>)
+                                        </option>
+                                        <option value="custom" data-i18n="creator.crop.custom">自定义尺寸</option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro" style="margin-top: 8px;">
+                                    <span class="ctrl-label" data-i18n="creator.crop.size">裁剪尺寸</span>
+                                    <div style="display: flex; align-items: center; gap: 6px;">
+                                        <input type="number" id="prop-crop-w" class="setting-input-pro"
+                                            style="width: 65px; text-align: center;"
+                                            data-i18n="[placeholder]creator.crop.widthPlaceholder">
+                                        <button id="btn-lock-crop-ratio" class="btn-icon-mini active"
+                                            data-i18n="[title]creator.crop.lockRatio" style="opacity: 0.8;">
+                                            <i class="fa-solid fa-link"></i>
+                                        </button>
+                                        <input type="number" id="prop-crop-h" class="setting-input-pro"
+                                            style="width: 65px; text-align: center;"
+                                            data-i18n="[placeholder]creator.crop.heightPlaceholder">
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding: 0 4px;">
+                                    <span class="ws-text-meta ws-text-muted">
+                                        <span data-i18n="creator.crop.origResPrefix">原片分辨率:</span> <span
+                                            id="prop-crop-orig-res"
+                                            class="ws-text-secondary">-</span>
+                                    </span>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-prop-apply-crop"
+                                    style="margin-top: 12px;">
+                                    <i class="fa-solid fa-crop"></i> <span data-i18n="creator.crop.applyBtn">开始裁剪</span>
+                                </button>
+
+                                <!-- 裁剪实时预览区 (PIP Box) -->
+                                <div id="crop-pip-container" class="vertical-pip-container pip-hidden"
+                                    style="margin-top: 15px;">
+                                    <div class="pip-header"><span><i class="fa-solid fa-crop-simple"></i>
+                                            <span data-i18n="creator.crop.previewTitle">裁剪效果预演</span></span>
+                                    </div>
+                                    <canvas id="crop-pip-canvas"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- 2.2 音频处理与增强 -->
+                            <div id="prop-section-audio" class="settings-section">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-wave-square"></i>
+                                        <span data-i18n="creator.audio.title">音频增强与处理</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+
+                                <!-- 1. 智能降噪 -->
+                                <div class="divider-pro" style="margin: 10px 0 15px 0;">
+                                    <i class="fa-solid fa-microchip"></i> <span
+                                        data-i18n="creator.audio.denoiseTitle">AI 智能降噪</span>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.audio.denoiseLabel">降噪强度</span>
+                                    <select id="prop-denoise-level" class="setting-select">
+                                        <option value="light" data-i18n="creator.audio.denoiseLight">轻度</option>
+                                        <option value="medium" selected data-i18n="creator.audio.denoiseMedium">
+                                            中度
+                                        </option>
+                                        <option value="strong" data-i18n="creator.audio.denoiseStrong">强力
+                                        </option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-secondary-pro btn-full" id="btn-prop-run-denoise"
+                                    style="margin: 10px 0 0 0;">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span
+                                        data-i18n="creator.audio.denoiseOnlyBtn">仅降噪并应用</span>
+                                </button>
+
+                                <!-- 2. 静音移除 (核心参数) -->
+                                <div class="divider-pro" style="margin: 20px 0 15px 0;">
+                                    <i class="fa-solid fa-filter"></i> <span
+                                        data-i18n="creator.audio.silenceTitle">静音段自动检测</span>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.audio.silenceThreshold">静音阈值</span>
+                                    <select id="silence-threshold" class="setting-select">
+                                        <option value="-30" data-i18n="creator.audio.silenceAggressive">-30dB
+                                            (激进)
+                                        </option>
+                                        <option value="-40" selected data-i18n="creator.audio.silenceStandard">
+                                            -40dB
+                                            (标准)</option>
+                                        <option value="-50" data-i18n="creator.audio.silenceConservative">-50dB
+                                            (保守)
+                                        </option>
+                                        <option value="-60" data-i18n="creator.audio.silenceUltraQuiet">-60dB
+                                            (极静)
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.audio.silenceDuration">最小时长</span>
+                                    <select id="silence-duration" class="setting-select">
+                                        <option value="0.3" data-i18n="creator.audio.silenceFast">0.3s (快速)
+                                        </option>
+                                        <option value="0.5" selected data-i18n="creator.audio.silenceNatural">
+                                            0.5s (自然)
+                                        </option>
+                                        <option value="1.0" data-i18n="creator.audio.silenceSteady">1.0s (稳重)
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.audio.silenceMode">处理方式</span>
+                                    <div class="segmented-control">
+                                        <label><input type="radio" name="silence-mode" value="remove" checked><span
+                                                data-i18n="creator.audio.silenceRemove">直接切除</span></label>
+                                        <label><input type="radio" name="silence-mode" value="compress"><span
+                                                data-i18n="creator.audio.silenceKeep">保留氛围</span></label>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-secondary-pro btn-full" id="btn-prop-detect-silence"
+                                    style="margin: 10px 0;">
+                                    <i class="fa-solid fa-magnifying-glass"></i> <span
+                                        data-i18n="creator.audio.scanBtn">扫描静音段落</span>
+                                </button>
+
+                                <!-- 3. 检测预览区 -->
+                                <div id="silence-preview" class="silence-preview-pro hidden"
+                                    style="background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px; margin-top: 10px; border: 1px solid var(--fill-muted);">
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px;">
+                                        <span id="silence-stats" class="text-primary" style="font-weight: 600;"
+                                            data-i18n="creator.silence.segmentsCount" data-i18n-params='{"count": 0}'>发现
+                                            0 个静音段</span>
+                                        <span id="silence-saved-percent" class="text-success"
+                                            data-i18n="creator.silence.statsSaved" data-i18n-params='{"percent": 0}'>节省
+                                            0%</span>
+                                    </div>
+                                    <div id="silence-bar"
+                                        style="height: 8px; background: var(--fill-hover); border-radius: 4px; position: relative; overflow: hidden; margin-bottom: 8px;">
+                                        <!-- 动态分布条 -->
+                                    </div>
+                                    <div style="font-size: 11px; color: var(--text-muted); display: flex; gap: 10px;">
+                                        <span id="silence-original-duration" data-i18n="creator.silence.statsOriginal"
+                                            data-i18n-params='{"time": "00:00"}'>原始: 00:00</span>
+                                        <span id="silence-output-duration" data-i18n="creator.silence.statsOutput"
+                                            data-i18n-params='{"time": "00:00"}'>预估: 00:00</span>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary btn-full" id="btn-prop-run-silence"
+                                    disabled
+                                    style="margin-top: 15px;">
+                                    <i class="fa-solid fa-bolt-lightning"></i> <span
+                                        data-i18n="creator.audio.applySilenceBtn">处理静音并应用</span>
+                                </button>
+
+                            </div>
+
+                            <!-- 2.3 音频分离 (AI Separation) -->
+                            <div id="prop-section-separation" class="settings-section" style="display: none;">
+                                <div class="section-header-row">
+                                    <label class="section-label"><i class="fa-solid fa-scissors"></i>
+                                        <span data-i18n="creator.audio.separationTitle">AI 音频分离</span></label>
+                                    <button class="section-back-btn" data-i18n="[title]creator.vertical.backToTools"><i
+                                            class="fa-solid fa-chevron-left"></i> <span
+                                            data-i18n="creator.vertical.back">返回</span></button>
+                                </div>
+
+                                <!-- 1. 状态监测 -->
+                                <div id="demucs-status"
+                                    style="font-size: 11px; margin-bottom: 12px; padding: 8px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i> <span
+                                        data-i18n="creator.audio.checkingEnv">检查环境中...</span>
+                                </div>
+
+                                <!-- 2. 安装引导 (仅未就绪时显示) -->
+                                <div id="demucs-install-area" class="hidden"
+                                    style="text-align: center; padding: 10px 0;">
+                                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;"
+                                        data-i18n="creator.audio.installDemucsHint">使用 AI
+                                        提取人声与背景音需要安装额外组件 (~500MB)</p>
+                                    <button class="btn btn-secondary-pro btn-full" id="btn-install-demucs">
+                                        <i class="fa-solid fa-download"></i> <span
+                                            data-i18n="creator.audio.installDemucsBtn">立即安装 Demucs</span>
+                                    </button>
+                                </div>
+
+                                <!-- 3. 分离配置 (就绪时显示) -->
+                                <div id="demucs-ready-area" class="hidden">
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="creator.audio.sepMode">分离模式</span>
+                                        <select id="demucs-mode" class="setting-select">
+                                            <option value="vocals" selected data-i18n="creator.audio.sep2Way">2轨
+                                                (人声+背景)
+                                            </option>
+                                            <option value="full" data-i18n="creator.audio.sep4Way">4轨
+                                                (人声/鼓点/贝斯/其他)
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-full" id="btn-demucs-separate"
+                                        style="margin-top: 15px;">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span
+                                            data-i18n="creator.audio.sepBtn">执行 AI 分离任务</span>
+                                    </button>
+                                </div>
+
+                                <!-- 4. 结果展示 -->
+                                <div id="demucs-result-list" class="hidden" style="margin-top: 20px;">
+                                    <div class="results-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                                        <h3 style="margin: 0; font-size: 1.1rem;" data-i18n="creator.demucs.results">分离结果</h3>
+                                        <button class="btn-text" id="btn-open-demucs-folder"
+                                            style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; gap: 4px; color: var(--text-link); cursor: pointer; border: none; background: transparent; padding: 2px 4px; white-space: nowrap;"></button>
+                                    </div>
+                                    <div id="demucs-tracks" class="v-stack-pro" style="gap: 8px;">
+                                        <!-- 动态插入音轨卡片 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2.3 转场设置 (选中连接点时) -->
+                            <div id="prop-section-transition" class="settings-section hidden">
+                                <label class="section-label"><i class="fa-solid fa-film"></i> <span
+                                        data-i18n="creator.transition.title">转场效果</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.transition.type">类型</span>
+                                    <select id="prop-transition-type" class="setting-select"></select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="creator.transition.duration">时长</span>
+                                    <input type="number" id="prop-transition-duration" class="setting-input-pro"
+                                        value="1.0" step="0.1" style="width: 60px;">
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btn-prop-apply-transition"
+                                    data-i18n="creator.transition.saveBtn">保存转场</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 2.3 底部：播放轨道 (Timeline Workspace) -->
+            <div id="creator-timeline-workspace" class="creator-timeline-workspace">
+                <!-- [NEW] 布局调节手柄 (位于时间轴顶部，用于调节 Splitter) -->
+                <div id="video-resize-handle" class="resize-handle-h">
+                    <div class="handle-line"></div>
+                </div>
+                <div class="timeline-section-pro glass-panel hidden" id="creator-timeline-container">
+                    <div class="timeline-header">
+                        <div class="time-display" id="creator-timeline-current-time">00:00.000</div>
+                        <div class="timeline-controls">
+                            <!-- 1. 核心高频动作 (左手区锚点) -->
+                            <div class="timeline-quick-actions">
+                                <button class="btn-icon" id="btn-timeline-zoom-fit"
+                                    data-i18n="[title]creator.timeline.zoomFit">
+                                    <i class="fa-solid fa-expand"></i>
+                                </button>
+                                <button class="btn-icon btn-action-main" id="btn-timeline-split"
+                                    data-i18n="[title]creator.timeline.split">
+                                    <i class="fa-solid fa-scissors"></i>
+                                    <span class="btn-shortcut-hint">S</span>
+                                </button>
+                                <button class="btn-icon hidden" id="btn-timeline-subtitle-cuts"
+                                    title="Cut Timeline By Subtitles">
+                                    <i class="fa-solid fa-closed-captioning"></i>
+                                    <span class="subtitle-cut-count"></span>
+                                </button>
+                                <button class="btn-icon text-danger" id="btn-timeline-delete"
+                                    data-i18n="[title]creator.timeline.delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <span class="btn-shortcut-hint">Del</span>
+                                </button>
+                                <div class="vertical-divider"></div>
+
+                                <!-- 2. 补全功能：音量快捷调节 -->
+                                <div class="quick-slider-wrapper" id="wrapper-timeline-volume">
+                                    <button class="btn-icon" id="btn-timeline-volume"
+                                        data-i18n="[title]creator.timeline.volume">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                    <div class="quick-slider-popup">
+                                        <input type="range" id="input-timeline-volume" min="0" max="200" value="100"
+                                            class="mini-slider">
+                                        <span class="slider-val">100%</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="vertical-divider"></div>
+
+                            <!-- 4. 视图辅助动作 -->
+                            <div class="timeline-view-actions">
+                                <button class="btn-icon" id="btn-timeline-snap"
+                                    data-i18n="[title]creator.timeline.snap">
+                                    <i class="fa-solid fa-magnet"></i>
+                                </button>
+                            </div>
+
+                            <div class="vertical-divider"></div>
+
+                            <!-- 5. 缩放控制 -->
+                            <div class="zoom-controls">
+                                <i class="fa-solid fa-magnifying-glass-minus text-muted" style="font-size: 11px;"></i>
+                                <input type="range" id="creator-timeline-zoom" min="0" max="100" step="0.1" value="50"
+                                    class="pro-slider" style="width: 80px;">
+                                <i class="fa-solid fa-magnifying-glass-plus text-muted" style="font-size: 11px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-body">
+                        <div class="timeline-playhead" id="creator-timeline-playhead"></div>
+
+                        <!-- Ruler Track -->
+                        <div class="timeline-track ruler-track">
+                            <div class="timeline-sidebar-label ruler-label">
+                                <i class="fa-solid fa-clock"></i> <span data-i18n="creator.timeline.title">时间轴</span>
+                            </div>
+                            <div class="ruler-area" id="timeline-ruler">
+                                <canvas id="creator-timeline-ruler-canvas"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Video Track (V1) -->
+                        <div class="timeline-track video-track" id="track-v1">
+                            <div class="timeline-sidebar-label">
+                                <i class="fa-solid fa-video"></i> <span data-i18n="creator.timeline.trackV1">V1
+                                    主视频</span>
+                            </div>
+                            <div class="track-content-area" id="track-content-v1">
+                            </div>
+                        </div>
+
+                        <!-- Audio Track (A1 - Primary) -->
+                        <div class="timeline-track audio-track" id="track-a1">
+                            <div class="timeline-sidebar-label" style="position: relative;">
+                                <i class="fa-solid fa-volume-high"></i> <span data-i18n="creator.timeline.trackA1">A1
+                                    视频原声</span>
+                                <div id="waveform-status-a1" class="waveform-status-overlay hidden">
+                                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                </div>
+                            </div>
+                            <div class="waveform-area" id="timeline-waveform-a1">
+                                <canvas id="timeline-waveform-canvas-a1"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Audio Track (A2) -->
+                        <div class="timeline-track audio-track" id="track-a2">
+                            <div class="timeline-sidebar-label">
+                                <i class="fa-solid fa-music"></i> <span data-i18n="creator.timeline.trackA2">A2
+                                    背景音乐</span>
+                            </div>
+                            <div class="waveform-area" id="timeline-waveform-a2">
+                                <canvas id="timeline-waveform-canvas-a2"></canvas>
+                                <div class="track-empty-hint" id="track-a2-hint" data-i18n="creator.timeline.dropHint">
+                                    拖拽背景音乐到此处</div>
+                            </div>
+                        </div>
+
+                        <!-- Audio Track (A3) -->
+                        <div class="timeline-track audio-track" id="track-a3">
+                            <div class="timeline-sidebar-label">
+                                <i class="fa-solid fa-microphone-lines"></i> <span
+                                    data-i18n="creator.timeline.trackA3">A3 环境音效</span>
+                            </div>
+                            <div class="waveform-area" id="timeline-waveform-a3">
+                                <canvas id="timeline-waveform-canvas-a3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 2.1.2 批量处理面板 (Batch Master Panel) - 现在通过根容器隔离 -->
+    <div id="creator-batch-view" class="view-wrapper hidden">
+            <div id="batch-panel" class="batch-panel-pro glass-panel" style="height: 100%; margin: 0;">
+                <div class="batch-header-pro">
+                    <h3 data-i18n="creator.batch.title">批量处理队列</h3>
+                    <div class="batch-summary">
+                        <span id="batch-count" class="badge">0</span> <span
+                            data-i18n="creator.batch.count">个文件待处理</span>
+                        <div class="vertical-divider"></div>
+                        <span id="batch-total-duration" class="stat-text"
+                            data-i18n="creator.batch.totalDurationPrefix">总时长: 00:00</span>
+                    </div>
+                </div>
+
+                <!-- 1. 批量动作配置区 (始终可见) -->
+                <div class="batch-ctrl-bar">
+                    <div class="ctrl-group">
+                        <span class="ctrl-label" data-i18n="creator.batch.executeAction">执行动作</span>
+                        <select id="batch-action-select" class="setting-select-pro">
+                            <option value="compress" data-i18n="creator.batch.actionCompress">批量压缩</option>
+                            <option value="convert" data-i18n="creator.batch.actionConvert">批量转换</option>
+                            <option value="merge" data-i18n="creator.batch.actionMerge">合并视频</option>
+                            <option value="vertical" data-i18n="creator.batch.actionVertical">一键竖屏</option>
+                            <option value="speed" data-i18n="creator.batch.actionSpeed">批量变速</option>
+                            <option value="gif" data-i18n="creator.batch.actionGif">制作 GIF</option>
+                            <option value="silence" data-i18n="creator.batch.actionSilence">自动静音移除</option>
+                            <option value="remove-audio" data-i18n="creator.batch.actionRemoveAudio">批量消除音轨</option>
+                        </select>
+                    </div>
+
+                    <div class="ctrl-group">
+                        <span class="ctrl-label" data-i18n="creator.batch.concurrentTasks">并发任务</span>
+                        <select id="batch-concurrent" class="setting-select-pro">
+                            <option value="1" data-i18n="creator.batch.concurrent1">1 (较慢/省资源)</option>
+                            <option value="2" selected data-i18n="creator.batch.concurrent2">2 (推荐)</option>
+                            <option value="4" data-i18n="creator.batch.concurrent4">4 (高性能)</option>
+                        </select>
+                    </div>
+
+                    <div class="batch-view-toggles">
+                        <div class="view-toggle-group mini">
+                            <label class="toggle-item">
+                                <input type="radio" name="batch-view-mode" value="card" checked>
+                                <span class="toggle-label"><i class="fa-solid fa-grip"></i></span>
+                            </label>
+                            <label class="toggle-item">
+                                <input type="radio" name="batch-view-mode" value="list">
+                                <span class="toggle-label"><i class="fa-solid fa-list"></i></span>
+                            </label>
+                        </div>
+                        <div class="vertical-divider mini"></div>
+                        <div class="sort-group mini">
+                            <button class="btn-icon-sm" id="btn-batch-sort-name" title="Sort by Name">
+                                <i class="fa-solid fa-sort-alpha-down"></i>
+                            </button>
+                            <button class="btn-icon-sm" id="btn-batch-sort-time" title="Sort by Time">
+                                <i class="fa-solid fa-clock"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex-spacer"></div>
+
+                    <div class="batch-tool-buttons">
+                        <button class="btn btn-secondary-pro" id="btn-batch-preview-merge">
+                            <i class="fa-solid fa-play"></i> <span
+                                data-i18n="creator.batch.previewMerge">预览合并</span>
+                        </button>
+                        <button class="btn btn-secondary-pro" id="btn-batch-add-more">
+                            <i class="fa-solid fa-plus"></i> <span data-i18n="creator.batch.addMore">继续添加</span>
+                        </button>
+                        <button class="btn btn-danger-pro btn-icon" id="btn-batch-clear" title="Clear All">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 批量选项细节区 (动态切换显隐) -->
+                <div class="batch-options-details glass-panel mini">
+                    <!-- 批量压缩细节 -->
+                    <div id="batch-compress-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.quality">质量</span>
+                            <select id="batch-compress-quality" class="setting-select mini">
+                                <option value="18" data-i18n="creator.batch.options.qualityExtreme">极致 (大)</option>
+                                <option value="23" selected data-i18n="creator.batch.options.qualityBalanced">均衡
+                                </option>
+                                <option value="28" data-i18n="creator.batch.options.qualityHighSmall">高压 (小)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.codec">编码</span>
+                            <select id="batch-compress-codec" class="setting-select mini">
+                                <option value="libx265" selected>HEVC/H265</option>
+                                <option value="libx264">H264</option>
+                                <option value="av1">AV1</option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.speed">速度</span>
+                            <select id="batch-compress-preset" class="setting-select mini">
+                                <option value="veryfast" data-i18n="creator.batch.options.speedTurbo">极速</option>
+                                <option value="medium" selected data-i18n="creator.batch.options.qualityBalanced">均衡
+                                </option>
+                                <option value="slower" data-i18n="creator.batch.options.speedSlower">慢速(体积更小)
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 批量转换细节 -->
+                    <div id="batch-convert-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.format">格式</span>
+                            <select id="batch-convert-format" class="setting-select mini">
+                                <option value="mp4" selected>MP4</option>
+                                <option value="mkv">MKV</option>
+                                <option value="mov">MOV</option>
+                                <option value="mp3">MP3</option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.res">分辨率</span>
+                            <select id="batch-convert-res" class="setting-select mini">
+                                <option value="original" selected data-i18n="creator.batch.options.resOriginal">原始尺寸
+                                </option>
+                                <option value="1080">1080P</option>
+                                <option value="720">720P</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 批量竖屏细节 -->
+                    <div id="batch-vertical-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.fill">填充</span>
+                            <select id="batch-vertical-mode" class="setting-select mini">
+                                <option value="blur" selected data-i18n="creator.batch.options.fillBlur">背景模糊
+                                </option>
+                                <option value="solid" data-i18n="creator.batch.options.fillSolid">纯黑</option>
+                                <option value="fit" data-i18n="creator.batch.options.fillStretch">拉伸</option>
+                            </select>
+                        </div>
+                        <div id="batch-vertical-blur-intensity" class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.blurDepth">模糊深度</span>
+                            <input type="range" id="batch-vertical-blur-val" min="5" max="25" value="15"
+                                class="setting-range mini">
+                        </div>
+                    </div>
+                    <!-- 批量倍速细节 -->
+                    <div id="batch-speed-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.speed">速度</span>
+                            <select id="batch-speed-val" class="setting-select mini">
+                                <option value="0.5">0.5x</option>
+                                <option value="1.0" selected>1.0x</option>
+                                <option value="1.25">1.25x</option>
+                                <option value="1.5">1.5x</option>
+                                <option value="2.0">2.0x</option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <label class="checkbox-label mini">
+                                <input type="checkbox" id="batch-speed-pitch" checked>
+                                <span data-i18n="creator.batch.options.pitchCompensation">变调补偿</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 批量 GIF 细节 -->
+                    <div id="batch-gif-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.size">尺寸</span>
+                            <select id="batch-gif-res" class="setting-select mini">
+                                <option value="320">320p</option>
+                                <option value="480" selected>480p</option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.fps">FPS</span>
+                            <select id="batch-gif-fps" class="setting-select mini">
+                                <option value="10" data-i18n="creator.batch.options.fpsSmall">10 (小)</option>
+                                <option value="15" selected data-i18n="creator.batch.options.fpsStable">15 (稳)
+                                </option>
+                                <option value="24" data-i18n="creator.batch.options.fpsSmooth">24 (顺)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- 批量静音细节 -->
+                    <div id="batch-silence-options" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.threshold">阈值(dB)</span>
+                            <input type="number" id="batch-silence-threshold" class="setting-input mini" value="-40"
+                                style="width: 55px;">
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.minDuration">最小长度(s)</span>
+                            <input type="number" id="batch-silence-duration" class="setting-input mini" value="0.5"
+                                step="0.1" style="width: 55px;">
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.margin">保留边距(s)</span>
+                            <input type="number" id="batch-silence-margin" class="setting-input mini" value="0.1"
+                                step="0.05" style="width: 55px;">
+                        </div>
+                    </div>
+                    <!-- 批量合并细节 -->
+                    <div id="batch-merge-transition-group" class="batch-opt-group hidden">
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.transition">转场</span>
+                            <select id="batch-merge-transition" class="setting-select mini">
+                                <option value="none" data-i18n="creator.batch.options.transNone">无转场</option>
+                                <option value="fade" selected data-i18n="creator.batch.options.transFade">淡入淡出
+                                </option>
+                                <option value="wipeleft" data-i18n="creator.batch.options.transWipe">左侧擦除</option>
+                                <option value="zoom" data-i18n="creator.batch.options.transZoom">缩放</option>
+                            </select>
+                        </div>
+                        <div class="opt-sub-group">
+                            <span class="ctrl-label" data-i18n="creator.batch.options.duration">时长</span>
+                            <input type="number" id="batch-merge-duration" class="setting-input mini" value="1.0"
+                                step="0.5" style="width: 50px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 批量内容展示区 -->
+                <div id="batch-preview-strip" class="preview-carousel-wrapper">
+                    <div class="preview-carousel scroll-pro">
+                        <!-- 动态渲染卡片 -->
+                    </div>
+                </div>
+                <div id="batch-list" class="batch-list-wrapper hidden">
+                    <div class="batch-list-content scroll-pro">
+                        <!-- 动态渲染列表项 -->
+                    </div>
+                </div>
+
+                <!-- 转场预览浮窗 (悬浮在右上角，不影响背景布局) -->
+                <div id="batch-merge-transition-preview-floating" class="preview-float-window hidden">
+                    <div class="preview-float-header">
+                        <span data-i18n="creator.transition.preview">预览效果</span>
+                        <button class="btn-close-preview" type="button">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="batch-merge-transition-preview" class="merge-preview-container"></div>
+                </div>
+
+                <div class="batch-footer-actions">
+                    <div class="btn-group-pro" style="display: grid; grid-template-columns: 1fr auto; gap: 12px;">
+                        <button class="btn btn-primary-pro btn-lg" id="btn-start-batch" style="width: 100%;">
+                            <i class="fa-solid fa-rocket"></i> <span id="btn-start-batch-text"
+                                data-i18n="creator.batch.startBtn">开始批量任务</span>
+                        </button>
+                        <button class="btn btn-danger-pro btn-lg hidden" id="btn-cancel-batch"
+                            data-i18n="[title]creator.batch.stopTasks">
+                            <i class="fa-solid fa-stop"></i> <span data-i18n="subtitle.actions.cancel">取消</span>
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary-pro btn-lg hidden" id="btn-batch-open-folder"
+                        style="margin-top: 10px;">
+                        <i class="fa-solid fa-folder-open"></i> <span
+                            data-i18n="creator.batch.openFolder">打开输出目录</span>
+                    </button>
+            </div>
+        </div>
+
+    <!-- 处理进度浮层 -->
+    <div id="creator-progress" class="creator-progress hidden">
+        <div class="progress-bar">
+            <div class="progress-fill" id="creator-progress-fill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <p id="creator-status" style="margin: 0;" data-i18n="creator.status.preparing">正在准备环境...</p>
+            <button id="btn-cancel-process" class="btn btn-danger btn-sm hidden" data-i18n="creator.cancelBtn">取消</button>
+        </div>
+    </div>
+    <!-- 自定义确认弹窗 (与 settings.html 风格一致) -->
+    <div class="modal-overlay" id="creator-custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header" id="creator-modal-title" data-i18n="modal.confirmTitle">提示</div>
+            <div class="modal-body" id="creator-modal-message" data-i18n="modal.defaultMessage">确定要执行此操作吗？</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-creator-modal-cancel" data-i18n="modal.cancelBtn">取消</button>
+                <button class="btn btn-primary" id="btn-creator-modal-confirm" data-i18n="modal.confirmBtn">确定</button>
+            </div>
+        </div>
+    </div>
+    <!-- Creator Export Modal -->
+    <div id="creator-export-modal" class="modal-overlay hidden">
+        <div class="modal-content-premium creator-export-modal">
+            <div class="modal-header-pro">
+                <div class="modal-title-pro">
+                    <i class="fas fa-file-export"></i>
+                    <span data-i18n="creator.export.title">导出选项</span>
+                </div>
+                <button class="btn-close-pro" id="btn-close-creator-export">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body-pro">
+                <!-- Export Format -->
+                <div class="export-option-item">
+                    <label class="export-label" data-i18n="creator.export.format">导出格式</label>
+                    <div class="custom-select-wrapper">
+                        <select id="modal-export-format" class="premium-select">
+                            <option value="mp4">MP4 (H.264 / HEVC)</option>
+                            <option value="mkv">MKV (Matroska)</option>
+                            <option value="mov">MOV (QuickTime)</option>
+                        </select>
+                        <i class="fas fa-chevron-down select-arrow"></i>
+                    </div>
+                </div>
+
+                <!-- Export Type -->
+                <div class="export-option-item">
+                    <label class="export-label" data-i18n="creator.export.type">导出内容</label>
+                    <div class="custom-select-wrapper">
+                        <select id="modal-export-type" class="premium-select">
+                            <option value="video+audio" data-i18n="creator.export.typeVideoAudio">视频 + 音频</option>
+                            <option value="video" data-i18n="creator.export.typeVideoOnly">仅视频 (无声)</option>
+                            <option value="audio" data-i18n="creator.export.typeAudioOnly">仅音频 (MP3提取)</option>
+                        </select>
+                        <i class="fas fa-chevron-down select-arrow"></i>
+                    </div>
+                </div>
+
+                <!-- Save Path -->
+                <div class="export-option-item">
+                    <label class="export-label" data-i18n="creator.export.path">保存路径</label>
+                    <div class="path-input-group-premium">
+                        <input type="text" id="modal-creator-output-path" class="premium-input" readonly
+                            placeholder="...">
+                        <button class="btn-path-change" id="btn-modal-select-output">
+                            <i class="fas fa-folder-open"></i>
+                            <span data-i18n="common.change">更改</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer-pro">
+                <button class="btn-ghost-pro" id="btn-cancel-creator-export" data-i18n="common.cancel">取消</button>
+                <button class="btn-primary-premium" id="btn-submit-creator-export">
+                    <i class="fas fa-rocket"></i>
+                    <span data-i18n="creator.export.startBtn">开始导出</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

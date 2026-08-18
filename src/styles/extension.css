@@ -1,0 +1,271 @@
+/**
+ * Browser extension page — wide horizontal layout
+ */
+#page-extension.page.active {
+    display: flex;
+    align-items: safe center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: 28px 32px 36px;
+    overflow-y: auto;
+}
+
+.extension-shell {
+    width: min(1040px, 100%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ----- Top bar: brand + CTA side by side ----- */
+.extension-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 24px 28px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-card, var(--bg-secondary));
+    box-sizing: border-box;
+}
+
+.extension-top-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+    flex: 1;
+}
+
+.extension-mark {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: var(--text-primary);
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.extension-kicker {
+    margin: 0 0 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.extension-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    color: var(--text-primary);
+}
+
+.extension-lead {
+    margin: 0;
+    max-width: 560px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.extension-top-right {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 220px;
+}
+
+.extension-cta {
+    min-height: 40px !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    white-space: nowrap;
+}
+
+.extension-cta i {
+    font-size: 15px;
+}
+
+.extension-note {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ----- Main grid: features | steps+tips ----- */
+.extension-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.85fr);
+    gap: 16px;
+    align-items: stretch;
+}
+
+.extension-panel {
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-card, var(--bg-secondary));
+    padding: 20px 22px;
+    box-sizing: border-box;
+}
+
+.extension-panel-title {
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.extension-feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.extension-feature {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--fill-subtle, transparent);
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+.extension-feature-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 13px;
+}
+
+.extension-feature strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.extension-feature p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.extension-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.extension-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.extension-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.extension-step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+}
+
+.extension-tips {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.extension-tips li {
+    margin-bottom: 8px;
+}
+
+.extension-tips li:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+    #page-extension.page.active {
+        padding: 20px 16px 28px;
+    }
+
+    .extension-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding: 20px;
+    }
+
+    .extension-top-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .extension-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .extension-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}

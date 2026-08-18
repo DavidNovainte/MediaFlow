@@ -1,0 +1,1068 @@
+/* BatchCreator.css (Restored & Modularized) */
+
+/* Container */
+#batch-panel {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+/* Empty State */
+.empty-batch-state,
+.batch-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.empty-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.empty-sub {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-top: 8px;
+}
+
+/* Batch List (Queue) */
+.batch-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.batch-item {
+    display: flex;
+    align-items: center;
+    background: var(--fill-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.2s ease;
+}
+
+.batch-item:hover {
+    background: var(--fill-muted);
+    border-color: var(--accent-primary);
+}
+
+.batch-item.dragging {
+    opacity: 0.5;
+    border-style: dashed;
+}
+
+.batch-item.drag-over-target {
+    border-top: 2px solid var(--accent-primary);
+}
+
+.batch-item-drag {
+    cursor: grab;
+    opacity: 0.4;
+    margin-right: 12px;
+    font-size: 18px;
+    user-select: none;
+}
+
+.batch-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.batch-item-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.batch-item-meta {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+.batch-item-progress-container {
+    height: 4px;
+    background: var(--fill-hover);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.batch-item-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), #6b9ad4);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px var(--accent-primary-alpha);
+}
+
+
+
+.batch-item-actions {
+    margin-left: 15px;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.action-btn:hover {
+    color: #ef4444;
+}
+
+/* Status variants */
+.batch-item.processing {
+    border-color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.05);
+}
+
+.batch-item.done {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.batch-item.error {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.error-msg {
+    color: #ef4444;
+    font-weight: 500;
+}
+/* Preview Carousel Wrapper */
+.preview-carousel-wrapper {
+    width: 100%;
+    position: relative;
+    display: block;
+}
+
+.preview-carousel {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding: 10px 5px 20px 5px;
+    margin-top: 15px;
+    scroll-behavior: smooth;
+}
+
+/* Preview Card */
+.preview-card {
+    min-width: 160px;
+    width: 160px;
+    height: 220px;
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+    flex-shrink: 0;
+}
+
+.preview-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px var(--overlay-scrim);
+    border-color: var(--accent-primary);
+}
+
+.preview-card video {
+    pointer-events: none;
+}
+
+.preview-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 30px 10px 10px 10px;
+    color: white;
+}
+
+.preview-card-name {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+}
+
+.preview-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+.preview-card-status {
+    font-size: 14px;
+}
+
+.preview-card-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    z-index: 30;
+}
+
+.preview-card-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), #6b9ad4);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -2px 10px var(--accent-primary-alpha);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .preview-card {
+        min-width: 140px;
+        height: 200px;
+    }
+}
+
+/* Pro Batch UI Extensions */
+.batch-panel-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: var(--glass-blur);
+}
+
+.batch-header-pro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.batch-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.batch-title i {
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 8px var(--accent-primary-alpha));
+}
+
+.batch-actions-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 分段点击控件优化 */
+.segmented-control.mini {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 4px;
+    display: flex;
+    border: 1px solid var(--border-color);
+}
+
+.segmented-control.mini label {
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+}
+
+.segmented-control.mini input {
+    display: none;
+}
+
+.segmented-control.mini span {
+    display: block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.segmented-control.mini input:checked+span {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 4px 12px var(--accent-primary-alpha);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 控制栏增强 */
+.batch-ctrl-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--fill-subtle);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    flex-wrap: wrap; /* 允许换行以适应复杂配置 */
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    min-height: 72px; /* 确保有足够高度容纳下拉菜单的初始展开提示 */
+}
+
+.ctrl-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Pro Select Style */
+.setting-select-pro {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    min-width: 140px;
+}
+
+.setting-select-pro:hover {
+    border-color: var(--accent-primary);
+    background: var(--fill-muted);
+}
+
+.setting-select-pro:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary-alpha);
+}
+
+.setting-select-pro option {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+.ctrl-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+.batch-view-toggles {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.view-toggle-group.mini, .sort-group.mini {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.view-toggle-group .toggle-item {
+    cursor: pointer;
+}
+
+.view-toggle-group .toggle-item input {
+    display: none;
+}
+
+.view-toggle-group .toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 24px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.view-toggle-group .toggle-item input:checked + .toggle-label {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.btn-icon-sm {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    width: 28px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-icon-sm:hover {
+    color: var(--accent-primary);
+    background: var(--fill-muted);
+}
+
+.vertical-divider.mini {
+    width: 1px;
+    height: 16px;
+    background: var(--border-color);
+    margin: 0 4px;
+}
+
+.batch-tool-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.batch-tool-buttons .btn {
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-secondary-pro {
+    background: var(--fill-muted);
+    color: var(--text-primary);
+    border-color: var(--border-color) !important;
+}
+
+.btn-secondary-pro:hover {
+    background: var(--fill-hover);
+    border-color: var(--accent-primary) !important;
+}
+
+.btn-danger-pro {
+    background: rgba(255, 59, 48, 0.1) !important;
+    color: #ff3b30 !important;
+    border: 1px solid rgba(255, 59, 48, 0.2) !important;
+}
+
+.btn-danger-pro:hover {
+    background: #ff3b30 !important;
+    color: white !important;
+    border-color: #ff3b30 !important;
+}
+
+.batch-tool-buttons .btn-icon {
+    width: 34px;
+    padding: 0;
+}
+
+.batch-duration-badge {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px var(--accent-primary-alpha);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.batch-options-details {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin: 12px 0;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    animation: slideDown 0.3s ease-out;
+}
+
+.batch-opt-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.opt-sub-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* 6. Slide Right (向右滑动) */
+.tp-slideright.tp-animating::after {
+    opacity: 1;
+    transform: translateX(-100%);
+    animation: preview-slideright 2s infinite;
+}
+
+@keyframes preview-slideright {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    40%,
+    80% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* 6.1 Slide Left (向左滑动) */
+.tp-slideleft.tp-animating::after {
+    opacity: 1;
+    transform: translateX(100%);
+    animation: preview-slideleft 2s infinite;
+}
+
+@keyframes preview-slideleft {
+    0% {
+        transform: translateX(100%);
+    }
+
+    40%,
+    80% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 7. Slide Up (向上滑动) */
+.tp-slideup.tp-animating::after {
+    opacity: 1;
+    transform: translateY(100%);
+    animation: preview-slideup 2s infinite;
+}
+
+@keyframes preview-slideup {
+    0% {
+        transform: translateY(100%);
+    }
+
+    40%,
+    80% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* 7.1 Slide Down (向下滑动) */
+.tp-slidedown.tp-animating::after {
+    opacity: 1;
+    transform: translateY(-100%);
+    animation: preview-slidedown 2s infinite;
+}
+
+@keyframes preview-slidedown {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    40%,
+    80% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+/* 8. Circle Crop (圆形剪裁) */
+.tp-circlecrop.tp-animating::after {
+    opacity: 1;
+    clip-path: circle(0% at center);
+    animation: preview-circle 2s infinite;
+}
+
+@keyframes preview-circle {
+    0% {
+        clip-path: circle(0% at center);
+    }
+
+    40%,
+    80% {
+        clip-path: circle(70% at center);
+    }
+
+    100% {
+        clip-path: circle(0% at center);
+    }
+}
+
+/* 9. Pixelize (像素化) */
+.tp-pixelize.tp-animating::after {
+    opacity: 1;
+    animation: preview-pixelize 2s infinite;
+}
+
+@keyframes preview-pixelize {
+    0% {
+        opacity: 0;
+        filter: brightness(2) contrast(2) blur(10px);
+    }
+
+    40%,
+    80% {
+        opacity: 1;
+        filter: brightness(1) contrast(1) blur(0);
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 10. HBlur (横向模糊) */
+.tp-hblur.tp-animating::after {
+    opacity: 1;
+    filter: blur(10px);
+    animation: preview-blur 2s infinite;
+}
+
+@keyframes preview-blur {
+    0% {
+        opacity: 0;
+        filter: blur(20px);
+    }
+
+    40%,
+    80% {
+        opacity: 1;
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.setting-range.mini {
+    width: 80px;
+    height: 4px;
+    background: var(--fill-hover);
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.setting-range.mini::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-primary-alpha);
+}
+
+/* 批量合并转场预览：悬浮窗模式 (Fixed 定位，彻底解决布局遮挡) */
+.preview-float-window {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 15px 50px var(--overlay-scrim);
+    z-index: 10000; /* 确保在最顶层 */
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: floatIn 0.5s ease;
+}
+
+@keyframes floatIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.preview-float-window.hidden {
+    display: none !important;
+}
+
+.preview-float-header {
+    padding: 10px 15px;
+    background: var(--fill-subtle);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.btn-close-preview {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.btn-close-preview:hover {
+    background: var(--fill-hover);
+    color: #ef4444;
+}
+
+/* 内部预览容器规格 */
+.merge-preview-container,
+.transition-preview-container {
+    width: 240px;
+    height: 135px;
+    margin: 15px auto; 
+    background: #000;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate; 
+    z-index: 1;
+    border: 1px solid var(--fill-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 预览图层：受容器 isolation: isolate 保护，绝对不会超出容器边界 */
+.merge-preview-container .tp-layer,
+.transition-preview-container .tp-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    pointer-events: none; /* 防止干扰鼠标操作 */
+}
+
+.merge-preview-container .tp-layer-1,
+.transition-preview-container .tp-layer-1 {
+    background: var(--accent-gradient);
+    z-index: 1; /* 此 z-index 仅在容器内部生效 */
+}
+
+.merge-preview-container .tp-layer-1::after,
+.transition-preview-container .tp-layer-1::after {
+    content: '视频 A';
+    opacity: 0.4;
+    font-size: 24px;
+}
+
+.merge-preview-container .tp-layer-2,
+.transition-preview-container .tp-layer-2 {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    z-index: 2; /* 此 z-index 仅在容器内部生效 */
+    opacity: 0;
+}
+
+.merge-preview-container .tp-layer-2::after,
+.transition-preview-container .tp-layer-2::after {
+    content: '视频 B';
+    opacity: 0.4;
+    font-size: 24px;
+}
+
+.checkbox-label.mini {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-label.mini input {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.setting-input.mini {
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    padding: 4px 10px;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.setting-input.mini:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary-alpha);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mono primary-pro (matches .btn-primary ZCode CTAs) */
+.btn-primary-pro {
+    background: #18181b !important;
+    border: 1px solid #18181b !important;
+    color: #fafafa !important;
+    font-weight: 600;
+    box-shadow: none !important;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+html[data-theme="dark"] .btn-primary-pro {
+    background: #fafafa !important;
+    border-color: #fafafa !important;
+    color: #18181b !important;
+}
+
+.btn-primary-pro.btn-lg {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    box-shadow: none !important;
+    border-radius: 12px;
+}
+
+.btn-primary-pro.btn-sm {
+    padding: 6px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+.btn-primary-pro:hover {
+    transform: none;
+    box-shadow: none !important;
+    filter: none;
+    background: #27272a !important;
+    border-color: #27272a !important;
+    color: #fafafa !important;
+}
+
+html[data-theme="dark"] .btn-primary-pro:hover {
+    background: #e4e4e7 !important;
+    border-color: #e4e4e7 !important;
+    color: #18181b !important;
+}
+
+.btn-primary-pro.hidden,
+.btn-danger-pro.hidden {
+    display: none !important;
+}
+
+.btn-danger-pro {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.btn-danger-pro.btn-lg {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.btn-danger-pro:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5);
+    filter: brightness(1.1);
+}
+
+.btn-secondary-pro.btn-sm {
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary-pro.btn-sm:hover {
+    background: var(--fill-hover);
+    border-color: var(--text-muted);
+    transform: translateY(-1px);
+}
+
+.batch-footer-actions {
+    margin-top: 15px;
+    padding-top: 25px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.scroll-pro::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.scroll-pro::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+
+.scroll-pro::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Icon Buttons */
+.btn-icon-pro {
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-icon-pro:hover {
+    background: var(--fill-hover);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--accent-primary-alpha);
+}
+
+.btn-icon-pro.text-danger:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Select & Inputs */
+.setting-select.mini {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.setting-select.mini:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary-alpha);
+}
+
+.setting-select.mini option {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}

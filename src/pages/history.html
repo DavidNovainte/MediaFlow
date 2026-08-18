@@ -1,0 +1,78 @@
+<!-- 历史记录页面 -->
+<section class="page" id="page-history">
+    <div class="page-header">
+        <h1 class="page-title" data-i18n="history.title">下载历史</h1>
+        <div class="header-actions">
+            <button class="btn-clear-history" id="btn-clear-history">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="width: 16px; height: 16px; margin-right: 4px;">
+                    <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                </svg>
+                <span data-i18n="history.clear">清空记录</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 搜索和筛选栏 -->
+    <div class="history-toolbar">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <input type="text" id="history-search" placeholder="搜索视频标题..."
+                data-i18n-placeholder="history.searchPlaceholder" class="search-input">
+            <button class="btn-clear-search" id="btn-clear-search" title="清除搜索">✕</button>
+        </div>
+
+        <div class="filter-group">
+            <select id="filter-platform" class="filter-select">
+                <option value="" data-i18n="history.filter.allPlatforms">全部平台</option>
+                <!-- 动态填充 -->
+            </select>
+
+            <select id="filter-date" class="filter-select">
+                <option value="" data-i18n="history.filter.allTime">全部时间</option>
+                <option value="today" data-i18n="history.filter.today">今天</option>
+                <option value="week" data-i18n="history.filter.week">本周</option>
+                <option value="month" data-i18n="history.filter.month">本月</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 批量操作栏 -->
+    <div class="history-batch-bar" id="history-batch-bar">
+        <label class="batch-checkbox-wrapper">
+            <input type="checkbox" id="history-select-all">
+            <span data-i18n="history.batch.selectAll">全选</span>
+        </label>
+        <span class="batch-count" id="batch-count"></span>
+        <div class="batch-actions">
+            <button class="btn btn-small btn-danger" id="btn-history-batch-delete" disabled>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                <span data-i18n="history.batch.delete">批量删除</span>
+            </button>
+            <button class="btn btn-small btn-secondary" id="btn-batch-export" disabled>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+                <span data-i18n="history.batch.copy">复制文件</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 结果统计 -->
+    <div class="history-stats" id="history-stats"></div>
+
+    <div class="history-list-container">
+        <div id="history-list" class="history-list">
+            <!-- 动态生成 -->
+        </div>
+        <div id="history-empty" class="empty-state hidden"></div>
+        <div id="history-no-results" class="empty-state hidden"></div>
+    </div>
+</section>

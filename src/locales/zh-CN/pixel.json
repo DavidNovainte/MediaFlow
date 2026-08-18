@@ -1,0 +1,9 @@
+{
+  "pixel": {
+    "skipNonImages": "已跳过 {count} 个非图片文件。短视频请用「AI 增强」。",
+    "unsupportedPreview": "无法将此文件作为图片预览",
+    "aiEnhancingPercent": "AI 增强处理中... {percent}%",
+    "confirmDeletePreset": "确定要删除预设 \"{name}\" 吗？此操作无法撤销。",
+    "aiEnhancing": "AI 增强处理中..."
+  }
+}

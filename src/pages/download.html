@@ -1,0 +1,623 @@
+<!-- 视频下载页面 -->
+<section class="page active" id="page-download">
+    <!-- 批量下载设置模态框 -->
+    <div id="batch-settings-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-panel" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3 class="modal-title" data-i18n="batch.title">🎬 批量下载设置</h3>
+                <button class="btn-icon" id="btn-close-batch-settings" data-i18n-title="common.actions.close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-label" data-i18n="settings.playlistLimit">播放列表数量限制</span>
+                        <span class="setting-desc" data-i18n="settings.playlistLimitDesc">最大获取视频数量 (默认 1000)</span>
+                    </div>
+                    <input type="number" id="modal-setting-playlist-limit" class="setting-input" value="1000" min="10"
+                        max="5000" step="10">
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-label" data-i18n="settings.createChannelFolder">自动创建文件夹</span>
+                        <span class="setting-desc" data-i18n="settings.createChannelFolderDesc">批量下载时按作者名创建文件夹</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="modal-setting-create-channel-folder" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-label" data-i18n="settings.timeGroup">时间分组</span>
+                        <span class="setting-desc" data-i18n="settings.timeGroupDesc">在作者文件夹内按时间创建子目录</span>
+                    </div>
+                    <select id="modal-setting-time-group" class="setting-select">
+                        <option value="none" data-i18n="settings.groupNone">不分组</option>
+                        <option value="year" data-i18n="settings.groupYear">按年份 (YYYY)</option>
+                        <option value="quarter" data-i18n="settings.groupQuarter">按季度 (YYYY-Qx)</option>
+                        <option value="month" data-i18n="settings.groupMonth">按月份 (YYYY-MM)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-label" data-i18n="settings.useArchive">启用增量下载</span>
+                        <span class="setting-desc" data-i18n="settings.useArchiveDesc">记录已下载视频，下次自动跳过</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="modal-setting-use-archive" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="btn-save-batch-settings" style="width: 100%;"
+                    data-i18n="batch.saveSettings">保存设置</button>
+            </div>
+        </div>
+    </div>
+    <!-- 🆕 Hero Section -->
+    <div class="hero-section">
+        <div class="hero-background"></div>
+
+        <div class="hero-content">
+            <div class="hero-tagline">
+                <div class="hero-icon">⚡</div>
+                <h2 class="hero-title" data-i18n="download.heroTitle">粘贴链接，下载到本地</h2>
+                <p class="hero-subtitle" data-i18n="download.heroSubtitle">支持主流平台公开内容 · 保存后可压缩 / 转文字 / 做字幕
+                </p>
+            </div>
+
+            <!-- URL 输入区 -->
+            <div class="hero-input-wrapper">
+                <div id="single-input-area" class="input-group hero-input-group">
+                    <input type="text" id="video-url" class="input-field hero-input" placeholder="粘贴视频或音频链接…"
+                        data-i18n-placeholder="download.placeholder">
+                    <button id="btn-check" class="btn btn-primary btn-hero">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <span data-i18n="download.check">⚡ 立即解析</span>
+                    </button>
+                </div>
+
+                <!-- 快捷操作 -->
+                <div class="hero-quick-actions">
+                    <button id="btn-paste-clipboard" class="btn btn-text">
+                        <span data-i18n="download.pasteClipboard">📋 从剪贴板粘贴</span>
+                    </button>
+                    <button id="btn-open-local" class="btn btn-text">
+                        <span data-i18n="download.openFile">📂 打开本地文件</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 模式切换 -->
+    <div class="mode-switch-container">
+        <div class="mode-switch">
+            <button class="mode-btn active" data-mode="single" id="mode-single">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span data-i18n="download.modeSingle">单个链接</span>
+            </button>
+            <button class="mode-btn" data-mode="batch" id="mode-batch">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span data-i18n="download.modeBatch">批量链接</span>
+            </button>
+        </div>
+        <button id="btn-reset-global" class="btn-reset-ui hidden" title="重新输入链接">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span data-i18n="download.back">返回</span>
+        </button>
+        <button id="btn-toggle-queue" class="btn-icon" title="展开/隐藏队列" data-i18n-title="queue.toggleTooltip"
+            style="margin-left: 12px; position: relative;">
+            <span id="queue-badge" class="queue-badge hidden">0</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+
+    <!-- 批量模式: 多行输入与设置 -->
+    <div id="batch-input-area" class="batch-area hidden">
+        <div class="batch-input-wrapper glass-panel" id="batch-chips-wrapper"
+            style="position: relative; min-height: 120px; cursor: text;">
+            <div id="batch-chips-container" class="batch-chips-container">
+                <!-- Chips will be inserted here -->
+                <input type="text" id="batch-smart-input" class="batch-ghost-input" placeholder="" autocomplete="off">
+            </div>
+
+            <div id="batch-empty-tip" class="batch-empty-tip">
+                <div class="tip-icon">📋</div>
+                <div class="tip-text" data-i18n="batch.emptyTip">按 <strong>Ctrl+V</strong> 粘贴链接<br><span
+                        style="font-size: 0.8em; opacity: 0.7;" data-i18n="batch.emptySub">自动识别多行文本</span></div>
+            </div>
+
+            <!-- 🆕 清空输入按钮 -->
+            <button id="btn-clear-batch-input" class="btn-clear-input" title="清空输入" style="display: none;"
+                data-i18n="batch.clear" data-i18n-title="batch.clear">
+                🗑️ 清空
+            </button>
+        </div>
+
+        <div class="batch-controls">
+            <div class="batch-settings-wrapper">
+                <div class="batch-select">
+                    <label data-i18n="batch.qualityTitle">目标画质:</label>
+                    <select id="batch-quality-select">
+                        <option value="best" data-i18n="quality.best">🏅 最高画质 (自动)</option>
+                        <option value="2160" data-i18n="quality.p2160">📺 4K (2160p)</option>
+                        <option value="1440" data-i18n="quality.p1440">🖥️ 2K (1440p)</option>
+                        <option value="1080" selected data-i18n="quality.p1080">🖥️ 1080p HD</option>
+                        <option value="720" data-i18n="quality.p720">📱 720p HD</option>
+                        <option value="480" data-i18n="quality.p480">📉 480p</option>
+                        <option value="360" data-i18n="quality.p360">📉 360p</option>
+                        <option value="audio" data-i18n="quality.audioOnly">🎵 仅音频 (MP3/M4A)</option>
+                    </select>
+                </div>
+                <div class="batch-settings batch-options-container">
+                    <label class="batch-toggle">
+                        <input type="checkbox" id="batch-download-thumbnail">
+                        <span class="batch-toggle-slider"></span>
+                        <span data-i18n="download.saveThumbnail">下载视频封面</span>
+                    </label>
+                    <label class="batch-toggle">
+                        <input type="checkbox" id="batch-download-subtitles">
+                        <span class="batch-toggle-slider"></span>
+                        <span data-i18n="download.saveSubtitles">下载字幕</span>
+                    </label>
+                    <label class="batch-toggle">
+                        <input type="checkbox" id="batch-auto-download">
+                        <span class="batch-toggle-slider"></span>
+                        <span data-i18n="batch.autoDownload">解析后自动下载</span>
+                    </label>
+                    <label class="batch-toggle">
+                        <input type="checkbox" id="batch-no-watermark" checked>
+                        <span class="batch-toggle-slider"></span>
+                        <span data-i18n="batch.noWatermark">去水印 (TikTok/抖音)</span>
+                    </label>
+                </div>
+            </div>
+            <button id="btn-batch-start" class="btn btn-primary btn-batch-start">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <span data-i18n="download.detect">检测</span>
+            </button>
+
+            <input type="hidden" id="batch-date-after">
+        </div>
+
+        <!-- Inline Batch Results (Moved out of batch-controls to separate line) -->
+        <div id="batch-results-container" class="batch-queue-container hidden" style="margin-top: 20px;">
+            <div style="padding: 10px; display: flex; justify-content: flex-end;">
+                <button id="btn-clear-results" class="btn-clear-pill" title="清空检测结果"
+                    data-i18n-title="queue.clearResultsTooltip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                        <path d="M19 6V4a2 2 0 00-2-2H7a2 2 0 00-2 2v2M6 18a2 2 0 002 2h8a2 2 0 002-2V6H6z" />
+                    </svg>
+                    <span data-i18n="download.clearList">清空列表</span>
+                </button>
+            </div>
+            <!-- Re-using class 'queue-list' assuming it provides list styling -->
+            <div id="batch-results-list" class="queue-list">
+                <!-- Cards inserted via JS -->
+            </div>
+
+            <div class="batch-actions-footer"
+                style="padding: 16px; display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--border-color); margin-top: 10px;">
+                <div style="margin-right: auto; display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--text-secondary); font-size: 14px;"><span
+                            data-i18n="batch.selected">已选择</span> <span id="batch-count"
+                            style="color: var(--accent-primary); font-weight: bold;">0</span> / <span
+                            id="batch-total-count">0</span></span>
+                </div>
+                <button id="btn-batch-confirm" class="btn btn-primary" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="download.startBatch">开始下载</span>
+                </button>
+            </div>
+        </div>
+    </div> <!-- End of batch-input-area -->
+
+    <!-- Queue Drawer (Global Download Queue) -->
+    <div id="queue-drawer" class="queue-drawer">
+        <div class="queue-drawer-header">
+            <span class="queue-drawer-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <span data-i18n="download.queueTitle">下载队列</span>
+            </span>
+            <button id="btn-clear-all-queue" class="btn-clear-pill" title="清空已完成和失败的任务"
+                data-i18n-title="queue.clearTooltip" style="margin-left: auto; margin-right: 8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <path d="M19 6V4a2 2 0 00-2-2H7a2 2 0 00-2 2v2M6 18a2 2 0 002 2h8a2 2 0 002-2V6H6z" />
+                </svg>
+                <span data-i18n="download.clearAll">一键清空</span>
+            </button>
+            <button id="btn-close-drawer" class="btn-icon" title="关闭" data-i18n-title="common.actions.close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="queue-drawer-dashboard" id="queue-dashboard">
+            <div class="dashboard-stats">
+                <div class="dash-stat-item">
+                    <span class="dash-label" data-i18n="download.taskProgress">任务进度</span>
+                    <span id="queue-dash-count" class="dash-value">0/0</span>
+                </div>
+                <div class="dash-stat-controls">
+                    <button id="batch-btn-pause-all" class="dash-control-btn" title="暂停/继续所有下载"
+                        data-i18n-title="queue.pauseAllTooltip">
+                        <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                        </svg>
+                        <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"
+                            style="display:none;">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </button>
+                    <button id="batch-btn-cancel-all" class="dash-control-btn danger" title="停止并取消所有下载"
+                        data-i18n-title="queue.cancelAllTooltip">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M6 6h12v12H6z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="dashboard-progress">
+                <div class="progress-bar-large">
+                    <div id="queue-global-progress" class="progress-fill-large" style="width: 0%"></div>
+                </div>
+                <span id="queue-dash-percent" class="dash-percent-label">0%</span>
+            </div>
+        </div>
+
+        <div class="queue-drawer-content" id="global-queue-container">
+            <div id="global-queue-list" class="queue-list"></div>
+        </div>
+    </div>
+
+
+    <!-- 下载进度 -->
+    <div id="download-progress" class="download-progress hidden">
+        <div class="progress-header">
+            <span class="progress-title" id="progress-title"></span>
+            <span class="progress-percent" id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <!-- 实时速度波动图 -->
+        <div class="progress-chart-container" id="speed-chart-container">
+            <canvas id="speed-chart"></canvas>
+        </div>
+        <div class="progress-footer">
+            <div class="progress-stats">
+                <span class="progress-speed" id="progress-speed"></span>
+                <span class="progress-eta" id="progress-eta"></span>
+            </div>
+            <div class="progress-controls" style="display: flex; gap: 8px;">
+                <button id="btn-pause" class="btn btn-secondary" data-i18n="download.pause">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                    <span data-i18n="download.pause">暂停</span>
+                </button>
+                <button id="btn-cancel" class="btn btn-secondary" data-i18n="download.cancel">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                    <span data-i18n="download.cancel">取消</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="download-video-info" class="video-info hidden">
+        <div class="video-thumbnail">
+            <img id="video-thumbnail" src="" alt="Thumbnail" referrerpolicy="no-referrer">
+            <div class="video-duration" id="video-duration"></div>
+        </div>
+        <div class="video-details">
+            <h3 class="video-title" id="video-title"></h3>
+            <div class="video-meta">
+                <div id="platform-badge" class="meta-item platform">
+                    <i id="platform-icon" class="fab fa-play-circle"></i>
+                    <span id="platform-name"></span>
+                </div>
+                <div class="meta-item author">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="video-author"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 下载选项 -->
+    <div id="download-options" class="download-options hidden">
+        <!-- 格式选择 (放在前面) -->
+        <div class="option-group">
+            <label class="option-label" data-i18n="download.format">格式</label>
+            <div class="format-buttons" id="format-buttons">
+                <button class="format-btn active" data-format="video" data-i18n="download.formatVideo">🎬
+                    视频</button>
+                <button class="format-btn" data-format="audio" data-i18n="download.formatAudio">🎵 音频</button>
+            </div>
+        </div>
+
+        <!-- 视频画质选择 -->
+        <div class="option-group" id="video-quality-group">
+            <label class="option-label" data-i18n="download.quality">画质</label>
+            <div class="quality-buttons" id="quality-buttons">
+                <button class="quality-btn" data-quality="144">144p</button>
+                <button class="quality-btn" data-quality="360">360p</button>
+                <button class="quality-btn" data-quality="480">480p</button>
+                <button class="quality-btn active" data-quality="720">720p</button>
+                <button class="quality-btn" data-quality="1080">1080p</button>
+                <button class="quality-btn" data-quality="2160">4K</button>
+            </div>
+        </div>
+
+        <!-- 音频质量选择 (默认隐藏) -->
+        <div class="option-group hidden" id="audio-quality-group">
+            <label class="option-label" data-i18n="download.audioBitrate">音质</label>
+            <div class="quality-buttons" id="audio-buttons">
+                <button class="audio-btn" data-bitrate="320">320 kbps</button>
+                <button class="audio-btn active" data-bitrate="256">256 kbps</button>
+                <button class="audio-btn" data-bitrate="192">192 kbps</button>
+                <button class="audio-btn" data-bitrate="128">128 kbps</button>
+            </div>
+        </div>
+
+        <!-- 音频格式选择 (默认隐藏) -->
+        <div class="option-group hidden" id="audio-format-group">
+            <label class="option-label" data-i18n="download.audioFormat">格式</label>
+            <div class="format-buttons" id="audio-format-buttons">
+                <button class="audio-format-btn active" data-ext="mp3">MP3</button>
+                <button class="audio-format-btn" data-ext="m4a">M4A</button>
+                <button class="audio-format-btn" data-ext="wav">WAV</button>
+                <button class="audio-format-btn" data-ext="flac">FLAC</button>
+            </div>
+        </div>
+
+        <!-- 下载选项复选框行 (合并优化布局) -->
+        <div class="option-group checkbox-row">
+            <label class="checkbox-label">
+                <input type="checkbox" id="download-thumbnail">
+                <span data-i18n="download.saveThumbnail">下载视频封面</span>
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" id="download-subtitles">
+                <span data-i18n="download.saveSubtitles">下载字幕</span>
+            </label>
+        </div>
+
+        <!-- 精准剪辑 (Phase 4) -->
+        <div class="option-group hidden" id="trim-group">
+            <div class="option-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <label class="option-label" style="margin-bottom: 0;" data-i18n="download.trimTitle">精准剪辑 (Trim)</label>
+                <span class="trim-info-text" id="trim-duration-label"
+                    style="font-size: 12px; color: var(--accent-primary); font-weight: 500;"
+                    data-i18n="download.trimFull">全长下载</span>
+            </div>
+            <div class="trim-control">
+                <div class="trim-slider-wrapper">
+                    <div class="trim-track"></div>
+                    <div class="trim-range-fill" id="trim-range-fill"></div>
+                    <input type="range" id="trim-start" class="trim-handle" min="0" max="100" value="0">
+                    <input type="range" id="trim-end" class="trim-handle" min="0" max="100" value="100">
+                </div>
+                <div class="trim-time-labels"
+                    style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-muted); font-family: monospace;">
+                    <span id="trim-start-time">00:00</span>
+                    <span id="trim-end-time">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-actions">
+            <button type="button" id="btn-download" class="btn btn-download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span data-i18n="download.start">下载到本地</span>
+            </button>
+            <button type="button" id="btn-add-queue" class="btn btn-secondary" title="添加到下载队列"
+                data-i18n-title="download.addToQueue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M11 12H5" />
+                    <path d="M14 12h6" />
+                    <path d="M17 15l3-3-3-3" />
+                </svg>
+                <span data-i18n="download.addToQueue">加入队列</span>
+            </button>
+        </div>
+
+        <!-- 下载完成后的操作按钮 (初始隐藏) -->
+        <div id="post-download-actions" class="post-download-actions hidden">
+            <div class="post-download-divider"></div>
+            <div class="post-download-label" data-i18n="download.finished">已下载到本地，可继续</div>
+            <div class="post-download-buttons">
+                <button type="button" id="btn-post-creator" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.editTooltip" title="在快捷视频工具中继续编辑">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                    <span data-i18n="download.actionEdit">创作</span>
+                </button>
+                <button type="button" id="btn-post-transcribe" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.transcribeTooltip" title="将音视频转为文字">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+                        <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    <span data-i18n="download.actionTranscribe">转文字</span>
+                </button>
+                <button type="button" id="btn-post-subtitle" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.subtitleTooltip" title="打开字幕翻译">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <path d="M8 10h8M8 14h5"/>
+                    </svg>
+                    <span data-i18n="download.actionSubtitle">字幕</span>
+                </button>
+                <button type="button" id="btn-post-folder" class="btn btn-secondary btn-post-action"
+                    data-i18n-title="download.openFolderTooltip" title="打开文件所在目录">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span data-i18n="download.openFolder">打开目录</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支持平台列表已按合规要求彻底移除 -->
+
+    <!-- 播放列表信息 -->
+    <div id="playlist-info" class="playlist-info hidden">
+        <div class="playlist-header">
+            <div class="playlist-header-left">
+                <input type="checkbox" class="playlist-checkbox-all" id="playlist-select-all" checked>
+                <h3 class="playlist-title" id="playlist-title"></h3>
+                <button class="btn-icon" id="btn-playlist-settings" title="批量下载设置" data-i18n-title="batch.title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
+                </button>
+            </div>
+            <span class="playlist-count" id="playlist-count"></span>
+        </div>
+        <div class="playlist-items" id="playlist-items"></div>
+
+        <!-- 播放列表下载选项 -->
+        <div class="playlist-options">
+            <div class="option-group">
+                <label class="option-label" data-i18n="download.format">格式</label>
+                <div class="format-buttons">
+                    <button class="format-btn active" data-format="video" id="pl-format-video"
+                        data-i18n="download.formatVideo">🎬 视频</button>
+                    <button class="format-btn" data-format="audio" id="pl-format-audio"
+                        data-i18n="download.formatAudio">🎵 音频</button>
+                </div>
+            </div>
+            <div class="option-group" id="pl-video-quality-group">
+                <label class="option-label" data-i18n="download.quality">画质</label>
+                <div class="quality-buttons" id="pl-quality-buttons">
+                    <button class="quality-btn" data-quality="480">480p</button>
+                    <button class="quality-btn active" data-quality="720">720p</button>
+                    <button class="quality-btn" data-quality="1080">1080p</button>
+                    <button class="quality-btn" data-quality="2160">4K</button>
+                </div>
+            </div>
+            <div class="option-group hidden" id="pl-audio-quality-group">
+                <label class="option-label" data-i18n="download.audioBitrate">音质</label>
+                <div class="quality-buttons" id="pl-audio-buttons">
+                    <button class="audio-btn" data-bitrate="320">320 kbps</button>
+                    <button class="audio-btn active" data-bitrate="256">256 kbps</button>
+                    <button class="audio-btn" data-bitrate="192">192 kbps</button>
+                    <button class="audio-btn" data-bitrate="128">128 kbps</button>
+                </div>
+            </div>
+
+            <!-- 音频格式选择 (播放列表) -->
+            <div class="option-group hidden" id="pl-audio-format-group">
+                <label class="option-label" data-i18n="download.audioFormat">格式</label>
+                <div class="format-buttons" id="pl-audio-format-buttons">
+                    <button class="audio-format-btn active" data-ext="mp3">MP3</button>
+                    <button class="audio-format-btn" data-ext="m4a">M4A</button>
+                    <button class="audio-format-btn" data-ext="wav">WAV</button>
+                    <button class="audio-format-btn" data-ext="flac">FLAC</button>
+                </div>
+            </div>
+
+            <!-- 下载选项复选框行 (播放列表模式) -->
+            <div class="option-group checkbox-row">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="pl-download-thumbnail">
+                    <span data-i18n="download.saveThumbnail">下载视频封面</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="pl-download-subtitles">
+                    <span data-i18n="download.saveSubtitles">下载字幕</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="playlist-actions">
+            <button id="btn-download-all" class="btn btn-download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span data-i18n="download.downloadSelected">下载选中</span>
+            </button>
+        </div>
+    </div>
+
+
+
+</section>
+
+<!-- Custom Confirm Modal -->
+<div id="custom-modal-overlay" class="modal-overlay hidden">
+    <div class="modal-box">
+        <div class="modal-title" id="modal-title" data-i18n="dialogs.tip">提示</div>
+        <div class="modal-message" id="modal-message" data-i18n="dialogs.confirmMsg">确认执行此操作吗？</div>
+        <div class="modal-actions">
+            <button id="modal-btn-cancel" class="modal-btn cancel" data-i18n="common.actions.cancel">取消</button>
+            <button id="modal-btn-confirm" class="modal-btn confirm danger"
+                data-i18n="common.actions.confirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="../components/common/toast.js"></script>
+<script src="../features/history/HistoryService.js"></script>
+<script src="../features/history/HistoryUI.js"></script>
+<script src="../features/history/HistoryEvents.js"></script>
+<script src="../features/history/HistoryFlow.js"></script>
+<script src="../components/common/speedMonitor.js"></script>
+<script src="../features/download/QueueManager.js"></script>
+<script src="../features/download/BatchManager.js"></script>
+<script src="../features/download/DownloadManager.js"></script>
+<script src="../features/download/DownloadService.js"></script>
+
+</body>

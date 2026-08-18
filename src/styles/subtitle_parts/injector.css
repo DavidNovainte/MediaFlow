@@ -1,0 +1,273 @@
+/* 
+   Subtitle Rapid Injection Modal Styles
+   Namespace: .inj- 
+   Independent from global .modal styles
+*/
+
+.inj-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.inj-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.inj-dialog {
+    width: 680px;
+    max-width: 90vw;
+    max-height: 85vh;
+    animation: injScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes injScaleIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.inj-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inj-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.inj-header .close-btn {
+    background: var(--fill-muted);
+    border: none;
+    color: var(--text-muted);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.inj-header .close-btn:hover {
+    background: var(--fill-hover);
+    color: #fff;
+}
+
+.inj-body {
+    padding: 24px 32px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+}
+
+/* Radio Cards Design */
+.injection-modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.radio-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-card input {
+    position: absolute;
+    opacity: 0;
+}
+
+.radio-card .card-content {
+    background: var(--fill-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.radio-card:hover .card-content {
+    background: var(--fill-muted);
+    border-color: rgba(77, 130, 201, 0.3);
+    transform: translateY(-2px);
+}
+
+.radio-card input:checked + .card-content {
+    background: rgba(77, 130, 201, 0.1);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px rgba(77, 130, 201, 0.2);
+}
+
+.radio-card .icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.radio-card .title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.radio-card .desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Form Styles */
+.injection-options {
+    width: 100%;
+}
+
+.injection-options .input-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0;
+}
+
+.injection-options label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.param-input {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    width: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.param-input:focus {
+    border-color: var(--accent-primary);
+}
+
+.injection-area {
+    width: 100%;
+    flex: 1;
+    min-height: 200px;
+}
+
+#injection-textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: 16px;
+    font-family: var(--font-mono, monospace);
+    font-size: 13px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    transition: all 0.2s;
+}
+
+#injection-textarea:focus {
+    border-color: var(--accent-primary);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Footer Section */
+.inj-footer {
+    padding: 24px 32px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--fill-subtle);
+}
+
+.inj-footer .stats {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.inj-footer .stats span {
+    color: var(--accent-primary);
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.inj-footer .actions {
+    display: flex;
+    gap: 12px;
+}
+
+.inj-footer .btn {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inj-footer .btn.secondary {
+    background: var(--fill-muted);
+    color: var(--text-secondary);
+}
+
+.inj-footer .btn.secondary:hover {
+    background: var(--fill-hover);
+    color: var(--text-primary);
+}
+
+.inj-footer .btn.primary {
+    background: var(--accent-gradient);
+    color: white;
+    box-shadow: 0 4px 12px rgba(77, 130, 201, 0.2);
+}
+
+.inj-footer .btn.primary:hover {
+    box-shadow: 0 6px 16px rgba(77, 130, 201, 0.4);
+    transform: translateY(-1px);
+}

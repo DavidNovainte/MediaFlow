@@ -1,0 +1,87 @@
+/* Page Layout for Bottom Positioning */
+#page-download.active {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--titlebar-height));
+}
+
+/* Supported Platforms */
+.platforms-label {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    margin-top: auto;
+    /* Push to bottom */
+    padding-top: 2rem;
+}
+
+.platforms-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 1rem;
+    /* Reduced from 3rem */
+    padding: 0 20px 3rem 20px;
+    /* Increased bottom padding for spacing from window edge */
+    opacity: 0.8;
+}
+
+.platform-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    cursor: default;
+}
+
+.platform-badge:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.platform-badge i,
+.platform-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+.platform-badge.youtube:hover {
+    color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.2);
+}
+
+.platform-badge.tiktok:hover {
+    color: #fe2c55;
+    border-color: rgba(254, 44, 85, 0.2);
+}
+
+.platform-badge.douyin:hover {
+    color: #000000;
+    text-shadow: -2px 0 #00f2ea, 2px 0 #ff0050;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.platform-badge.instagram:hover {
+    color: #e1306c;
+    border-color: rgba(225, 48, 108, 0.2);
+}
+
+.platform-badge.facebook:hover {
+    color: #1877f2;
+    border-color: rgba(24, 119, 242, 0.2);
+}
+
+.platform-badge.twitter:hover {
+    color: #1da1f2;
+    border-color: rgba(29, 161, 242, 0.2);
+}

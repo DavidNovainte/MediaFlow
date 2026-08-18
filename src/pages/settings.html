@@ -1,0 +1,548 @@
+<!-- 设置页面 — 分组信息架构（通用 / 下载 / 引擎 / API / 快捷键 / 隐私 / 关于） -->
+<section class="page" id="page-settings">
+    <div class="page-header settings-page-header">
+        <h1 class="page-title" data-i18n="settings.title">设置</h1>
+        <p class="settings-page-subtitle" data-i18n="settings.pageSubtitle">常用项在上方；高级选项已折叠。</p>
+    </div>
+
+    <div class="settings-list">
+
+        <!-- ========== 1. 通用 ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionGeneral">通用</h2>
+
+            <div class="setting-item" title="选择界面语言">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.language">语言</span>
+                    <span class="setting-desc" data-i18n="settings.languageDesc">选择界面语言</span>
+                </div>
+                <select id="setting-language" class="setting-select">
+                    <option value="en-US">English</option>
+                    <option value="ja-JP">日本語</option>
+                    <option value="ko-KR">한국어</option>
+                    <option value="es-ES">Español</option>
+                    <option value="fr-FR">Français</option>
+                    <option value="de-DE">Deutsch</option>
+                    <option value="ru-RU">Русский</option>
+                    <option value="pt-PT">Português</option>
+                    <option value="zh-CN">简体中文</option>
+                    <option value="zh-TW">繁體中文</option>
+                </select>
+            </div>
+
+            <div class="setting-item" title="在浅色与深色界面之间切换（默认浅色）">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.theme">外观</span>
+                    <span class="setting-desc" data-i18n="settings.themeDesc">在浅色与深色界面之间切换（默认浅色）</span>
+                </div>
+                <select id="setting-theme" class="setting-select">
+                    <option value="light" data-i18n="settings.themeLight" selected>浅色</option>
+                    <option value="dark" data-i18n="settings.themeDark">深色</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ========== 2. 下载与文件 ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionDownload">下载与文件</h2>
+
+            <div class="setting-item" title="未设置">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.downloadPath">下载目录</span>
+                    <span class="setting-desc" id="current-download-path">未设置</span>
+                </div>
+                <button class="btn btn-secondary btn-small" id="btn-change-path" data-i18n="settings.changePath">更改</button>
+            </div>
+
+            <div class="setting-item" title="下载完成后自动执行的操作">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.downloadCompletionAction">下载后动作</span>
+                    <span class="setting-desc" data-i18n="settings.downloadCompletionActionDesc">下载完成后自动执行的操作</span>
+                </div>
+                <select id="setting-download-completion-action" class="setting-select">
+                    <option value="none" data-i18n="settings.actionNone">无操作</option>
+                    <option value="open_folder" data-i18n="settings.actionOpenFolder">打开文件夹</option>
+                    <option value="share_mobile" data-i18n="settings.actionShareMobile">分享到手机</option>
+                    <option value="transcribe" data-i18n="settings.actionTranscribe">自动转文字</option>
+                    <option value="compress" data-i18n="settings.actionCompress">自动压缩图片</option>
+                    <option value="edit" data-i18n="settings.actionEdit">自动打开视频工具</option>
+                </select>
+            </div>
+
+            <div class="setting-item" title="浏览器插件或手机发送链接时，是否自动弹出主窗口">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.externalReceiveMode">插件 / 手机发送</span>
+                    <span class="setting-desc" data-i18n="settings.externalReceiveModeDesc">外部发送链接时的窗口行为（均会自动开始下载）</span>
+                </div>
+                <select id="setting-external-receive-mode" class="setting-select">
+                    <option value="focus" data-i18n="settings.externalReceiveFocus">弹出窗口（默认）</option>
+                    <option value="silent" data-i18n="settings.externalReceiveSilent">静默后台下载</option>
+                </select>
+            </div>
+
+            <div class="setting-item" title="选择下载文件的命名格式">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.filenameTemplate">文件命名规则</span>
+                    <span class="setting-desc" data-i18n="settings.filenameTemplateDesc">选择下载文件的命名格式</span>
+                </div>
+                <select id="setting-filename-template" class="setting-select">
+                    <option value="%(title)s.%(ext)s" data-i18n="settings.nameOnly">仅标题 (标题.mp4)</option>
+                    <option value="%(uploader)s - %(title)s.%(ext)s" data-i18n="settings.uploaderTitle">作者 - 标题</option>
+                    <option value="%(upload_date)s - %(title)s.%(ext)s" data-i18n="settings.dateTitle">日期 - 标题</option>
+                    <option value="%(uploader)s_%(upload_date)s_%(title)s.%(ext)s" data-i18n="settings.fullInfo">作者_日期_标题</option>
+                    <option value="%(id)s.%(ext)s" data-i18n="settings.idOnly">仅视频ID</option>
+                </select>
+            </div>
+
+            <details class="settings-group">
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.performanceTitle">下载性能</span>
+                </summary>
+                <div class="settings-group-content">
+                    <div class="setting-item" title="大文件分片下载的并发数（1–8，建议 3–4）">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.concurrentFragments">并发分片数</span>
+                            <span class="setting-desc" data-i18n="settings.concurrentFragmentsDesc">大文件分片下载的并发数（1–8，建议 3–4）</span>
+                        </div>
+                        <div class="setting-input-group">
+                            <input type="number" id="setting-concurrent-fragments" class="setting-input" placeholder="3"
+                                style="width: 60px;" min="1" max="8" value="3">
+                        </div>
+                    </div>
+                    <div class="setting-item" title="全平台并发下载；建议配合代理，降低封禁风险（实验性）">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.forceMultithread">强制多线程</span>
+                            <span class="setting-desc setting-desc-warn" data-i18n="settings.forceMultithreadDesc">全平台并发下载；建议配合代理，降低封禁风险（实验性）</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-force-multithread">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item" title="同时进行的最大任务数（1–5，默认 2）">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.maxConcurrent">最大并发下载数</span>
+                            <span class="setting-desc" data-i18n="settings.maxConcurrentDesc">同时进行的最大任务数（1–5，默认 2）</span>
+                        </div>
+                        <select id="setting-max-concurrent" class="setting-select" style="width: 80px;">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="setting-item" title="全局下载速度限制（0 为不限制，单位 KB/s）">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.speedLimit">下载限速</span>
+                            <span class="setting-desc" data-i18n="settings.speedLimitDesc">全局下载速度限制（0 为不限制，单位 KB/s）</span>
+                        </div>
+                        <div class="setting-input-group">
+                            <input type="number" id="setting-download-speed-limit" class="setting-input" placeholder="0"
+                                style="width: 80px;" min="0" step="100">
+                            <span class="input-suffix">KB/s</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="settings-group">
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.proxyTitle">代理</span>
+                </summary>
+                <div class="settings-group-content">
+                    <div class="setting-item" title="检测到新版本时自动升级，减少手动干预">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.enableProxy">启用代理</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-proxy-enabled">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div id="proxy-config-area" class="hidden">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label" data-i18n="settings.proxyType">代理类型</span>
+                            </div>
+                            <select id="setting-proxy-type" class="setting-select">
+                                <option value="http">HTTP</option>
+                                <option value="socks5">SOCKS5</option>
+                            </select>
+                        </div>
+                        <div class="setting-grid">
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.proxyHost">服务器地址</label>
+                                <input type="text" id="setting-proxy-host" class="setting-input" placeholder="127.0.0.1">
+                            </div>
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.proxyPort">端口</label>
+                                <input type="number" id="setting-proxy-port" class="setting-input" placeholder="7890">
+                            </div>
+                        </div>
+                        <div class="setting-grid equal">
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.proxyUser">用户名（选填）</label>
+                                <input type="text" id="setting-proxy-user" class="setting-input" placeholder="Username">
+                            </div>
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.proxyPass">密码（选填）</label>
+                                <input type="password" id="setting-proxy-pass" class="setting-input" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="setting-actions setting-actions-row">
+                            <button id="btn-test-proxy" class="btn btn-secondary btn-small setting-actions-grow">
+                                <span data-i18n="settings.testProxy">测试代理连接</span>
+                            </button>
+                            <span id="proxy-test-status" class="status-text"></span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- ========== 3. 核心组件（上移） ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionEngines">核心组件</h2>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.autoUpdateEngines">自动更新核心组件</span>
+                    <span class="setting-desc" data-i18n="settings.autoUpdateEnginesDesc">检测到新版本时自动升级，减少手动干预</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="check-auto-update-engines">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <details class="settings-group" id="engine-settings-group">
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.engineStatusTitle">组件状态与更新</span>
+                </summary>
+                <div class="settings-group-content">
+                    <div class="engine-dashboard">
+                        <div class="engine-list" id="engine-list-container">
+                            <div class="loading-spinner-container settings-inline-loading">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                <span data-i18n="settings.checking">正在检查核心状态...</span>
+                            </div>
+                        </div>
+                        <div class="engine-actions setting-actions-row">
+                            <button id="btn-check-engine-updates" class="btn btn-secondary btn-small setting-actions-grow">
+                                <i class="fa-solid fa-sync"></i>
+                                <span data-i18n="settings.checkUpdates">检测远程更新</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="engine-log-container hidden" id="engine-update-log-box">
+                        <div id="engine-update-log-content" class="engine-log-content"></div>
+                    </div>
+                    <p class="settings-footnote">
+                        <span data-i18n="settings.engineNotes1" data-i18n-html="true">* <b>yt-dlp</b> 支持一键升级。<b>AI 环境</b> 下载可能较慢，请保持网络通畅。</span>
+                    </p>
+                </div>
+            </details>
+        </div>
+
+        <!-- ========== 4. 云服务 / API ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionCloud">云服务与 API</h2>
+            <p class="settings-section-desc" data-i18n="settings.sectionCloudDesc">仅在使用云端翻译时需要。密钥按服务商分别保存于本机；日常只需配置你正在用的那一家。图像增强走本地引擎，无需云 Key。</p>
+
+            <details class="settings-group" id="translation-settings-group" open>
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.translationConfig">翻译 API</span>
+                </summary>
+                <div class="settings-group-content">
+                    <p class="settings-inline-tip" data-i18n="settings.apiOneProviderTip">选一个默认服务 → 填密钥 → 保存。切换服务商时会自动加载该家已存密钥。</p>
+
+                    <div class="setting-item" title="选择默认使用的翻译服务">
+                        <div class="setting-info">
+                            <span class="setting-label" data-i18n="settings.defaultProvider">翻译服务</span>
+                            <span class="setting-desc" data-i18n="settings.defaultProviderDesc">选择默认使用的 AI 翻译服务</span>
+                        </div>
+                        <!-- Options filled by TranslationManager (primary + more) -->
+                        <select id="translation-provider" class="setting-select setting-select-wide" aria-label="Translation provider"></select>
+                    </div>
+
+                    <div id="translation-provider-hint" class="settings-provider-hint hidden" role="note"></div>
+                    <div id="translation-configured-row" class="settings-configured-row hidden" aria-live="polite">
+                        <span class="settings-configured-label" data-i18n="settings.configuredProviders">已配置</span>
+                        <div id="translation-configured-chips" class="settings-configured-chips"></div>
+                    </div>
+
+                    <!-- Generic key panel: fields switch with selected provider -->
+                    <div id="translation-key-panel" class="translation-key-panel">
+                        <div id="translation-cf-fields" class="setting-grid hidden">
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.cfAccount">Account ID</label>
+                                <input type="text" id="cloudflare-account-id" class="setting-input" placeholder="Account ID" autocomplete="off">
+                            </div>
+                            <div class="setting-input-group">
+                                <label class="setting-input-label" data-i18n="settings.cfToken">API Token</label>
+                                <input type="password" id="cloudflare-key" class="setting-input" placeholder="API Token" autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div id="translation-single-key" class="setting-item">
+                            <div class="setting-info">
+                                <span class="setting-label" data-i18n="settings.apiKey">API 密钥</span>
+                            </div>
+                            <input type="password" id="translation-api-key" class="setting-input setting-input-wide" placeholder="API Key" autocomplete="off">
+                        </div>
+
+                        <details id="translation-multi-keys" class="settings-subdetails hidden">
+                            <summary class="settings-subdetails-summary">
+                                <span data-i18n="settings.multiKeyTitle">多密钥轮换（可选）</span>
+                            </summary>
+                            <div class="settings-subdetails-body">
+                                <p class="setting-desc settings-subdetails-desc" data-i18n="settings.multiKeyHint">支持添加多个密钥轮换（可选）</p>
+                                <div class="api-keys-container" id="translation-keys-container"></div>
+                                <button type="button" class="btn btn-secondary btn-small" id="btn-add-translation-key" data-i18n="settings.addKey">+ 添加密钥</button>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="setting-actions setting-actions-row setting-actions-mt">
+                        <button id="btn-save-translation-keys" class="btn btn-primary setting-actions-grow" data-i18n="settings.saveConfig">保存配置</button>
+                        <button id="btn-test-translation" class="btn btn-secondary btn-small" data-i18n="settings.testConfig">测试连接</button>
+                    </div>
+                    <p id="translation-test-status" class="status-text settings-status-mt"></p>
+                </div>
+            </details>
+
+            <!-- Image cloud API (Replicate/Fal/Stability) removed from Settings:
+                 implementation was experimental and not product-ready; enhance uses local engines. -->
+        </div>
+
+        <!-- ========== 5. 快捷键 ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionShortcuts">快捷键</h2>
+            <details class="settings-group" id="shortcuts-settings-group">
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.shortcutsCore">核心操作</span>
+                </summary>
+                <div class="settings-group-content">
+                    <p class="shortcut-hint" data-i18n="settings.shortcutHint">点击右侧按键，按下新组合即可修改。</p>
+                    <div class="shortcuts-list" id="shortcuts-list">
+                        <div class="shortcut-item" data-action="paste-and-parse">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.shortcutPaste">粘贴链接并解析</span>
+                            </div>
+                            <button class="shortcut-key" data-action="paste-and-parse">Ctrl+V</button>
+                        </div>
+                        <div class="shortcut-item" data-action="start-download">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.shortcutStart">开始下载</span>
+                            </div>
+                            <button class="shortcut-key" data-action="start-download">Ctrl+D</button>
+                        </div>
+                        <div class="shortcut-item" data-action="add-to-queue">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.shortcutQueue">添加到队列</span>
+                            </div>
+                            <button class="shortcut-key" data-action="add-to-queue">Ctrl+Shift+D</button>
+                        </div>
+                        <div class="shortcut-item" data-action="toggle-pause">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.shortcutPause">暂停/继续</span>
+                            </div>
+                            <button class="shortcut-key" data-action="toggle-pause">Space</button>
+                        </div>
+                        <div class="shortcut-item" data-action="cancel">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.shortcutCancel">取消操作</span>
+                            </div>
+                            <button class="shortcut-key" data-action="cancel">Escape</button>
+                        </div>
+                        <div class="shortcut-item" data-action="nav-settings">
+                            <div class="shortcut-info">
+                                <span class="shortcut-label" data-i18n="settings.navSettings">打开设置</span>
+                            </div>
+                            <button class="shortcut-key" data-action="nav-settings">Ctrl+,</button>
+                        </div>
+                    </div>
+
+                    <details class="settings-subgroup settings-subgroup-mt">
+                        <summary class="settings-subgroup-title" data-i18n="settings.shortcutsNav">页面导航</summary>
+                        <div class="shortcuts-list shortcuts-list-nested">
+                            <div class="shortcut-item" data-action="nav-download">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navDownload">下载页</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-download">Ctrl+1</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-history">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navHistory">历史页</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-history">Ctrl+2</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-creator">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navCreator">视频工具</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-creator">Ctrl+3</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-transcribe">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navTranscribe">转文字</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-transcribe">Ctrl+4</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-enhance">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navEnhance">画质增强</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-enhance">Ctrl+5</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-subtitle">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navSubtitle">字幕工具</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-subtitle">Ctrl+6</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-compress">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navCompress">图片工具</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-compress">Ctrl+7</button>
+                            </div>
+                            <div class="shortcut-item" data-action="nav-mobile">
+                                <div class="shortcut-info">
+                                    <span class="shortcut-label" data-i18n="settings.navMobile">手机互联</span>
+                                </div>
+                                <button class="shortcut-key" data-action="nav-mobile">Ctrl+8</button>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="shortcut-actions setting-actions-row setting-actions-mt">
+                        <button id="btn-reset-shortcuts" class="btn btn-secondary btn-small setting-actions-grow" data-i18n="settings.resetShortcuts">恢复默认快捷键</button>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- ========== 6. 隐私与数据 ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionPrivacy">隐私与数据</h2>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.clipboardWatch">剪贴板链接检测</span>
+                    <span class="setting-desc" data-i18n="settings.clipboardWatchDesc">仅识别可采集链接，系统通知提示；点击通知后才打开应用（默认关闭）</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="setting-clipboard-watch-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item" id="clipboard-detect-mode-row">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.clipboardDetectMode">链接识别范围</span>
+                    <span class="setting-desc" data-i18n="settings.clipboardDetectModeDesc">严格=主流平台；均衡=更多站点+直链+通用路径；宽松=几乎所有深层链接（误报更多）</span>
+                </div>
+                <select id="setting-clipboard-detect-mode" class="setting-select">
+                    <option value="strict" data-i18n="settings.clipboardModeStrict">严格（主流平台）</option>
+                    <option value="balanced" data-i18n="settings.clipboardModeBalanced" selected>均衡（推荐）</option>
+                    <option value="loose" data-i18n="settings.clipboardModeLoose">宽松（更多站点）</option>
+                </select>
+            </div>
+
+            <div class="setting-item" id="storage-settings-group">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.cleanupTemp">临时文件与缓存</span>
+                    <span class="setting-desc" id="storage-stats-text" data-i18n="settings.calculating">正在计算...</span>
+                </div>
+                <button class="btn btn-secondary btn-small" id="btn-cleanup-now" data-i18n="settings.cleanupNow">立即清理</button>
+            </div>
+            <p class="settings-footnote" data-i18n="settings.cleanupDesc">关闭软件时会自动清理临时文件，避免占用磁盘。</p>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.openLogsFolder">打开日志文件夹</span>
+                    <span class="setting-desc" data-i18n="settings.openLogsFolderDesc">导出本地运行日志，便于排查问题（不会自动上传）</span>
+                </div>
+                <button class="btn btn-secondary btn-small" id="btn-open-logs-dir" data-i18n="settings.openLogsFolder">打开日志文件夹</button>
+            </div>
+
+            <div class="setting-item" title="帮助改进 MediaFlow；仅上传脱敏后的崩溃日志">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.errorReporting">发送错误报告</span>
+                    <span class="setting-desc" data-i18n="settings.errorReportingDesc">帮助改进 MediaFlow；仅上传脱敏后的崩溃日志</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="setting-log-reporting-enabled">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item" id="test-report-setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.sendTestReport">发送测试报告</span>
+                    <span class="setting-desc" data-i18n="settings.sendTestReportDesc">开发用：验证远程日志是否接收正常</span>
+                </div>
+                <button class="btn btn-secondary btn-small" id="btn-send-test-report" data-i18n="settings.sendTestReport">发送测试报告</button>
+            </div>
+        </div>
+
+        <!-- ========== 7. 关于 ========== -->
+        <div class="settings-section">
+            <h2 class="settings-section-title" data-i18n="settings.sectionAbout">关于</h2>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.version">版本</span>
+                </div>
+                <span class="setting-value" id="app-version-display">—</span>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <span class="setting-label" data-i18n="settings.donationTitle">支持项目</span>
+                    <span class="setting-desc" data-i18n="settings.donationDesc">MediaFlow 完全免费开源。如果它帮到了你，可以请作者喝杯咖啡。</span>
+                </div>
+                <button type="button" class="btn btn-secondary" id="btn-donate"
+                    data-i18n="settings.donationCta">去支持 ☕</button>
+            </div>
+
+            <details class="settings-group">
+                <summary class="settings-group-title">
+                    <span data-i18n="settings.about">开源许可</span>
+                </summary>
+                <div class="settings-group-content">
+                    <div class="settings-prose">
+                        <p class="settings-section-desc" data-i18n="settings.aboutDesc">MediaFlow 的稳定运行依赖这些开源项目。</p>
+                        <p class="settings-section-desc" data-i18n="settings.licenseNotice" data-i18n-html="true">
+                            本项目核心由 <a href="#" class="license-link" data-url="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>
+                            和 <a href="#" class="license-link" data-url="https://ffmpeg.org/">FFmpeg</a>
+                            驱动。我们遵守相应开源协议并在聚合分发模式下使用这些组件。
+                        </p>
+                        <div class="license-badges">
+                            <span class="status-badge status-badge-muted" data-i18n="settings.licenseYtdlp">yt-dlp (Unlicense)</span>
+                            <span class="status-badge status-badge-muted" data-i18n="settings.licenseFfmpeg">FFmpeg (LGPL v2.1)</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <!-- Extension folder (kept if referenced) -->
+        <button type="button" id="btn-open-extension-folder" class="hidden" aria-hidden="true"></button>
+    </div>
+
+    <!-- Custom Confirm Modal -->
+    <div class="modal-overlay" id="custom-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header" id="modal-title" data-i18n="modal.confirmTitle">提示</div>
+            <div class="modal-body" id="modal-message" data-i18n="modal.defaultMessage">确定要执行此操作吗？</div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-modal-cancel" data-i18n="modal.cancel">取消</button>
+                <button class="btn btn-primary" id="btn-modal-confirm" data-i18n="modal.confirm">确定</button>
+            </div>
+        </div>
+    </div>
+</section>

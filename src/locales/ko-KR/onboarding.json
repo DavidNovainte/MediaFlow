@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "MediaFlow에 오신 것을 환영합니다",
+    "welcomeBody": "오프라인 다운로드, 로컬 받아쓰기, 이미지 압축 — 모든 기능이 무료로 열려 있으며 활성화가 필요 없습니다.",
+    "downloadTitle": "첫 번째 다운로드",
+    "downloadBody": "다운로드 페이지에 공개 동영상 URL을 붙여넣기 → 분석 → 다운로드. 단일 링크 다운로드는 무료이며, 저장 폴더는 설정에서 언제든지 지정할 수 있습니다.",
+    "clipboardTitle": "클립보드 감시(선택)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick download. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "클립보드 링크 감지 사용",
+    "enginesTitle": "핵심 엔진 설치",
+    "enginesBody": "누락된 도구: {{list}}. 설정 → 핵심 엔진에서 수정하거나 앱을 다시 설치하세요.",
+    "doneTitle": "준비 완료",
+    "doneBody": "단일 다운로드부터 시작하세요. 필요할 때 고급 도구를 탐색하세요 — 일부는 실험적입니다.",
+    "next": "다음",
+    "skip": "건너뛰기",
+    "getStarted": "시작하기"
+  }
+}

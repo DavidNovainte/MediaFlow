@@ -1,0 +1,29 @@
+{
+  "donation": {
+    "subtitle": "MediaFlow is now completely free and open source. Every feature is unlocked for everyone — no paywalls.",
+    "opensource": "If you find it useful, consider supporting the author with the price of a coffee — your support keeps this project alive.",
+    "methods": {
+      "cta": "Donate",
+      "lemon": {
+        "title": "Lemon Squeezy",
+        "desc": "One-time or monthly donation, global payment methods accepted."
+      },
+      "github": {
+        "title": "GitHub Sponsors",
+        "desc": "Sponsor monthly on GitHub to support long-term development."
+      },
+      "kofi": {
+        "title": "Ko-fi · Invítame un café",
+        "desc": "Una propina única o mensual en Ko-fi. Cualquier cantidad es bienvenida."
+      }
+    },
+    "footerThanks": "Thank you to every supporter — you keep this project going.",
+    "footerProject": "Project:",
+    "github": "GitHub Repository",
+    "title": "Support MediaFlow",
+    "badge_free": "Free forever",
+    "badge_opensource": "GPLv3 licensed",
+    "badge_nolock": "No locked features",
+    "scan": "Escanea con tu móvil"
+  }
+}

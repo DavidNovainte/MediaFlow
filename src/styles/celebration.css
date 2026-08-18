@@ -1,0 +1,246 @@
+/**
+ * celebration.css — download complete result card (flat / mono)
+ */
+
+.celebration-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-scrim, rgba(0, 0, 0, 0.55));
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: celebrationFadeIn 0.2s ease;
+}
+
+@keyframes celebrationFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.celebration-overlay.fade-out {
+    animation: celebrationFadeOut 0.2s ease forwards;
+}
+
+@keyframes celebrationFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.celebration-card {
+    background: var(--bg-card, #18181b);
+    border-radius: 16px;
+    padding: 28px 24px 20px;
+    min-width: 400px;
+    max-width: 480px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+    animation: celebrationPop 0.22s ease;
+}
+
+@keyframes celebrationPop {
+    from {
+        transform: translateY(8px) scale(0.98);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.celebration-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Mono success glyph (replaces party emoji) */
+.celebration-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.celebration-icon svg {
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+    fill: none;
+}
+
+/* Back-compat if old class still referenced */
+.celebration-emoji {
+    display: none;
+}
+
+.celebration-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+    background: none;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+}
+
+.celebration-subtitle {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin: 0;
+}
+
+.celebration-content {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    background: var(--fill-subtle);
+    border-radius: 12px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.celebration-thumb {
+    width: 96px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: var(--bg-tertiary);
+    flex-shrink: 0;
+}
+
+.celebration-meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.celebration-filename {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.celebration-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.celebration-stats .stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.celebration-stats .stat-badge svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.celebration-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: stretch;
+}
+
+.celebration-actions .btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: none !important;
+    transform: none !important;
+    box-sizing: border-box;
+}
+
+.celebration-actions .btn-secondary {
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.celebration-actions .btn-secondary:hover {
+    background: var(--fill-hover);
+    border-color: var(--text-muted);
+}
+
+/* Mono primary (dark theme: light chip) */
+.celebration-actions .btn-primary {
+    background: #fafafa !important;
+    border: 1px solid #fafafa !important;
+    color: #18181b !important;
+    -webkit-text-fill-color: #18181b !important;
+}
+
+.celebration-actions .btn-primary:hover {
+    background: #e4e4e7 !important;
+    border-color: #e4e4e7 !important;
+}
+
+html[data-theme="light"] .celebration-actions .btn-primary {
+    background: #18181b !important;
+    border-color: #18181b !important;
+    color: #fafafa !important;
+    -webkit-text-fill-color: #fafafa !important;
+}
+
+.celebration-actions .btn svg {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+}
+
+@media (max-width: 500px) {
+    .celebration-card {
+        min-width: 90%;
+        padding: 20px;
+    }
+
+    .celebration-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .celebration-thumb {
+        width: 160px;
+        height: 90px;
+    }
+
+    .celebration-actions {
+        flex-direction: column;
+    }
+}

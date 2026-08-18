@@ -1,0 +1,11 @@
+{
+  "modal": {
+    "confirmTitle": "確認",
+    "confirm": "確定",
+    "cancel": "取消",
+    "promptTitle": "輸入",
+    "defaultMessage": "確定要執行此操作嗎？",
+    "confirmBtn": "確定",
+    "cancelBtn": "取消"
+  }
+}

@@ -1,0 +1,96 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+jspm_packages/
+.pnp
+.pnp.js
+
+# Production / Build
+dist/
+dist-native/
+build/
+bin/
+bin/ffmpeg.exe
+bin/ffprobe.exe
+bin/yt-dlp.exe
+bin/realesrgan-ncnn-vulkan.exe
+bin/realcugan-ncnn-vulkan.exe
+bin/vcomp140.dll
+bin/vcomp140d.dll
+binaries/
+
+# Proprietary companion components (not part of this public repository)
+extension/
+website/
+site/
+marketing-site/
+
+# Models (Large Files)
+bin/models*
+bin/models-nose*
+bin/models-pro*
+bin/models-se*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project Specific
+.gemini/
+.agent/
+.antigravity/
+.brain/
+.tmp/
+tmp/
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Secrets / local-only maintainer config (never publish)
+scripts/r2-config.js
+scripts/telemetry.local.js
+scripts/package-extension.js
+scripts/*.pem
+scripts/private.pem
+*.pem
+mac-signing.env
+
+# Cookies (contain login credentials — never publish)
+cookies.txt
+cookies-*.txt
+*.cookies.txt
+
+# Artifacts / local noise
+extension.zip
+*.zip
+.git_disabled/
+debug_*.txt
+test.mp3
+test_audio.mp3
+test.vtt
+tmp_escape_test.js
+test_tts.py
+verify_fix.py
+i18n_audit_final_report.md
+EXTENSION_SMOKE_TEST.md
+
+# Community export output (generated)
+../mediaflow-community/
+community-export/

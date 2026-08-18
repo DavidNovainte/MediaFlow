@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Bienvenue dans MediaFlow",
+    "welcomeBody": "Téléchargements hors ligne, transcription locale et compression d'images — toutes les fonctions sont gratuites et ouvertes, sans activation.",
+    "downloadTitle": "Votre première téléchargement",
+    "downloadBody": "Collez une URL de vidéo publique sur la page Télécharger → Analyser → Télécharger. La téléchargement d'un seul lien est gratuite ; définissez le dossier d'enregistrement dans les Paramètres à tout moment.",
+    "clipboardTitle": "Surveillance du presse-papiers (optionnel)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick téléchargement. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "Activer la détection de liens du presse-papiers",
+    "enginesTitle": "Installer les moteurs principaux",
+    "enginesBody": "Outils manquants : {{list}}. Ouvrez Paramètres → Moteurs principaux pour corriger, ou réinstallez l'application.",
+    "doneTitle": "Vous êtes prêt",
+    "doneBody": "Commencez par un seul téléchargement. Explorez les outils avancés selon vos besoins — certains sont expérimentaux.",
+    "next": "Suivant",
+    "skip": "Ignorer",
+    "getStarted": "Commencer"
+  }
+}

@@ -1,0 +1,1218 @@
+/* ==================== Video Monitor & Timeline (Pro Tier) ==================== */
+
+#page-subtitle .center-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    min-width: 0;
+}
+
+/* 1. Immersive Monitor Stage - 基础布局已移至 layout.css */
+#page-subtitle .video-stage-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#page-subtitle .pro-monitor {
+    background: #000;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--fill-muted);
+    position: relative;
+    /* 核心修复：建立局部层叠上下文并隐藏溢出 */
+    overflow: hidden !important;
+}
+
+#page-subtitle .video-content-scaler {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    will-change: transform;
+}
+
+#page-subtitle #subtitle-video-preview {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
+/* 自定义尺寸模式 (针对手动大比例缩放，依然保持隐藏滚动条，通过拖动或缩放查看) */
+#page-subtitle .pro-monitor {
+    overflow: hidden !important;
+}
+
+#page-subtitle .pro-monitor {
+    width: var(--custom-zoom-w, auto);
+    height: var(--custom-zoom-h, auto);
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: fill !important;
+}
+
+/* 针对滚动条的暗色调优 */
+#page-subtitle .pro-monitor::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#page-subtitle .pro-monitor::-webkit-scrollbar-thumb {
+    background: var(--fill-strong);
+    border-radius: 5px;
+    border: 2px solid #000;
+}
+
+#page-subtitle .pro-monitor::-webkit-scrollbar-track {
+    background: #000;
+}
+
+/* Placeholder with Pro-Minimalist Design (Hybrid of Fig 1 & Fig 2) */
+#page-subtitle .video-placeholder {
+    position: absolute;
+    inset: 12px;
+    /* Slight inset for the dashed border */
+    background: radial-gradient(circle at center, rgba(35, 35, 55, 0.4) 0%, rgba(10, 10, 15, 0.8) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 20;
+    /* 必须高于视频 (z-index: 10)，否则 Hover 被挡住 */
+    border: 2px dashed var(--fill-hover);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+#page-subtitle .video-placeholder:hover:hover,
+#page-subtitle .video-container.drag-over .video-placeholder {
+    background: radial-gradient(circle at center, rgba(77, 130, 201, 0.08) 0%, rgba(10, 10, 15, 0.9) 100%);
+    border-color: var(--accent-primary);
+    box-shadow: inset 0 0 30px rgba(77, 130, 201, 0.05);
+}
+
+#page-subtitle .placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* Manual spacing for finer control */
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+    /* 内容容器透传，让底层占位符响应 */
+}
+
+#page-subtitle .placeholder-content button {
+    pointer-events: auto !important;
+    /* 按钮必须可点 */
+    position: relative;
+    z-index: 20;
+}
+
+#page-subtitle .video-placeholder:hover .placeholder-content {
+    transform: scale(1.02);
+}
+
+#page-subtitle .floating-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(148, 163, 184, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    box-shadow: none;
+    animation: none;
+}
+
+/* Title removed — one CTA is enough (avoid 导入媒体 + 导入视频) */
+#page-subtitle .video-placeholder h3 {
+    display: none;
+}
+
+#page-subtitle .video-placeholder .hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 10px 0 0;
+    opacity: 0.7;
+    letter-spacing: 0.01em;
+}
+
+#page-subtitle .video-placeholder #btn-select-video {
+    margin-top: 0 !important;
+    height: 36px;
+    min-height: 36px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(77, 130, 201, 0.16) !important;
+    color: #93c5fd !important;
+    border: 1px solid rgba(77, 130, 201, 0.3) !important;
+    box-shadow: none !important;
+}
+
+#page-subtitle .video-placeholder #btn-select-video:hover {
+    background: rgba(77, 130, 201, 0.24) !important;
+    border-color: rgba(77, 130, 201, 0.45) !important;
+}
+
+#page-subtitle #btn-clear-video {
+    color: #fca5a5;
+}
+
+#page-subtitle #btn-clear-video:hover {
+    color: #fecaca;
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+#page-subtitle .empty-action[data-empty-action="clear-media"] .empty-action-icon {
+    color: #fca5a5;
+}
+
+/* Glass Meta Bar */
+#page-subtitle .video-meta-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 16px;
+    font-size: 12px;
+    background: var(--fill-subtle) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--fill-muted) !important;
+    border-radius: var(--radius-md);
+}
+
+#page-subtitle .v-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-subtitle .v-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--fill-hover);
+}
+
+#page-subtitle .v-dur {
+    font-family: 'Consolas', monospace;
+    font-weight: 700;
+    color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+#page-subtitle .v-zoom-group {
+    display: flex;
+    align-items: center;
+    background: var(--fill-subtle);
+    border-radius: 6px;
+    border: 1px solid var(--fill-muted);
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+#page-subtitle .v-zoom-group:hover {
+    border-color: var(--fill-strong);
+}
+
+#page-subtitle .v-zoom-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s;
+}
+
+#page-subtitle .v-zoom-btn:hover {
+    background: var(--fill-muted);
+    color: var(--accent-primary);
+}
+
+#page-subtitle .v-zoom-display {
+    padding: 0 8px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-primary);
+    border-left: 1px solid var(--fill-muted);
+    border-right: 1px solid var(--fill-muted);
+    min-width: 90px;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+#page-subtitle .v-zoom-display:hover {
+    background: var(--fill-subtle);
+}
+
+#page-subtitle .v-zoom-display i {
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+#page-subtitle .v-zoom-display span {
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+/* --- 新增：视频变换预览支持 --- */
+
+/* 视频镜像预览 (修正：仅作用于 video 元素，不影响 subtitle-overlay) */
+#page-subtitle video.v-mirrored {
+    transform: scaleX(-1);
+}
+
+/* 视频工具栏按钮激活状态 — soft chip, no glow */
+#page-subtitle .btn-icon.active {
+    color: var(--ws-icon-active-fg, var(--accent-primary)) !important;
+    background: var(--ws-icon-active-bg, rgba(77, 130, 201, 0.16)) !important;
+    border-color: var(--ws-icon-active-border, rgba(77, 130, 201, 0.35)) !important;
+    box-shadow: none !important;
+}
+
+/* 裁剪遮罩与调节框 */
+#page-subtitle .crop-overlay {
+    position: absolute;
+    z-index: 65;
+    background: var(--overlay-scrim);
+    display: none;
+    pointer-events: none;
+}
+
+#page-subtitle .crop-overlay.active {
+    display: block;
+}
+
+#page-subtitle .crop-rect {
+    position: absolute;
+    border: 1px solid var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    pointer-events: auto;
+    cursor: move;
+}
+
+#page-subtitle .crop-rect::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* 裁剪调节手柄 (8个点) */
+#page-subtitle .crop-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border: 1px solid var(--accent-primary);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+#page-subtitle .crop-handle.tl {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize;
+}
+
+#page-subtitle .crop-handle.tr {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize;
+}
+
+#page-subtitle .crop-handle.bl {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize;
+}
+
+#page-subtitle .crop-handle.br {
+    bottom: -5px;
+    right: -5px;
+    cursor: nwse-resize;
+}
+
+#page-subtitle .crop-handle.t {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+#page-subtitle .crop-handle.b {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+#page-subtitle .crop-handle.l {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+#page-subtitle .crop-handle.r {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+/* 缩放/裁剪选择菜单 (共用样式) */
+.v-zoom-popover {
+    position: fixed;
+    z-index: 10000;
+    min-width: 160px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--bg-secondary);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--fill-muted);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px var(--overlay-scrim);
+    transform: translateX(-50%);
+    /* 确保菜单水平居中对齐 left 坐标 */
+    animation: v-pop-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-zoom-popover .pop-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.v-zoom-popover .pop-item:hover {
+    background: var(--fill-muted);
+    color: #fff;
+}
+
+.v-zoom-popover .pop-item.active {
+    background: rgba(77, 130, 201, 0.15);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.v-zoom-popover .pop-separator {
+    height: 1px;
+    background: var(--fill-muted);
+    margin: 4px 0;
+}
+
+/* 裁剪遮罩预览 */
+.crop-overlay {
+    position: absolute;
+    top: var(--video-render-top, 0);
+    left: var(--video-render-left, 0);
+    width: var(--video-render-width, 100%);
+    height: var(--video-render-height, 100%);
+    pointer-events: none;
+    z-index: 15;
+    background: var(--overlay-scrim);
+    display: none;
+    overflow: hidden;
+}
+
+.crop-overlay.active {
+    display: block;
+}
+
+.crop-rect {
+    position: absolute;
+    border: 2px dashed var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    /* 大阴影模拟外部变暗 */
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes v-pop-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* -------------------------- */
+
+/* 2. Neon Timeline Section */
+#page-subtitle .timeline-section-pro {
+    height: 180px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+#page-subtitle .timeline-header {
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--fill-subtle);
+}
+
+#page-subtitle .time-display {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    min-width: 180px;
+    /* 增加宽度防止裁剪 */
+    white-space: nowrap;
+    /* 禁止换行 */
+    text-shadow: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#page-subtitle .timeline-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#page-subtitle .timeline-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+}
+
+/* 核心修复：侧边栏背景遮罩，防止播放头向左透出 */
+#page-subtitle .timeline-body::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 130px;
+    background: var(--bg-secondary);
+    z-index: 105; /* 位于播放头 (101) 与标签 (120) 之间 */
+    border-right: 1px solid var(--fill-hover);
+    pointer-events: none;
+}
+
+#page-subtitle .ruler-area,
+#page-subtitle .waveform-area {
+    margin-left: 130px;
+    /* 与侧边栏宽度对齐 */
+}
+
+#page-subtitle .ruler-area {
+    height: 30px;
+    min-height: 30px;
+    flex: none !important;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--fill-hover);
+    position: relative;
+    cursor: crosshair;
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* 侧边栏静态标签 */
+#page-subtitle .timeline-sidebar-label {
+    position: absolute;
+    left: 0;
+    width: 130px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    z-index: 120;
+    /* 高于 Canvas */
+    border-right: 1px solid var(--fill-hover);
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: 0.5px;
+}
+
+#page-subtitle .timeline-sidebar-label i {
+    font-size: 12px;
+    color: var(--accent-primary);
+    opacity: 0.8;
+}
+
+#page-subtitle .ruler-label {
+    height: 30px;
+    top: 0;
+}
+
+#page-subtitle .waveform-label {
+    height: 60px;
+    top: 30px;
+    /* 紧跟标尺 (标尺现在是 30px) */
+    background: var(--bg-secondary);
+}
+
+#page-subtitle .ruler-area canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#page-subtitle .waveform-area {
+    height: 60px;
+    min-height: 60px;
+    flex: none !important;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--fill-muted);
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+}
+
+#page-subtitle .waveform-area canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+#page-subtitle .source-waveform-segments {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+}
+
+#page-subtitle .source-waveform-segment {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    background: rgba(14, 165, 233, 0.13);
+    box-shadow:
+        inset 0 1px 0 var(--fill-muted),
+        inset 0 -1px 0 rgba(125, 211, 252, 0.18);
+}
+
+#page-subtitle .source-waveform-segment.is-alt {
+    background: rgba(77, 130, 201, 0.13);
+    border-color: rgba(129, 140, 248, 0.46);
+}
+
+#page-subtitle .source-waveform-segment.is-selected {
+    border-color: rgba(224, 242, 254, 0.95);
+    box-shadow:
+        inset 0 0 0 1px rgba(224, 242, 254, 0.28),
+        0 0 14px rgba(14, 165, 233, 0.24);
+}
+
+#page-subtitle .source-waveform-gap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(15, 23, 42, 0.88) 0,
+            rgba(15, 23, 42, 0.88) 6px,
+            rgba(2, 6, 23, 0.96) 6px,
+            rgba(2, 6, 23, 0.96) 12px
+        );
+}
+
+#page-subtitle .source-waveform-cut {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-1px);
+    background: rgba(125, 211, 252, 0.82);
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.42);
+}
+
+#page-subtitle .tracks-viewport {
+    flex: 1;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+    background: transparent;
+    display: flex;
+    /* 关键：支持标头侧边栏布局 */
+}
+
+#page-subtitle .tracks-viewport::-webkit-scrollbar ::-webkit-scrollbar {
+    height: 6px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* --- 轨道标头侧边栏 --- */
+#page-subtitle .timeline-track-headers {
+    position: sticky;
+    left: 0;
+    width: 130px;
+    flex-shrink: 0;
+    z-index: 110;
+    background: var(--bg-secondary);
+    /* 纯色遮挡背后的剪辑块 */
+    border-right: 1px solid var(--fill-hover);
+    box-shadow: 4px 0 10px var(--overlay-scrim);
+    pointer-events: auto;
+}
+
+#page-subtitle .track-header-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 6px;
+    border-bottom: 1px solid var(--fill-muted);
+    font-size: 11px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+#page-subtitle .track-header-item:hover {
+    background: var(--fill-subtle);
+    color: var(--text-primary);
+}
+
+#page-subtitle .track-header-item.active {
+    background: rgba(var(--accent-primary-rgb), 0.12);
+    color: var(--text-primary);
+}
+
+/* 左侧颜色指示条 */
+#page-subtitle .track-header-color {
+    width: 3px;
+    height: 16px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+#page-subtitle .track-header-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#page-subtitle .track-header-controls {
+    display: flex;
+    gap: 4px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+#page-subtitle .track-header-item:hover .track-header-controls:hover .track-header-controls,
+#page-subtitle .track-header-item.active .track-header-controls {
+    opacity: 1;
+}
+
+#page-subtitle .track-header-btn {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+#page-subtitle .track-header-btn:hover {
+    background: var(--fill-hover);
+}
+
+#page-subtitle .track-header-btn.active {
+    color: var(--accent-primary);
+}
+
+/* 锁定状态视觉提示 */
+#page-subtitle .timeline-track-row.locked {
+    opacity: 0.6;
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 0, 0, 0.1) 10px, rgba(0, 0, 0, 0.1) 20px);
+    pointer-events: none;
+    /* 锁定后禁制交付 */
+}
+
+#page-subtitle .timeline-track-row.locked .timeline-clip {
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+    border-style: dashed;
+}
+
+/* Timeline Clips (Subtitle Blocks) */
+#page-subtitle .timeline-tracks-list {
+    position: relative;
+    left: 0;
+    min-height: 140px;
+    height: auto;
+    flex-shrink: 0;
+    /* 关键：防止在 flex 布局中被压缩导致滚动失效 */
+    width: 100%;
+    /* 初始宽度，JS 会动态更新 */
+    /* 允许高度随轨道数量增长 */
+    /* 核心修复：背景网格随时长容器走，不溢出 Viewport */
+    background: rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient(0deg, transparent 49.5%, var(--fill-muted) 50%, transparent 50.5%);
+    background-size: 100% 40px;
+    pointer-events: auto;
+}
+
+#page-subtitle .timeline-track-row {
+    height: 40px;
+    position: relative;
+    border-bottom: 1px solid var(--fill-subtle);
+    transition: background 0.2s;
+}
+
+#page-subtitle .timeline-track-row:nth-child(even) :nth-child(even) {
+    background: var(--fill-subtle);
+}
+
+#page-subtitle .timeline-track-row.active {
+    background: rgba(77, 130, 201, 0.08);
+}
+
+#page-subtitle .timeline-track-row.drag-over {
+    background: rgba(77, 130, 201, 0.15) !important;
+    box-shadow: inset 0 0 15px rgba(77, 130, 201, 0.2);
+}
+
+#page-subtitle .timeline-track-row.drag-reject {
+    background: rgba(239, 68, 68, 0.15) !important;
+    box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+#page-subtitle .timeline-selection-marquee {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    display: none;
+    border: 1px solid rgba(77, 130, 201, 0.9);
+    background: rgba(77, 130, 201, 0.18);
+    box-shadow: inset 0 0 0 1px var(--fill-muted);
+    border-radius: 6px;
+    pointer-events: none;
+    z-index: 9;
+}
+
+/* Timeline clips use fixed blue (NOT --accent-primary mono gray on dark theme) */
+#page-subtitle .timeline-clip {
+    position: absolute;
+    top: 4px;
+    height: 32px;
+    background: rgba(59, 130, 246, 0.28);
+    border: 1px solid rgba(96, 165, 250, 0.4);
+    border-radius: 6px;
+    color: #f8fafc;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    box-sizing: border-box;
+}
+
+/* 核心修复：文字内容区的截断策略 */
+#page-subtitle .timeline-clip .clip-content {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0; /* 允许在 flex 布局中收缩 */
+    pointer-events: none;
+    color: inherit;
+}
+
+#page-subtitle .timeline-clip:hover {
+    background: rgba(59, 130, 246, 0.42);
+    border-color: rgba(147, 197, 253, 0.75);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.35);
+}
+
+#page-subtitle .timeline-clip.active {
+    background: #3b82f6;
+    border-color: #93c5fd;
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.45);
+    z-index: 11;
+    font-weight: 600;
+}
+
+#page-subtitle .timeline-clip.active .clip-content {
+    color: #ffffff;
+}
+
+#page-subtitle .timeline-source-clip {
+    background: rgba(14, 165, 233, 0.22);
+    border-color: rgba(14, 165, 233, 0.48);
+    color: #e0f2fe;
+}
+
+#page-subtitle .timeline-source-clip:hover {
+    background: rgba(14, 165, 233, 0.32);
+    border-color: rgba(125, 211, 252, 0.8);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.18);
+}
+
+#page-subtitle .timeline-source-clip.active {
+    background: #0ea5e9;
+    border-color: #7dd3fc;
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.4);
+}
+
+#page-subtitle .timeline-source-clip .clip-source-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    margin-right: 7px;
+    color: rgba(186, 230, 253, 0.95);
+    font-size: 10px;
+    pointer-events: none;
+}
+
+#page-subtitle .timeline-clip.dragging {
+    opacity: 0.96;
+    background: #2563eb;
+    border-color: #93c5fd;
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.45);
+    z-index: 1000;
+    transform: scale(1.02);
+    transition: none !important;
+}
+
+#page-subtitle .clip-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: var(--fill-hover);
+    cursor: ew-resize;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#page-subtitle .timeline-clip:hover .clip-handle :hover .clip-handle {
+    opacity: 1;
+}
+
+#page-subtitle .clip-handle.left {
+    left: 0;
+    border-radius: 6px 0 0 6px;
+}
+
+#page-subtitle .clip-handle.right {
+    right: 0;
+    border-radius: 0 6px 6px 0;
+}
+
+#page-subtitle .clip-handle:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Neon Playhead */
+#page-subtitle .timeline-playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #ff2d55;
+    /* Neon Pink/Red */
+    z-index: 101;
+    box-shadow: 0 0 15px rgba(255, 45, 85, 0.8), 0 0 30px rgba(255, 45, 85, 0.4);
+    pointer-events: none;
+    left: 130px;
+    /* 对齐侧边栏宽度 */
+    will-change: transform;
+}
+
+/* Pro Snap Guide - 磁吸引导线 */
+#page-subtitle .timeline-snap-guide {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--accent-primary);
+    z-index: 100;
+    pointer-events: none;
+    display: none;
+    box-shadow: 0 0 0 1px rgba(var(--accent-primary-rgb), 0.35);
+    opacity: 0.9;
+    left: 130px;
+    /* 对齐侧边栏宽度 */
+}
+
+#page-subtitle .timeline-playhead::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -6px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 8px solid #ff2d55;
+    filter: drop-shadow(0 0 5px rgba(255, 45, 85, 0.8));
+}
+
+/* Subtitle Overlay & Blur Preview Overlay Styling */
+#page-subtitle .subtitle-overlay {
+    position: absolute;
+    /* 核心点：遮罩层不再填满容器，而是精准对齐视频渲染区 */
+    top: var(--video-render-top, 0);
+    left: var(--video-render-left, 0);
+    width: var(--video-render-width, 100%);
+    height: var(--video-render-height, 100%);
+    pointer-events: none;
+    z-index: 70;
+}
+
+#page-subtitle .blur-preview-overlay {
+    position: absolute;
+    top: var(--video-render-top, 0);
+    left: var(--video-render-left, 0);
+    width: var(--video-render-width, 100%);
+    height: var(--video-render-height, 100%);
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* 拖拽状态下强制禁用动画，防止位置更新滞后 */
+#page-subtitle .subtitle-overlay.dragging {
+    transition: none !important;
+}
+
+#page-subtitle .subtitle-overlay {
+    display: block;
+    color: white;
+}
+
+#page-subtitle .blur-preview-overlay {
+    background: transparent;
+    border: none;
+    display: block;
+    /* Changed from flex to block for absolute children positioning */
+}
+
+/* 轨道项目可见性按钮 */
+#page-subtitle .track-visibility {
+    padding: 4px 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+#page-subtitle .track-visibility:hover {
+    color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.1);
+}
+
+#page-subtitle .track-item.active .track-visibility {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#page-subtitle .track-item.hidden-track {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+#page-subtitle .track-item.hidden-track .track-visibility {
+    color: var(--text-muted) !important;
+}
+
+
+
+/* 裁剪预览：半透明遮罩 */
+.crop-overlay {
+    position: absolute;
+    top: var(--video-render-top, 0);
+    left: var(--video-render-left, 0);
+    width: var(--video-render-width, 100%);
+    height: var(--video-render-height, 100%);
+    z-index: 60;
+    pointer-events: none;
+    display: none;
+}
+
+.crop-overlay.active {
+    display: block;
+}
+
+.crop-rect {
+    position: absolute;
+    border: 2px solid var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    z-index: 61;
+}
+
+#page-subtitle .subtitle-overlay span {
+    padding: 4px 12px;
+    /* Styles are mostly dynamic from Manager, but defaults can be here */
+}
+
+/* Scrollbar Tweaks for Pro areas */
+#page-subtitle .editor-scroll-pro::-webkit-scrollbar ::-webkit-scrollbar {
+    width: 5px;
+}
+
+#page-subtitle .editor-scroll-pro::-webkit-scrollbar-thumb ::-webkit-scrollbar-thumb {
+    background: var(--fill-hover);
+    border-radius: 10px;
+}
+
+#page-subtitle .editor-scroll-pro::-webkit-scrollbar-thumb:hover ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Timeline Empty Hint */
+#page-subtitle .timeline-empty-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    background: repeating-linear-gradient(45deg,
+            var(--fill-subtle),
+            var(--fill-subtle) 10px,
+            transparent 10px,
+            transparent 20px);
+}
+
+#page-subtitle .timeline-empty-hint i {
+    font-size: 48px;
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 15px rgba(var(--accent-primary-rgb, 77, 130, 201), 0.3));
+    margin-bottom: 8px;
+}
+
+#page-subtitle .timeline-empty-hint span {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- Safe Area Guides --- */
+#page-subtitle .safe-area-overlay {
+    position: absolute;
+    top: var(--video-render-top, 0);
+    left: var(--video-render-left, 0);
+    width: var(--video-render-width, 100%);
+    height: var(--video-render-height, 100%);
+    z-index: 60;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-subtitle .safe-area-90,
+#page-subtitle .safe-area-80 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+#page-subtitle .safe-area-90 {
+    width: 90%;
+    height: 90%;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+#page-subtitle .safe-area-80 {
+    width: 80%;
+    height: 80%;
+    border-color: var(--fill-strong);
+}
+
+#page-subtitle .safe-area-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#page-subtitle .btn-icon.active i {
+    color: var(--accent-primary);
+}

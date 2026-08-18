@@ -1,0 +1,25 @@
+{
+  "nav": {
+    "tools": "Инструменты",
+    "toggleSidebar": "Боковая панель (Ctrl+B)",
+    "download": "Загрузка медиа",
+    "transcribe": "Транскрибация аудио",
+    "compress": "Работа с фото",
+    "enhance": "ИИ-улучшение",
+    "creator": "Быстрые видео-инструменты",
+    "editor": "Таймлайн-редактор",
+    "subtitle": "Перевод субтитров",
+    "mobile": "Связь с телефоном",
+    "history": "История",
+    "settings": "Настройки",
+    "groupVideo": "Видео-поток",
+    "groupAdvanced": "Продвинутое",
+    "creatorHint": "One-shot",
+    "editorHint": "Мультитрек",
+    "experimental": "Лаборатория",
+    "groupAdvancedExpand": "Показать расширенные",
+    "groupAdvancedCollapse": "Скрыть расширенные",
+    "extension": "Расширение браузера",
+    "donation": "Support"
+  }
+}

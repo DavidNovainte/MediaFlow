@@ -1,0 +1,1159 @@
+/* ==================== Ultimate Pro Layout (Four-Column) ==================== */
+
+#page-creator .creator-main-layout {
+    display: grid;
+    /* 默认单列：中间区占领所有空间 */
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 260px;
+    /* 默认：视频占据上部，时间轴占据下部 260px */
+    gap: 0;
+    height: 100%;
+    overflow: hidden;
+    /* 允许内部元素戚滞伸出 */
+    background: var(--bg-primary);
+    transition: grid-template-columns 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-creator .creator-main-layout.inspector-active {
+    /* 激活态：顶部增加右侧面板 */
+    grid-template-columns: 1fr 420px;
+}
+
+/* 强制各层级容器在 Flex 下能够安全收缩，防止视频撑开高度 */
+#page-creator .workspace-center-pro,
+#page-creator .video-stage-pro,
+#page-creator .pro-monitor {
+    min-width: 0;
+    min-height: 0;
+    /* 核心：防止视频原始尺寸溢出 */
+}
+
+#page-creator .workspace-center-pro {
+    flex: 1;
+}
+
+/* 左侧面板已被移除, 留空或删除旧样式 */
+
+/* 2. 中间工作台 (Center Stack / Video Area) */
+#page-creator .workspace-center-pro {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    background: var(--bg-primary);
+}
+
+/* 中间顶层：视频区 */
+#page-creator .video-stage-pro {
+    flex: 1;
+    /* 占据剩余所有高度 */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    min-height: 0;
+}
+
+#page-creator .pro-monitor {
+    flex: 1;
+    background: #000;
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+    /* 强制截断溢出的视频 */
+    box-shadow: 0 20px 50px var(--overlay-scrim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* 中间底层：全宽时间轴容器 (Grid Wrapper) */
+#page-creator .creator-timeline-workspace {
+    grid-column: 1 / -1;
+    /* 跨越所有列 */
+    grid-row: 2;
+    /* 居于底部 */
+    height: 100%;
+    /* 占据 grid 划分的 260px */
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    position: relative;
+    overflow: visible;
+    min-width: 0;
+    /* CRITICAL: 允许顶部的拖拽手柄探出并可见 */
+}
+
+/* 时间轴内部内容区 */
+#page-creator .timeline-section-pro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.01);
+    border-top: 1px solid var(--border-color);
+    min-width: 0;
+}
+
+#page-creator .subtitle-guide-track {
+    min-height: 42px;
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.12), rgba(20, 184, 166, 0.06));
+}
+
+#page-creator .subtitle-guide-label {
+    color: #b8ffe8;
+}
+
+#page-creator .subtitle-guide-content {
+    position: relative;
+    min-height: 42px;
+}
+
+#page-creator .subtitle-guide-segment {
+    position: absolute;
+    top: 6px;
+    height: 28px;
+    padding: 0 8px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    border-radius: 999px;
+    background: rgba(16, 185, 129, 0.18);
+    color: #ecfdf5;
+    font-size: 11px;
+    line-height: 26px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    z-index: 8;
+}
+
+#page-creator .subtitle-guide-segment.active {
+    background: rgba(16, 185, 129, 0.4);
+    border-color: rgba(167, 243, 208, 0.9);
+    box-shadow: 0 0 0 1px rgba(167, 243, 208, 0.25);
+}
+
+#page-creator #btn-timeline-subtitle-cuts {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#page-creator #btn-timeline-subtitle-cuts .subtitle-cut-count {
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 14px;
+}
+
+/* 3. 右侧属性检查器 (Right Inspector) */
+#page-creator .inspector-aside-pro {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 0;
+    /* 默认彻底隐藏 */
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    border-left: none;
+    /* 隐藏时移除边框，防止黑线残留 */
+    background: var(--bg-primary);
+    /* Changed from var(--bg-card) to match video area */
+    display: none;
+    /* 彻底移除文档流 */
+    flex-direction: column;
+    z-index: 10;
+    overflow: visible;
+    /* 允许resizer稍稍往外溢出方便抓取 */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* 移除了 width 的过渡，以允许拖拽时平滑调整 */
+}
+
+#page-creator .creator-main-layout.inspector-active .inspector-aside-pro {
+    display: flex;
+    width: 100%;
+    /* Changed from 420px to fluid to follow the grid column width */
+    opacity: 1;
+    border-left: 1px solid var(--border-color);
+    pointer-events: auto;
+    position: relative;
+    /* 允许内部 absolute 子元素基于此定位 */
+}
+
+/* 右侧拖拽面板 */
+#page-creator .layout-resizer.horizontal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -2px;
+    /* 允许部分溢出以便更容易抓取边缘 */
+    width: 6px;
+    cursor: col-resize;
+    z-index: 100;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+#page-creator .layout-resizer.horizontal:hover,
+#page-creator .layout-resizer.horizontal.active {
+    background: var(--accent-primary);
+}
+
+/* 垂直拖拽面板 (调整时间轴高度) */
+#page-creator .layout-resizer.vertical {
+    position: absolute;
+    top: 0;
+    /* 完全在容器内部，不溢出 */
+    left: 0;
+    right: 0;
+    height: 8px;
+    cursor: row-resize;
+    z-index: 99999 !important;
+    background: transparent;
+    transition: background 0.15s;
+    pointer-events: auto !important;
+}
+
+#page-creator .layout-resizer.vertical:hover,
+#page-creator .layout-resizer.vertical.active {
+    background: rgba(77, 130, 201, 0.25) !important;
+}
+
+/* Inspector tabs: mono segment — styled primarily in creator.css / workspace-chrome */
+#page-creator .inspector-tabs {
+    display: flex;
+    background: var(--fill-muted);
+    padding: 4px;
+    gap: 2px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#page-creator .inspector-tab {
+    flex: 1;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#page-creator .inspector-tab.active {
+    background: #fafafa;
+    color: #18181b;
+    box-shadow: none;
+}
+
+html[data-theme="light"] #page-creator .inspector-tab.active {
+    background: #18181b;
+    color: #fafafa;
+}
+
+#page-creator .inspector-content {
+    flex: 1;
+    overflow-y: hidden;
+    /* 让内部 tab-content 自主管理滚动 */
+    display: flex;
+    flex-direction: column;
+}
+
+#page-creator .tab-content {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+#page-creator .tab-content.active {
+    display: flex;
+}
+
+#page-creator #tab-list.tab-content {
+    padding: 12px;
+    overflow-y: hidden;
+    /* 列表面板内部自己有滚动区域 */
+}
+
+/* 适配垂直排列的检查器卡片 */
+#page-creator .inspector-content .settings-section {
+    margin-bottom: 16px;
+    background: var(--fill-subtle);
+    border: 1px solid var(--fill-muted);
+}
+
+/* 响应式控制：由 JS 驱动窗口扩容与 Grid 切换 */
+#page-creator .creator-main-layout.cinema-mode {
+    grid-template-columns: 1fr;
+    /* 强力屏蔽两侧内容 */
+    background: #000;
+}
+
+#page-creator .creator-main-layout.cinema-mode .editor-aside-pro,
+#page-creator .creator-main-layout.cinema-mode .inspector-aside-pro,
+#page-creator .creator-main-layout.cinema-mode .layout-resizer {
+    display: none !important;
+}
+
+#page-creator .creator-main-layout.cinema-mode .workspace-center-pro {
+    background: #050505;
+    z-index: 1000;
+}
+
+#page-creator .creator-main-layout.cinema-mode .video-stage-pro {
+    padding: 30px 60px;
+    background: radial-gradient(circle at center, rgba(30, 30, 50, 0.4) 0%, #000 100%);
+}
+
+#page-creator .creator-main-layout.cinema-mode .pro-monitor {
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(77, 130, 201, 0.1);
+}
+
+/* ---------- VIDEO CSS ---------- */
+/* ==================== Video Monitor & Timeline (Pro Tier) ==================== */
+
+#page-creator .center-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    min-width: 0;
+}
+
+/* 1. Immersive Monitor Stage - 基础布局已移至 layout.css */
+#page-creator .video-stage-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#page-creator .pro-monitor {
+    background: #000;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--fill-muted);
+    position: relative;
+    /* 核心修复：建立局部层叠上下文 */
+    overflow: hidden;
+    /* 确保子元素不溢出圆角 */
+}
+
+#page-creator .video-content-scaler {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    will-change: transform;
+}
+
+#page-creator .pro-monitor {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    position: relative;
+    /* 必须加定位才能让 z-index 生效 */
+    z-index: 10;
+    /* 高于占位符 (z-index: 5) */
+    display: block;
+}
+
+/* 自定义尺寸模式 (手动缩放) */
+#page-creator .pro-monitor {
+    overflow: auto !important;
+}
+
+#page-creator .pro-monitor {
+    width: var(--custom-zoom-w, auto);
+    height: var(--custom-zoom-h, auto);
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: fill !important;
+}
+
+/* 针对滚动条的暗色调优 */
+#page-creator .pro-monitor::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#page-creator .pro-monitor::-webkit-scrollbar-thumb {
+    background: var(--fill-strong);
+    border-radius: 5px;
+    border: 2px solid #000;
+}
+
+#page-creator .pro-monitor::-webkit-scrollbar-track {
+    background: #000;
+}
+
+/* Placeholder with Pro-Minimalist Design (Hybrid of Fig 1 & Fig 2) */
+#page-creator .video-placeholder {
+    position: absolute;
+    inset: 12px;
+    /* Slight inset for the dashed border */
+    background: radial-gradient(circle at center, rgba(35, 35, 55, 0.4) 0%, rgba(10, 10, 15, 0.8) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 20;
+    /* 必须高于视频 (z-index: 10)，否则 Hover 被挡住 */
+    border: 2px dashed var(--fill-hover);
+    border-radius: var(--radius-xl);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    pointer-events: auto !important;
+}
+
+#page-creator .video-placeholder:hover:hover,
+#page-creator .video-container.drag-over .video-placeholder {
+    background: radial-gradient(circle at center, rgba(77, 130, 201, 0.08) 0%, rgba(10, 10, 15, 0.9) 100%);
+    border-color: var(--accent-primary);
+    box-shadow: inset 0 0 30px rgba(77, 130, 201, 0.05);
+}
+
+#page-creator .placeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    /* Manual spacing for finer control */
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+    /* 内容容器透传，让底层占位符响应 */
+}
+
+#page-creator .placeholder-content button {
+    pointer-events: auto !important;
+    /* 按钮必须可点 */
+    position: relative;
+    z-index: 20;
+}
+
+#page-creator .video-placeholder:hover .placeholder-content {
+    transform: scale(1.02);
+}
+
+#page-creator .floating-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--fill-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    box-shadow: none;
+    animation: none;
+    filter: none;
+}
+
+@keyframes floating-pro {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.05);
+    }
+}
+
+#page-creator .video-placeholder h3,
+#page-creator .placeholder-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    letter-spacing: 0.8px;
+    text-shadow: none;
+}
+
+#page-creator .video-placeholder .hint,
+#page-creator .placeholder-content .hint,
+#page-creator .placeholder-content p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+    opacity: 1;
+    letter-spacing: 0.3px;
+}
+
+/* Glass Meta Bar */
+#page-creator .video-meta-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 16px;
+    font-size: 12px;
+    background: var(--fill-subtle) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--fill-muted) !important;
+    border-radius: var(--radius-md);
+}
+
+#page-creator .v-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#page-creator .v-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--fill-hover);
+}
+
+#page-creator .v-dur {
+    font-family: 'Consolas', monospace;
+    font-weight: 700;
+    color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+#page-creator .v-zoom-group {
+    display: flex;
+    align-items: center;
+    background: var(--fill-subtle);
+    border-radius: 6px;
+    border: 1px solid var(--fill-muted);
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+#page-creator .v-zoom-group:hover {
+    border-color: var(--fill-strong);
+}
+
+#page-creator .v-zoom-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 10px;
+    transition: all 0.2s;
+}
+
+#page-creator .v-zoom-btn:hover {
+    background: var(--fill-muted);
+    color: var(--accent-primary);
+}
+
+#page-creator .v-zoom-display {
+    padding: 0 8px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-primary);
+    border-left: 1px solid var(--fill-muted);
+    border-right: 1px solid var(--fill-muted);
+    min-width: 90px;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+#page-creator .v-zoom-display:hover {
+    background: var(--fill-subtle);
+}
+
+#page-creator .v-zoom-display i {
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+#page-creator .v-zoom-display span {
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+/* --- 新增：视频变换预览支持 --- */
+
+/* 视频镜像预览 (修正：仅作用于 video 元素，不影响 subtitle-overlay) */
+#page-creator video.v-mirrored {
+    transform: scaleX(-1);
+}
+
+/* 视频工具栏按钮激活状态 — soft chip, no glow */
+#page-creator .btn-icon.active {
+    color: var(--ws-icon-active-fg, var(--accent-primary)) !important;
+    background: var(--ws-icon-active-bg, rgba(77, 130, 201, 0.16)) !important;
+    border-color: var(--ws-icon-active-border, rgba(77, 130, 201, 0.35)) !important;
+    box-shadow: none !important;
+}
+
+/* 裁剪遮罩与调节框 */
+#page-creator .crop-overlay {
+    position: absolute;
+    z-index: 65;
+    background: var(--overlay-scrim);
+    display: none;
+    pointer-events: none;
+}
+
+#page-creator .crop-overlay.active {
+    display: block;
+}
+
+#page-creator .crop-rect {
+    position: absolute;
+    border: 1px solid var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    pointer-events: auto;
+    cursor: move;
+}
+
+/* Transition Points on Timeline */
+.timeline-transition-point {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: var(--panel-elevated, #1a1a1d);
+    border: 1px solid var(--fill-strong);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 30;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.timeline-transition-point:hover {
+    background: var(--accent-primary);
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.timeline-transition-point.active {
+    background: #fff;
+    color: var(--accent-primary);
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+.timeline-transition-point.has-transition {
+    background: var(--accent-primary);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.timeline-transition-point i {
+    pointer-events: none;
+}
+
+#page-creator .crop-rect::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+/* 裁剪调节手柄 (8个点) */
+#page-creator .crop-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border: 1px solid var(--accent-primary);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+#page-creator .crop-handle.tl {
+    top: -5px;
+    left: -5px;
+    cursor: nwse-resize;
+}
+
+#page-creator .crop-handle.tr {
+    top: -5px;
+    right: -5px;
+    cursor: nesw-resize;
+}
+
+#page-creator .crop-handle.bl {
+    bottom: -5px;
+    left: -5px;
+    cursor: nesw-resize;
+}
+
+#page-creator .crop-handle.br {
+    bottom: -5px;
+    right: -5px;
+    cursor: nwse-resize;
+}
+
+#page-creator .crop-handle.t {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+#page-creator .crop-handle.b {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+
+#page-creator .crop-handle.l {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+#page-creator .crop-handle.r {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+
+/* 缩放/裁剪选择菜单 (共用样式) */
+.v-zoom-popover {
+    position: fixed;
+    z-index: 10000;
+    min-width: 160px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: rgba(20, 20, 25, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--fill-muted);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px var(--overlay-scrim);
+    transform: translateX(-50%);
+    /* 确保菜单水平居中对齐 left 坐标 */
+    animation: v-pop-in 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-zoom-popover .pop-item {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.v-zoom-popover .pop-item:hover {
+    background: var(--fill-muted);
+    color: #fff;
+}
+
+.v-zoom-popover .pop-item.active {
+    background: rgba(77, 130, 201, 0.15);
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.v-zoom-popover .pop-separator {
+    height: 1px;
+    background: var(--fill-muted);
+    margin: 4px 0;
+}
+
+/* 裁剪遮罩预览 */
+.crop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 15;
+    background: var(--overlay-scrim);
+    display: none;
+    overflow: hidden;
+}
+
+.crop-overlay.active {
+    display: block;
+}
+
+.crop-rect {
+    position: absolute;
+    border: 2px dashed var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    /* 大阴影模拟外部变暗 */
+    background: transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes v-pop-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* -------------------------- */
+
+/* Subtitle Overlay & Blur Preview Overlay Styling */
+#page-creator .subtitle-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 70;
+    /* 提升层级，确保在模糊层和安全区之上 */
+}
+
+#page-creator .blur-preview-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+/* 拖拽状态下强制禁用动画，防止位置更新滞后 */
+#page-creator .subtitle-overlay.dragging {
+    transition: none !important;
+}
+
+/* --- 波形状态指示器 (Waveform Status) --- */
+.waveform-status-overlay {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(var(--accent-primary-rgb), 0.2);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-primary);
+    font-size: 10px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(var(--accent-primary-rgb), 0.3);
+    z-index: 5;
+    transition: opacity 0.3s ease;
+}
+
+.waveform-status-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes spin {
+    from {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
+.waveform-status-overlay i {
+    animation: spin 1s linear infinite;
+}
+
+#page-creator .subtitle-overlay {
+    display: block;
+    color: white;
+}
+
+#page-creator .creator-subtitle-overlay.hidden {
+    display: none;
+}
+
+#page-creator .creator-subtitle-stage {
+    position: absolute;
+    overflow: hidden;
+}
+
+#page-creator .creator-subtitle-text {
+    position: absolute;
+    display: inline-block;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 0.25em 0.65em;
+    border-radius: 0.35em;
+    max-width: 90%;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+#page-creator .blur-preview-overlay {
+    background: transparent;
+    border: none;
+    display: block;
+    /* Changed from flex to block for absolute children positioning */
+}
+
+/* 轨道项目可见性按钮 */
+#page-creator .track-visibility {
+    padding: 4px 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+#page-creator .track-visibility:hover {
+    color: var(--accent-primary);
+    background: rgba(77, 130, 201, 0.1);
+}
+
+#page-creator .track-item.active .track-visibility {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#page-creator .track-item.hidden-track {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+#page-creator .track-item.hidden-track .track-visibility {
+    color: var(--text-muted) !important;
+}
+
+
+
+/* 裁剪预览：半透明遮罩 */
+.crop-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    display: none;
+}
+
+.crop-overlay.active {
+    display: block;
+}
+
+.crop-rect {
+    position: absolute;
+    border: 2px solid var(--accent-primary);
+    box-shadow: 0 0 0 9999px var(--overlay-scrim);
+    z-index: 61;
+}
+
+#page-creator .subtitle-overlay span {
+    padding: 4px 12px;
+    /* Styles are mostly dynamic from Manager, but defaults can be here */
+}
+
+/* Scrollbar Tweaks for Pro areas */
+#page-creator .editor-scroll-pro::-webkit-scrollbar ::-webkit-scrollbar {
+    width: 5px;
+}
+
+#page-creator .editor-scroll-pro::-webkit-scrollbar-thumb ::-webkit-scrollbar-thumb {
+    background: var(--fill-hover);
+    border-radius: 10px;
+}
+
+#page-creator .editor-scroll-pro::-webkit-scrollbar-thumb:hover ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Timeline Empty Hint */
+#page-creator .timeline-empty-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    background: repeating-linear-gradient(45deg,
+            var(--fill-subtle),
+            var(--fill-subtle) 10px,
+            transparent 10px,
+            transparent 20px);
+}
+
+#page-creator .timeline-empty-hint i {
+    font-size: 48px;
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 15px rgba(var(--accent-primary-rgb, 77, 130, 201), 0.3));
+    margin-bottom: 8px;
+}
+
+#page-creator .timeline-empty-hint span {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --- Safe Area Guides --- */
+#page-creator .safe-area-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-creator .safe-area-90,
+#page-creator .safe-area-80 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+#page-creator .safe-area-90 {
+    width: 90%;
+    height: 90%;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+#page-creator .safe-area-80 {
+    width: 80%;
+    height: 80%;
+    border-color: var(--fill-strong);
+}
+
+#page-creator .safe-area-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#page-creator .btn-icon.active i {
+    color: var(--accent-primary);
+}
+
+/* ==================== 
+   Timeline Clip Interaction UX
+   ==================== */
+#page-creator .timeline-segment {
+    transition: box-shadow 0.2s, filter 0.2s, background-color 0.2s;
+}
+
+#page-creator .timeline-segment:hover {
+    filter: brightness(1.2);
+}
+
+#page-creator .timeline-segment.dragging {
+    opacity: 0.8;
+    box-shadow: 0 10px 20px var(--overlay-scrim);
+    z-index: 100 !important;
+    cursor: grabbing !important;
+}
+
+#page-creator .timeline-segment.trimming {
+    z-index: 100 !important;
+}
+
+#page-creator .clip-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: ew-resize;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+    z-index: 10;
+}
+
+#page-creator .timeline-segment:hover .clip-handle {
+    opacity: 1;
+}
+
+#page-creator .clip-handle:hover,
+#page-creator .timeline-segment.trimming .clip-handle {
+    background: var(--accent-primary);
+    opacity: 1;
+}
+
+#page-creator .clip-handle.left {
+    left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+#page-creator .clip-handle.right {
+    right: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/* Snap Guide */
+#page-creator .timeline-snap-guide {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #10b981;
+    /* Emerald green for snapping */
+    z-index: 200;
+    pointer-events: none;
+    box-shadow: 0 0 5px #10b981;
+}
+
+
+html[data-theme="light"] #page-creator {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}

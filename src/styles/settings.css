@@ -1,0 +1,1346 @@
+/* Settings Page Styles */
+#page-settings {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    --settings-surface-hover: var(--fill-hover);
+}
+
+/* Compact action buttons — align with workspace tokens */
+#page-settings .btn.btn-small,
+#page-settings .btn.btn-sm,
+#page-settings .setting-item > .btn,
+#page-settings .setting-item .btn.btn-secondary,
+#page-settings .setting-item .btn.btn-primary,
+#page-settings .setting-actions .btn,
+#page-settings .engine-actions .btn,
+#page-settings .shortcut-actions .btn,
+#page-settings .engine-card .btn,
+#page-settings .engine-card .btn-secondary {
+    font-size: var(--ws-font-ui, 12px) !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    height: var(--ws-control-height, 32px) !important;
+    min-height: var(--ws-control-height, 32px) !important;
+    padding: 0 12px !important;
+    gap: 6px !important;
+    border-radius: var(--ws-control-radius, 8px) !important;
+    white-space: nowrap;
+    transform: none !important;
+    box-sizing: border-box !important;
+}
+
+#page-settings .setting-item > .btn:hover,
+#page-settings .btn.btn-small:hover,
+#page-settings .btn.btn-sm:hover {
+    transform: none !important;
+}
+
+#page-settings .btn-small,
+#page-settings .btn-sm {
+    height: var(--ws-control-height-sm, 28px) !important;
+    min-height: var(--ws-control-height-sm, 28px) !important;
+    padding: 0 10px !important;
+    font-size: var(--ws-font-ui, 12px) !important;
+}
+
+/* Compact toolbar chrome is defined in main.css page chrome policy */
+.settings-page-header {
+    margin-bottom: 12px;
+}
+
+.settings-page-subtitle {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* Defeat main.css single-card list (it breaks multi-section layout) */
+#page-settings .settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+}
+
+/* Each major section is one clean card */
+#page-settings .settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 0 4px;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+#page-settings .settings-section-title {
+    margin: 0;
+    padding: 2px 20px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Rows inside a section: divider only, no double cards */
+#page-settings .settings-section > .setting-item {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    margin: 0;
+    padding: 14px 20px;
+}
+
+#page-settings .settings-section > .setting-item:last-child {
+    border-bottom: none;
+}
+
+#page-settings .settings-section > .setting-item:hover {
+    background: var(--fill-subtle);
+    border-color: transparent;
+}
+
+/* Nested collapsibles: compact single-line disclosure rows (not fat cards) */
+#page-settings .settings-section > .settings-group {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    box-shadow: none;
+    overflow: hidden;
+}
+
+#page-settings .settings-section > .settings-group[open] {
+    background: transparent;
+}
+
+/* Force single-line row height — summary often expands for no reason in Chromium */
+#page-settings .settings-section > .settings-group > .settings-group-title {
+    box-sizing: border-box;
+    min-height: 42px;
+    height: 42px;
+    max-height: 42px;
+    padding: 0 20px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#page-settings .settings-section > .settings-group > .settings-group-title > span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+#page-settings .settings-section > .settings-group > .settings-group-title::after {
+    flex-shrink: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#page-settings .settings-section > .settings-group > .settings-group-title:hover {
+    background: var(--fill-subtle);
+}
+
+/* Closed: content must not reserve space */
+#page-settings .settings-section > .settings-group:not([open]) > .settings-group-content {
+    display: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+}
+
+#page-settings .settings-section > .settings-group[open] > .settings-group-content {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+    padding: 6px 0 10px;
+    margin: 0;
+    background: transparent;
+}
+
+/* Freeform blocks inside any expanded group (desc, prose, panels, actions, status) */
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-section-desc,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-footnote,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .shortcut-hint,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .status-text,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-status-mt,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .translation-key-panel,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .setting-actions,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .shortcut-actions,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-prose,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-subgroup {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Engine / log already pad their own rows — only inset the outer blocks */
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .engine-log-container,
+#page-settings .settings-section > .settings-group[open] > .settings-group-content > .settings-footnote {
+    margin-left: 28px;
+    margin-right: 20px;
+}
+
+#page-settings .settings-prose {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 6px 8px 8px 8px;
+    box-sizing: border-box;
+}
+
+#page-settings .settings-prose .settings-section-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+#page-settings .settings-prose .license-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+    justify-content: flex-start;
+}
+
+#page-settings .settings-prose .status-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+#page-settings .setting-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* Expanded nested rows: compact single-line list */
+#page-settings .settings-section > .settings-group .setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    margin: 0;
+    min-height: 40px;
+    height: auto;
+    padding: 6px 20px 6px 28px;
+    box-sizing: border-box;
+}
+
+#page-settings .settings-section > .settings-group .setting-item:last-child {
+    border-bottom: none;
+}
+
+#page-settings .settings-section > .settings-group .setting-item:hover {
+    background: var(--fill-subtle);
+}
+
+#page-settings .settings-section > .settings-group .setting-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 0;
+}
+
+#page-settings .settings-section > .settings-group .setting-label {
+    font-size: var(--ws-font-label, 12px);
+    font-weight: 500;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+/* Hide long descriptions in nested control rows — keep labels tight.
+   Do NOT hide prose / multi-line notices inside stack blocks. */
+#page-settings .settings-section > .settings-group .setting-item:not(.setting-item-stack) > .setting-info > .setting-desc {
+    display: none;
+}
+
+#page-settings .settings-section > .settings-group .setting-item.setting-item-stack {
+    height: auto;
+    min-height: 0;
+    align-items: flex-start;
+    padding: 8px 20px 10px 28px;
+    border-bottom: none;
+}
+
+#page-settings .settings-section > .settings-group .setting-item.setting-item-stack .setting-desc,
+#page-settings .settings-section > .settings-group .setting-desc-block {
+    display: block !important;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
+#page-settings .settings-section > .settings-group .setting-select {
+    max-width: 96px;
+    min-width: 72px;
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+/* API / image provider pickers need wider controls */
+#page-settings .settings-section > .settings-group .setting-select.setting-select-wide {
+    max-width: 220px;
+    min-width: 160px;
+    padding: 5px 10px;
+}
+
+/* Compact only short numeric fields (performance/proxy), NOT API keys */
+#page-settings .settings-section > .settings-group .setting-item .setting-input[type="number"] {
+    max-width: 88px !important;
+    min-width: 56px !important;
+    width: 72px !important;
+    padding: 4px 8px !important;
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+/* API keys / passwords / text secrets: use full row width */
+#page-settings .settings-section > .settings-group .setting-input[type="password"],
+#page-settings .settings-section > .settings-group .setting-input[type="text"],
+#page-settings .settings-section > .settings-group .setting-input.setting-input-wide,
+#page-settings .api-key-row .setting-input,
+#page-settings .translation-key-panel .setting-input {
+    max-width: none !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    text-align: left !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    box-sizing: border-box !important;
+}
+
+#page-settings .api-key-row .setting-input {
+    padding-right: 36px !important; /* room for eye toggle */
+}
+
+#page-settings .settings-section > .settings-group .setting-input-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+#page-settings .settings-section > .settings-group .input-suffix {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* Proxy nested forms stay compact */
+#page-settings .settings-section > .settings-group .setting-grid {
+    padding: 6px 20px 6px 28px;
+    gap: 8px;
+}
+
+#page-settings .settings-section > .settings-group .setting-actions {
+    margin: 6px 20px 8px 28px;
+    padding: 0;
+}
+
+#page-settings .settings-section > .settings-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Row above first disclosure: keep its bottom edge clean */
+#page-settings .settings-section > .setting-item:has(+ .settings-group) {
+    border-bottom: none;
+}
+
+#page-settings .settings-section > .settings-section-desc,
+#page-settings .settings-section > .settings-footnote,
+#page-settings .settings-section > .engine-dashboard,
+#page-settings .settings-section > .engine-log-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#page-settings .settings-section > .settings-section-desc {
+    margin-bottom: 8px;
+}
+
+#page-settings .settings-section > .settings-footnote {
+    margin-top: 8px;
+    margin-bottom: 6px;
+}
+
+#page-settings .settings-section > .engine-dashboard {
+    margin-bottom: 8px;
+}
+
+.settings-section-title {
+    margin: 0 0 2px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.settings-section-desc {
+    margin: 0 0 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.settings-footnote {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    padding-left: 2px;
+}
+
+.setting-desc-warn {
+    color: var(--warning) !important;
+}
+
+.setting-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting-actions-grow {
+    flex: 1;
+}
+
+.setting-actions-mt,
+.settings-status-mt,
+.settings-subgroup-mt {
+    margin-top: 12px;
+}
+
+.setting-item-divider {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+}
+
+.setting-item-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.setting-info-full {
+    width: 100%;
+}
+
+.setting-desc-block {
+    line-height: 1.5;
+    display: block;
+}
+
+.license-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.status-badge-muted {
+    background: var(--fill-hover);
+    color: var(--text-secondary);
+}
+
+.settings-inline-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.engine-log-container {
+    margin-top: 10px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 12px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.engine-log-content {
+    color: var(--text-muted);
+    white-space: pre-wrap;
+}
+
+.shortcuts-list-nested {
+    margin-top: 8px;
+}
+
+.settings-providers-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 4px 8px;
+}
+
+/* Hide decorative emoji leftovers if any remain */
+#page-settings .emoji-icon {
+    display: none;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition: background-color 0.16s ease;
+}
+
+.setting-item:hover {
+    background: var(--fill-subtle);
+    box-shadow: none;
+}
+
+.setting-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.setting-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.setting-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.setting-select {
+    padding: 7px 28px 7px 12px;
+    background: var(--input-bg, #fff);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235c6b7e' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+#page-settings .setting-select,
+#page-settings .setting-item .btn,
+#page-settings .setting-item .btn-secondary {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+#page-settings .setting-select:hover,
+#page-settings .setting-item .btn-secondary:hover {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* ==================== Settings Group ==================== */
+.settings-group {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--settings-surface);
+    overflow: hidden;
+    transition: border-color 0.16s ease;
+}
+
+.settings-group[open] {
+    background: var(--settings-surface);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
+    /* border-color: var(--accent-primary-alpha); */
+}
+
+/* Header style to match a setting-label kind of feel but clickable */
+.settings-group-title {
+    box-sizing: border-box;
+    padding: 0 20px;
+    min-height: 42px;
+    height: 42px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 42px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    background: transparent;
+    transition: background-color 0.16s ease;
+}
+
+.settings-group-title:hover {
+    background: var(--fill-hover);
+}
+
+.settings-group-title::-webkit-details-marker,
+.settings-group-title::marker {
+    display: none;
+    content: '';
+}
+
+.settings-group-title::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(-45deg);
+    /* Right arrow (closed) */
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+}
+
+details[open] > .settings-group-title::after {
+    transform: rotate(45deg);
+    /* Down arrow (open) */
+    border-color: var(--accent-primary);
+}
+
+.settings-group-content {
+    padding: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0;
+}
+
+details[open] > .settings-group-content {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+    /* Horizontal inset is owned by #page-settings nested rules */
+    padding: 4px 0 6px;
+}
+
+/* Sub-groups inside settings */
+.settings-subgroup {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0;
+    margin: 4px 0 0;
+    background: transparent;
+}
+
+.settings-subgroup-title {
+    box-sizing: border-box;
+    min-height: 40px;
+    height: 40px;
+    padding: 0 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+}
+
+.settings-subgroup-title::-webkit-details-marker,
+.settings-subgroup-title::marker {
+    display: none;
+    content: '';
+}
+
+.settings-subgroup-title::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+details[open] > .settings-subgroup-title::after {
+    content: '−';
+}
+
+.settings-subgroup > div {
+    padding: 0 0 4px;
+    border-top: 1px solid var(--border-color);
+}
+
+.setting-actions-mt {
+    margin-top: 8px !important;
+}
+
+/* Generic translation / image API key form */
+.translation-key-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+#page-settings .setting-select-wide {
+    max-width: 220px;
+    min-width: 160px;
+}
+
+#page-settings .setting-input-wide {
+    max-width: none !important;
+    min-width: 200px !important;
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    text-align: left !important;
+}
+
+#page-settings .api-keys-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 20px 6px 28px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#page-settings .api-key-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#page-settings .api-key-row .input-wrapper {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#page-settings .api-key-row .btn-remove-key {
+    flex-shrink: 0;
+}
+
+/* Single API key row: label fixed width, input takes the rest */
+#page-settings .translation-key-panel > .setting-item {
+    gap: 16px;
+}
+
+#page-settings .translation-key-panel > .setting-item .setting-info,
+#page-settings .settings-section > .settings-group .setting-item:has(.setting-input-wide) .setting-info,
+#page-settings .settings-section > .settings-group .setting-item:has(input[type="password"]) .setting-info {
+    flex: 0 0 auto !important;
+    flex-grow: 0 !important;
+    min-width: 5.5em !important;
+    max-width: none !important;
+    width: auto !important;
+}
+
+#page-settings .translation-key-panel > .setting-item .setting-label,
+#page-settings .settings-section > .settings-group .setting-item:has(.setting-input-wide) .setting-label,
+#page-settings .settings-section > .settings-group .setting-item:has(input[type="password"]) .setting-label {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    word-break: keep-all;
+}
+
+#page-settings .translation-key-panel > .setting-item .setting-input,
+#page-settings #translation-api-key,
+#page-settings #image-api-key,
+#page-settings #cloudflare-key,
+#page-settings #cloudflare-account-id,
+#page-settings .settings-section > .settings-group .setting-item .setting-input-wide {
+    max-width: none !important;
+    width: auto !important;
+    min-width: 200px !important;
+    flex: 1 1 auto !important;
+}
+
+#page-settings #btn-add-translation-key {
+    margin: 4px 20px 8px 28px;
+    align-self: flex-start;
+}
+
+/* CF grid fields also full width */
+#page-settings .translation-key-panel .setting-grid {
+    width: auto;
+    padding: 6px 20px 6px 28px;
+}
+
+#page-settings .translation-key-panel .setting-grid .setting-input {
+    width: 100% !important;
+}
+
+#page-settings .settings-section > .settings-group .setting-item.setting-item-stack {
+    height: auto;
+    min-height: 0;
+    align-items: flex-start;
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+#page-settings .settings-section > .settings-group .setting-item.setting-item-stack .setting-desc {
+    display: block;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+/* Cloud API: calm one-provider path */
+#page-settings .settings-inline-tip {
+    margin: 0 20px 10px 28px;
+    padding: 0;
+    font-size: var(--ws-font-meta, 11px);
+    line-height: 1.45;
+    color: var(--text-muted, #a1a1aa);
+}
+
+#page-settings .settings-provider-hint {
+    margin: 0 20px 10px 28px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-secondary, #d4d4d8);
+    background: var(--bg-tertiary, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm, 6px);
+}
+
+#page-settings .settings-provider-hint.hidden,
+#page-settings .settings-configured-row.hidden,
+#page-settings .settings-subdetails.hidden {
+    display: none !important;
+}
+
+#page-settings .settings-configured-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0 20px 12px 28px;
+}
+
+#page-settings .settings-configured-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted, #a1a1aa);
+}
+
+#page-settings .settings-configured-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#page-settings .settings-config-chip {
+    appearance: none;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card, var(--bg-secondary));
+    color: var(--text-secondary, #d4d4d8);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+#page-settings .settings-config-chip:hover {
+    border-color: var(--text-muted, #a1a1aa);
+    color: var(--text-primary);
+}
+
+#page-settings .settings-config-chip.is-active {
+    background: var(--text-primary, #111);
+    border-color: var(--text-primary, #111);
+    color: var(--bg-primary, #fff);
+}
+
+:root.dark #page-settings .settings-config-chip.is-active,
+[data-theme="dark"] #page-settings .settings-config-chip.is-active {
+    background: #fafafa;
+    border-color: #fafafa;
+    color: #18181b;
+}
+
+#page-settings .settings-subdetails {
+    margin: 4px 20px 8px 28px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm, 6px);
+    background: transparent;
+}
+
+#page-settings .settings-subdetails-summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 12px;
+    font-size: var(--ws-font-ui, 12px);
+    font-weight: 500;
+    color: var(--text-secondary, #d4d4d8);
+    user-select: none;
+}
+
+#page-settings .settings-subdetails-summary::-webkit-details-marker {
+    display: none;
+}
+
+#page-settings .settings-subdetails-body {
+    padding: 0 12px 12px;
+}
+
+#page-settings .settings-subdetails-desc {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: var(--text-muted, #a1a1aa);
+}
+
+#page-settings .settings-subdetails #btn-add-translation-key {
+    margin: 6px 0 0;
+}
+
+.btn-toggle-password {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    min-height: 36px;
+}
+
+.btn-toggle-password:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-primary);
+}
+
+.btn-toggle-password svg {
+    stroke: var(--text-primary);
+    width: 18px;
+    height: 18px;
+}
+
+.btn-toggle-password:hover svg {
+    stroke: var(--accent-primary);
+}
+
+.btn-toggle-password .hidden {
+    display: none;
+}
+
+/* .btn-small → global workspace tokens in main.css */
+
+/* ==================== Keyboard Shortcuts ==================== */
+.shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: transparent;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Same horizontal inset as other expanded setting rows */
+#page-settings .shortcut-item,
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 6px 20px 6px 28px;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    transition: background-color 0.15s ease;
+}
+
+.shortcut-item:last-child {
+    border-bottom: none;
+}
+
+.shortcut-item:hover {
+    background: var(--fill-subtle);
+}
+
+.shortcut-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+}
+
+.shortcut-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.25;
+}
+
+/* Descriptions optional; hide to keep rows compact */
+.shortcut-desc {
+    display: none;
+}
+
+.shortcut-hint {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.35;
+    padding: 2px 8px 0;
+    box-sizing: border-box;
+}
+
+#page-settings .shortcut-actions {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+/* Nested “页面导航” subgroup */
+#page-settings .settings-subgroup-title {
+    padding: 0 8px;
+}
+
+#page-settings .shortcuts-list-nested .shortcut-item {
+    padding-left: 36px;
+}
+
+.shortcut-key {
+    min-width: 88px;
+    padding: 4px 10px;
+    background: var(--settings-surface-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.shortcut-key:hover {
+    background: var(--fill-hover);
+    border-color: var(--accent-primary);
+}
+
+.shortcut-key:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-primary-alpha);
+}
+
+.shortcut-key.editing {
+    background: linear-gradient(180deg, var(--accent-primary) 0%, #2f5fad 100%);
+    border-color: var(--accent-primary);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* ==================== Custom Modal ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--overlay-scrim);
+    display: none;
+    /* Changed from flex to none */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+    display: flex;
+    /* Added flex here */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 使用 ID 选择器提高优先级以覆盖 main.css */
+#custom-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    width: 400px;
+    min-width: unset;
+    max-width: 90vw;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.modal-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Language dropdown option spacing */
+#setting-language option {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-height: 36px;
+    line-height: 1.8;
+}
+
+/* ==================== 代理与输入布局 (Proxy & Input Grids) ==================== */
+.setting-grid {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 16px !important;
+    margin: 12px 0 !important;
+}
+
+.setting-grid.equal {
+    grid-template-columns: 1fr 1fr !important;
+}
+
+.setting-input-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    margin-bottom: 12px !important;
+    align-items: flex-start !important;
+}
+
+.setting-input-label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--text-secondary) !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+}
+
+.setting-input {
+    width: 100% !important;
+    padding: 10px 14px !important;
+    background: var(--bg-tertiary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-sm) !important;
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.setting-input:focus {
+    border-color: var(--accent-primary) !important;
+}
+
+.setting-actions {
+    margin-top: 20px;
+    padding: 0 4px;
+}
+
+.status-text {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.engine-v-label {
+    color: var(--text-muted);
+}
+
+.engine-v-val {
+    color: var(--text-secondary);
+    font-family: monospace;
+}
+
+.engine-v-val.update-available {
+    color: var(--text-warning);
+    font-weight: bold;
+}
+
+.status-badge-sm {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-ok { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+.status-missing { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.status-warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+#page-settings .engine-dashboard {
+    margin: 0;
+    padding: 4px 0 8px;
+}
+
+#page-settings .engine-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.engine-card,
+.engine-card.horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    padding: 8px 20px 8px 28px;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.engine-card:last-child,
+.engine-card.horizontal:last-child {
+    border-bottom: none;
+}
+
+.engine-card-left {
+    min-width: 0;
+    flex: 1;
+}
+
+.engine-card-right {
+    flex-shrink: 0;
+}
+
+.engine-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.engine-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.engine-ver-row {
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+#page-settings .engine-actions {
+    margin: 8px 20px 4px 28px;
+    padding: 0;
+}
+
+#page-settings .engine-log-container {
+    margin: 8px 20px 6px 28px;
+    max-height: 120px;
+}
+
+#page-settings .settings-group-content > .settings-footnote {
+    margin: 4px 20px 10px 28px;
+}
+
+.btn-update-now {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 72px;
+}
+
+.btn-update-now:hover {
+    filter: brightness(1.2);
+    transform: translateY(-1px);
+}
+
+.btn-update-now:disabled {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+

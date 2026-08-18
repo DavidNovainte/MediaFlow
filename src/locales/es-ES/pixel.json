@@ -1,0 +1,9 @@
+{
+  "pixel": {
+    "skipNonImages": "{count} archivo(s) no imagen omitido(s). Use AI Enhance para videos cortos.",
+    "unsupportedPreview": "No se puede previsualizar este archivo como imagen",
+    "aiEnhancingPercent": "Mejora IA... {percent}%",
+    "confirmDeletePreset": "¿Eliminar el ajuste \"{name}\"? No se puede deshacer.",
+    "aiEnhancing": "Mejora IA…"
+  }
+}

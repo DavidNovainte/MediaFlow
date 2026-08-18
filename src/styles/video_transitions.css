@@ -1,0 +1,363 @@
+/*
+ * video_transitions.css
+ * Electron 实时转场预览动画
+ * 直接应用在 <video> 元素上，绕过 Electron 原生视频层渲染问题。
+ * 在 Electron 中，video 元素由硬件合成，会覆盖所有 DOM 覆盖层（无论 z-index 如何），
+ * 因此转场动画必须直接应用在 video 元素上。
+ */
+
+/* 基础：所有 vt-* 动画共享时长变量 */
+[class*="vt-"] {
+    animation-duration: var(--vt-duration, 1s);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+/* 1. Fade（渐变）*/
+.vt-fade {
+    animation-name: vt-kf-fade;
+}
+
+@keyframes vt-kf-fade {
+
+    0%,
+    30% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    70%,
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 2. Wipe Right（向右擦除）*/
+.vt-wiperight {
+    animation-name: vt-kf-wiperight;
+}
+
+@keyframes vt-kf-wiperight {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    40% {
+        clip-path: inset(0 0 0 100%);
+    }
+
+    60% {
+        clip-path: inset(0 0 0 100%);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* 3. Wipe Left（向左擦除）*/
+.vt-wipeleft {
+    animation-name: vt-kf-wipeleft;
+}
+
+@keyframes vt-kf-wipeleft {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    40% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    60% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* 4. Wipe Up（向上擦除）*/
+.vt-wipeup {
+    animation-name: vt-kf-wipeup;
+}
+
+@keyframes vt-kf-wipeup {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    40% {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    60% {
+        clip-path: inset(0 0 100% 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* 5. Wipe Down（向下擦除）*/
+.vt-wipedown {
+    animation-name: vt-kf-wipedown;
+}
+
+@keyframes vt-kf-wipedown {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+
+    40% {
+        clip-path: inset(100% 0 0 0);
+    }
+
+    60% {
+        clip-path: inset(100% 0 0 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* 6. Slide Right（向右滑出滑入）*/
+.vt-slideright {
+    animation-name: vt-kf-slideright;
+}
+
+@keyframes vt-kf-slideright {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    41% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 7. Slide Left（向左滑出滑入）*/
+.vt-slideleft {
+    animation-name: vt-kf-slideleft;
+}
+
+@keyframes vt-kf-slideleft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    41% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* 8. Slide Up（向上滑出滑入）*/
+.vt-slideup {
+    animation-name: vt-kf-slideup;
+}
+
+@keyframes vt-kf-slideup {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    41% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 9. Slide Down（向下滑出滑入）*/
+.vt-slidedown {
+    animation-name: vt-kf-slidedown;
+}
+
+@keyframes vt-kf-slidedown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    41% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 10. Circle Crop（圆形遮罩）*/
+.vt-circlecrop {
+    animation-name: vt-kf-circlecrop;
+}
+
+@keyframes vt-kf-circlecrop {
+    0% {
+        clip-path: circle(120% at 50% 50%);
+    }
+
+    40% {
+        clip-path: circle(0% at 50% 50%);
+    }
+
+    60% {
+        clip-path: circle(0% at 50% 50%);
+    }
+
+    100% {
+        clip-path: circle(120% at 50% 50%);
+    }
+}
+
+/* 11. Zoom In（向内缩放）*/
+.vt-zoomin {
+    animation-name: vt-kf-zoomin;
+}
+
+@keyframes vt-kf-zoomin {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    40% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+
+    41% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 12. Radial（径向擦除）*/
+.vt-radial {
+    animation-name: vt-kf-radial;
+}
+
+@keyframes vt-kf-radial {
+    0% {
+        clip-path: circle(120% at 50% 50%);
+        opacity: 1;
+    }
+
+    40% {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 0.5;
+    }
+
+    60% {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 0.5;
+    }
+
+    100% {
+        clip-path: circle(120% at 50% 50%);
+        opacity: 1;
+    }
+}
+
+/* 13. Pixelize（像素化）*/
+.vt-pixelize {
+    animation-name: vt-kf-pixelize;
+}
+
+@keyframes vt-kf-pixelize {
+    0% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+
+    40% {
+        filter: blur(25px);
+        opacity: 0.2;
+    }
+
+    60% {
+        filter: blur(25px);
+        opacity: 0.2;
+    }
+
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+
+/* 14. Horizontal Blur（横向模糊）*/
+.vt-hblur {
+    animation-name: vt-kf-hblur;
+}
+
+@keyframes vt-kf-hblur {
+    0% {
+        filter: blur(0px) brightness(1);
+    }
+
+    40% {
+        filter: blur(20px) brightness(2);
+    }
+
+    60% {
+        filter: blur(20px) brightness(2);
+    }
+
+    100% {
+        filter: blur(0px) brightness(1);
+    }
+}

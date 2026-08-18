@@ -1,0 +1,9 @@
+{
+  "pixel": {
+    "skipNonImages": "{count} Nicht-Bilddatei(en) übersprungen. Fuer kurze Videos AI Enhance nutzen.",
+    "unsupportedPreview": "Diese Datei kann nicht als Bild angezeigt werden",
+    "aiEnhancingPercent": "KI-Enhance... {percent}%",
+    "confirmDeletePreset": "Voreinstellung \"{name}\" löschen? Dies kann nicht rückgängig gemacht werden.",
+    "aiEnhancing": "KI-Enhance…"
+  }
+}

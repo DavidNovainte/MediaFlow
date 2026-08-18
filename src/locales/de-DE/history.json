@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "Archiv-Verlauf",
+    "clear": "Verlauf löschen",
+    "confirmClear": "Möchten Sie den gesamten Verlauf wirklich löschen?",
+    "confirmDelete": "Diesen Eintrag wirklich löschen?",
+    "historyCleared": "Verlauf gelöscht",
+    "searchPlaceholder": "Suchen...",
+    "noResults": "Keine Treffer gefunden",
+    "noResultsTitle": "Keine Treffer gefunden",
+    "noResultsDesc": "Versuchen Sie es mit anderen Begriffen",
+    "clearSearchBtn": "Suche zurücksetzen",
+    "empty": "Kein Verlauf vorhanden",
+    "emptyTitle": "Noch keine Einträge",
+    "emptyDesc": "Ihre heruntergeladenen Videos erscheinen hier,<br>um sie jederzeit einfach zu verwalten.",
+    "goDownload": "Erstes Video herunterladen",
+    "openFile": "Abspielen",
+    "openFolder": "Im Ordner anzeigen",
+    "copyLink": "Link kopieren",
+    "shareMobile": "Mit Handy teilen",
+    "showQRCode": "QR-Code anzeigen",
+    "delete": "Löschen",
+    "fileDeleted": "Datei gelöscht",
+    "deletedTag": "Gelöscht",
+    "qrTip": "📱 QR-Code mit dem Handy scannen zum Synchronisieren",
+    "close": "Schließen",
+    "filter": {
+      "allPlatforms": "Alle Plattformen",
+      "other": "Sonstige",
+      "allTime": "Gesamte Zeit",
+      "today": "Heute",
+      "week": "Diese Woche",
+      "month": "Dieser Monat"
+    },
+    "batch": {
+      "selectAll": "Alle auswählen",
+      "selected": "{count} ausgewählt",
+      "delete": "Löschen",
+      "copy": "Dateien kopieren",
+      "confirmDelete": "Die {count} ausgewählten Einträge löschen?",
+      "deleteSuccess": "Erfolgreich gelöscht",
+      "noLocalFile": "Gewählte Einträge haben keine lokalen Dateien",
+      "copySuccess": "{count} Dateien kopiert, bereit zum Einfügen",
+      "copyFail": "Kopieren fehlgeschlagen"
+    },
+    "stats": {
+      "filtered": "Anzeige {filtered} / {total}",
+      "total": "Insgesamt {total} Einträge"
+    },
+    "qrProOnly": "QR / mobiles Teilen ist eine Pro-Funktion. Upgraden zum Freischalten.",
+    "showQRCodePro": "QR-Code anzeigen - Pro"
+  }
+}

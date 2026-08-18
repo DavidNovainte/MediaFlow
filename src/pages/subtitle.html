@@ -1,0 +1,1082 @@
+<!-- 
+    subtitle.html - 极致荣耀重构版 (Ground-up Reconstruction)
+    高度对齐 MediaFlow Pro 全局主视觉 (Glassmorphism + Vibrant Tokens)
+-->
+<section id="page-subtitle" class="page">
+    <div class="page-container glass-panel">
+
+        <!-- 1. 顶部状态栏 -->
+        <header class="page-header">
+            <div class="header-left">
+                <h2 class="page-title"><i class="fa-solid fa-closed-captioning"
+                        style="margin-right: 12px; color: var(--accent-primary);"></i><span
+                        data-i18n="subtitle.title">字幕翻译</span></h2>
+            </div>
+
+            <div class="header-center" style="display: flex; gap: 12px; align-items: center;">
+                <!-- Removed old output path dropdown, moved to start-burn modal -->
+
+                <div class="task-buttons" style="display: flex; gap: 8px;">
+                    <button class="btn-accent-pro btn-sm" id="btn-ai-process"
+                        data-i18n-title="subtitle.actions.aiProcess_tip" title="AI 自动分段识别与翻译（引擎可在详细设置中切换）">
+                        <i class="fa-solid fa-wand-sparkles"></i> <span data-i18n="subtitle.actions.aiProcess">智能识别</span>
+                    </button>
+                    <button class="btn-primary-pro btn-sm" id="btn-start-burn"
+                        data-i18n-title="subtitle.actions.burn_tip" title="将字幕嵌入视频">
+                        <i class="fa-solid fa-fire"></i> <span data-i18n="subtitle.actions.startBurn">开始合成</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="header-right">
+                <button class="btn-primary btn-sm btn-glow" id="subtitle-btn-toggle-inspector"
+                    data-i18n-title="subtitle.inspector.show">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span data-i18n="subtitle.header.show_tools">详细设置</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 2. 主操作区 (Grid 布局容器) -->
+        <main class="subtitle-main-layout">
+            <!-- Left: subtitle list (main editor) -->
+            <aside class="list-aside-pro" id="subtitle-list-aside">
+                        <div class="panel-section list-panel" id="subtitle-editor-panel">
+                            <div class="panel-header column-header">
+                                <div class="header-top">
+                                    <div class="embedded-panel-heading list-aside-heading">
+                                        <div class="embedded-tracks-toolbar">
+                                            <div class="tracks-list embedded-tracks-list" id="tracks-list">
+                                                <!-- 轨道由 SubtitleTrackManager 填充 -->
+                                            </div>
+                                            <button class="btn-icon btn-sm" id="btn-add-track"
+                                                data-i18n-title="subtitle.panel.add_track_title" title="新建轨道"
+                                                aria-label="新建轨道"><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                        <div class="active-track-meta" id="active-track-meta" hidden>
+                                            <span class="active-track-meta-label" data-i18n="subtitle.panel.editing_track">编辑中</span>
+                                            <span class="active-track-meta-name" id="active-track-meta-name">—</span>
+                                            <span class="active-track-meta-count" id="active-track-meta-count"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="header-actions row-actions">
+                                    <div class="row-actions-main">
+                                        <button class="btn-icon btn-sm" id="btn-toggle-search"
+                                            data-i18n-title="subtitle.panel.search_title" title="搜索与替换 (Ctrl+F)"><i
+                                                class="fa-solid fa-magnifying-glass"></i></button>
+                                        <button class="btn-icon btn-sm" id="btn-add-subtitle"
+                                            data-i18n-title="subtitle.panel.add_sub_title"
+                                            title="添加字幕 (Ctrl+Enter)"><i class="fa-solid fa-plus"></i></button>
+                                        <button class="btn-icon btn-sm" id="btn-locate-current-sub"
+                                            data-i18n-title="subtitle.panel.locate_current"
+                                            title="定位到当前字幕"><i class="fa-solid fa-crosshairs"></i></button>
+                                        <button class="btn-icon btn-sm" id="btn-run-qc-main"
+                                            data-i18n-title="subtitle.panel.qc_title"
+                                            title="智能质检 (QC)"><i class="fa-solid fa-shield-heart"></i></button>
+                                        <button class="btn-icon btn-sm" id="btn-shortcuts-help"
+                                            data-i18n-title="subtitle.panel.shortcuts_title"
+                                            title="快捷键 (?)"><i class="fa-solid fa-keyboard"></i></button>
+                                        <button class="btn-icon btn-sm" id="btn-toggle-text-layout"
+                                            data-i18n-title="subtitle.editor.toggle_layout_stacked" title="上下/左右对照切换"><i
+                                                class="fa-solid fa-table-columns"></i><span class="toolbar-mode-badge" id="subtitle-text-layout-badge">上下</span></button>
+                                        <button class="btn-icon btn-sm" id="btn-cycle-editor-display"
+                                            data-i18n-title="subtitle.panel.cycle_display_title"
+                                            title="切换编辑列表显示模式"><i class="fa-solid fa-language"></i><span
+                                                class="toolbar-mode-badge" id="subtitle-editor-display-badge">译文</span></button>
+                                        <button class="btn-icon btn-sm" id="btn-toggle-view"
+                                            data-i18n-title="subtitle.panel.view_mode_title" title="精简/完整列表">
+                                            <i class="fa-solid fa-list"></i>
+                                            <span class="toolbar-mode-badge" id="subtitle-view-mode-badge">精简</span>
+                                        </button>
+                                    </div>
+                                    <details class="toolbar-overflow" id="subtitle-toolbar-more">
+                                        <summary class="btn-icon btn-sm" data-i18n-title="subtitle.panel.more_actions_title" title="更多操作" aria-label="更多操作">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </summary>
+                                        <div class="toolbar-overflow-menu">
+                                            <button class="btn-icon btn-sm" id="btn-run-qc"
+                                                data-i18n-title="subtitle.panel.qc_title" title="智能质检 (QC)"><i
+                                                    class="fa-solid fa-shield-heart"></i></button>
+                                            <button class="btn-icon btn-sm" id="btn-batch-paste"
+                                                data-i18n-title="subtitle.panel.batch_paste_title" title="批量粘贴"><i
+                                                    class="fa-solid fa-paste"></i></button>
+                                            <button class="btn-icon btn-sm" id="btn-generate-tts"
+                                                data-i18n-title="subtitle.panel.tts_all_title" title="全量生成配音"><i
+                                                    class="fa-solid fa-microphone-lines"></i></button>
+                                            <button class="btn-icon btn-sm" id="btn-compress-all"
+                                                data-i18n-title="subtitle.panel.compress_all_title"
+                                                title="一键压缩长句"><i
+                                                    class="fa-solid fa-wand-magic-sparkles"></i></button>
+                                        </div>
+                                    </details>
+                                </div>
+                            </div>
+
+                            <!-- 批量搜索替换栏 -->
+                            <div id="search-replace-bar" class="search-replace-bar hidden">
+                                <div class="search-row">
+                                    <div class="search-input-group">
+                                        <input type="text" id="input-search"
+                                            data-i18n-placeholder="subtitle.search.find_placeholder"
+                                            placeholder="查找内容..." class="search-input">
+                                        <div class="search-options">
+                                            <button class="option-btn" id="btn-search-case"
+                                                data-i18n-title="subtitle.search.case_sensitive"
+                                                title="区分大小写">Aa</button>
+                                            <button class="option-btn" id="btn-search-regex"
+                                                data-i18n-title="subtitle.search.regex" title="Regex">.*</button>
+                                        </div>
+                                    </div>
+                                    <div class="search-actions">
+                                        <button class="btn-icon btn-xs" id="btn-search-prev"
+                                            data-i18n-title="subtitle.search.prev" title="上一个"><i
+                                                class="fa-solid fa-chevron-up"></i></button>
+                                        <button class="btn-icon btn-xs" id="btn-search-next"
+                                            data-i18n-title="subtitle.search.next" title="下一个"><i
+                                                class="fa-solid fa-chevron-down"></i></button>
+                                        <button class="btn-icon btn-xs" id="btn-close-search"
+                                            data-i18n-title="subtitle.search.close" title="关闭">✕</button>
+                                    </div>
+                                </div>
+                                <div class="replace-row">
+                                    <div class="replace-input-group">
+                                        <input type="text" id="input-replace"
+                                            data-i18n-placeholder="subtitle.search.replace_placeholder"
+                                            placeholder="替换为..." class="search-input">
+                                        <select id="search-scope" class="search-scope-select">
+                                            <option value="all" data-i18n="subtitle.search.scope_all">全部文本</option>
+                                            <option value="translation" data-i18n="subtitle.search.scope_trans">
+                                                仅译文
+                                            </option>
+                                            <option value="original" data-i18n="subtitle.search.scope_orig">仅原文
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="replace-actions">
+                                        <button class="btn btn-xs btn-outline" id="btn-replace"
+                                            data-i18n="subtitle.search.replace">替换</button>
+                                        <button class="btn btn-xs btn-primary" id="btn-replace-all"
+                                            data-i18n="subtitle.search.replace_all">全部替换</button>
+                                    </div>
+                                </div>
+                                <div class="search-stats" id="search-stats">
+                                    <!-- 搜索统计信息 -->
+                                </div>
+                            </div>
+                            <!-- 质检汇总栏 -->
+                            <div id="qc-summary-bar" class="qc-summary-bar hidden">
+                                <div class="qc-info">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span id="qc-stats-text" data-i18n="subtitle.qc.not_started">未开始质检</span>
+                                </div>
+                                <div class="qc-actions">
+                                    <button class="btn btn-xs btn-outline" id="btn-qc-next"
+                                        data-i18n-title="subtitle.qc.next_error" data-i18n="subtitle.qc.next_error">下一个错误</button>
+                                    <button class="btn btn-xs btn-outline" id="btn-qc-filter-issues"
+                                        data-i18n-title="subtitle.qc.issue_only" data-i18n="subtitle.qc.issue_only">只看问题</button>
+                                    <button class="btn btn-xs btn-outline" id="btn-qc-clear-filter"
+                                        data-i18n-title="subtitle.qc.restore_all" data-i18n="subtitle.qc.restore_all">恢复全部</button>
+                                    <button class="btn-icon btn-xs" id="btn-close-qc"
+                                        data-i18n-title="subtitle.qc.close" title="关闭 QC">✕</button>
+                                </div>
+                            </div>
+                            <div id="qc-queue-panel" class="qc-queue-panel hidden">
+                                <div class="qc-queue-header">
+                                    <span class="qc-queue-title"><i class="fa-solid fa-list-check"></i> <span data-i18n="subtitle.qc.queue_title">问题队列</span></span>
+                                    <span class="qc-queue-count" id="qc-queue-count">0</span>
+                                </div>
+                                <div class="qc-queue-list editor-scroll-pro" id="qc-queue-list"></div>
+                            </div>
+
+                            <!-- Always visible: 全选/筛选；勾选字幕后展开批量工具 -->
+                            <div class="list-batch-actions-bar is-visible" id="list-batch-actions-bar">
+                                <div class="batch-bar-row batch-bar-row-primary">
+                                    <label class="checkbox-item-pro">
+                                        <input type="checkbox" id="btn-select-all-subs" data-i18n-title="subtitle.panel.select_all">
+                                        <span data-i18n="subtitle.panel.select_all">全选</span>
+                                    </label>
+                                    <span class="batch-selected-count" id="batch-selected-count" hidden>已选 0</span>
+                                    <div class="review-filter-group">
+                                        <i class="fa-solid fa-filter"></i>
+                                        <select id="subtitle-review-filter" class="review-filter-select" data-i18n-title="subtitle.review.filter_title" title="筛选审核状态">
+                                            <option value="all" data-i18n="subtitle.review.filters.all">全部</option>
+                                            <option value="pending" data-i18n="subtitle.review.pending">待审</option>
+                                            <option value="approved" data-i18n="subtitle.review.approved">已审</option>
+                                            <option value="needs-work" data-i18n="subtitle.review.needs_work">重做</option>
+                                            <option value="qc" data-i18n="subtitle.review.filters.qc">问题项</option>
+                                            <option value="locked" data-i18n="subtitle.review.locked">已锁定</option>
+                                            <option value="selected" data-i18n="subtitle.review.filters.selected">已选中</option>
+                                        </select>
+                                    </div>
+                                    <div class="batch-tools-only batch-action-cluster" title="审核 / 锁定">
+                                        <button class="btn-icon btn-xs" id="btn-batch-approve" data-i18n-title="subtitle.review.batch_approve" title="批量标记为已审">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                        <button class="btn-icon btn-xs" id="btn-batch-needs-work" data-i18n-title="subtitle.review.batch_needs_work" title="批量标记为重做">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </button>
+                                        <button class="btn-icon btn-xs" id="btn-batch-lock" data-i18n-title="subtitle.review.batch_lock" title="批量锁定">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </button>
+                                        <button class="btn-icon btn-xs" id="btn-batch-unlock" data-i18n-title="subtitle.review.batch_unlock" title="批量解锁">
+                                            <i class="fa-solid fa-lock-open"></i>
+                                        </button>
+                                    </div>
+                                    <div class="batch-tools-only batch-action-cluster batch-btns" title="重译 / 删除">
+                                        <button class="btn-icon btn-xs" id="btn-batch-retranslate"
+                                            data-i18n-title="subtitle.panel.batch_retranslate" title="重译选中">
+                                            <i class="fa-solid fa-rotate"></i>
+                                        </button>
+                                        <button class="btn-icon btn-xs danger" id="btn-batch-delete"
+                                            data-i18n-title="subtitle.panel.batch_delete" title="删除选中">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="batch-bar-hint" data-i18n="subtitle.panel.batch_hint">
+                                    勾选字幕后可批量操作
+                                </div>
+                                <div class="batch-bar-row batch-bar-row-secondary batch-tools-only">
+                                    <div class="batch-tts-source" title="批量配音来源">
+                                        <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
+                                        <select id="select-batch-tts-source" class="batch-tts-source-select" title="应用配音来源到选中字幕；未选中时应用到全部字幕">
+                                            <option value="translated" data-i18n="subtitle.editor.translated_option">译文</option>
+                                            <option value="original" data-i18n="subtitle.editor.original_option">原文</option>
+                                        </select>
+                                        <button class="btn-icon btn-xs" id="btn-batch-tts-source-apply" title="应用配音来源">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                    </div>
+                                    <div class="batch-time-shift" title="时间平移">
+                                        <i class="fa-solid fa-clock-rotate-left"
+                                            data-i18n-title="subtitle.panel.batch_shift" aria-hidden="true"></i>
+                                        <input type="number" id="input-batch-offset" step="0.1"
+                                            data-i18n-placeholder="subtitle.panel.shift_placeholder" placeholder="秒"
+                                            data-i18n-title="subtitle.panel.shift_hint" title="偏移值，例如 0.5 或 -1.2">
+                                        <button class="btn-icon btn-xs" id="btn-batch-shift"
+                                            data-i18n-title="subtitle.panel.shift_apply" title="应用">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="subtitle-list-container" class="subtitle-list-container editor-scroll-pro">
+                                <!-- 由 SubtitleListRenderer 动态渲染 -->
+                                <div class="empty-state">
+                                    <i class="fa-solid fa-closed-captioning"></i>
+                                    <p data-i18n="subtitle.editor.empty">暂无内容</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layout-resizer horizontal list-resizer" id="list-resizer"
+                            role="separator" aria-orientation="vertical"
+                            data-i18n-title="subtitle.layout.drag_resize_list"
+                            title="拖动调整列表宽度"></div>
+                    </aside>
+
+            <!-- 1. 中间工作台 (Center Stack) -->
+            <div class="workspace-center-pro">
+                <!-- 顶部：视频监视器 (获得更多纵向空间) -->
+                <div class="video-stage-pro">
+                    <div class="pro-monitor" id="video-container">
+                        <!-- 新增内容缩放包装层 -->
+                        <div class="video-content-scaler" id="video-content-scaler">
+                            <video id="subtitle-video-preview"></video>
+                            <div class="video-placeholder" id="video-placeholder">
+                                <div class="placeholder-content">
+                                    <div class="floating-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                    <button class="btn-primary" id="btn-select-video"
+                                        data-i18n-title="subtitle.placeholder.selectVideo">
+                                        <i class="fa-solid fa-plus"></i>
+                                        <span data-i18n="subtitle.import_video">导入视频</span>
+                                    </button>
+                                    <p class="hint" data-i18n="subtitle.placeholder.hint">拖放到此处，或点击选择文件</p>
+                                </div>
+                            </div>
+                            <div class="subtitle-overlay" id="subtitle-overlay"></div>
+                            <div class="blur-preview-overlay" id="blur-preview-overlay" style="display: none;"></div>
+                        </div>
+                    </div>
+
+                    <div class="video-meta-bar glass-panel" id="video-info" style="display: none;">
+                        <div class="v-name" id="video-name" data-i18n="subtitle.placeholder.videoName">No Video Loaded
+                        </div>
+                        <div class="v-divider"></div>
+                        <div class="v-dur" id="video-duration" data-i18n="subtitle.placeholder.videoDuration">00:00 /
+                            00:00</div>
+                        <div class="v-divider"></div>
+                        <div class="v-zoom-group" id="video-zoom-ui">
+                            <button class="v-zoom-btn" id="subtitle-btn-zoom-dec"
+                                data-i18n-title="subtitle.video.zoom_out" title="缩小 (Alt+-)"><i
+                                    class="fa-solid fa-minus"></i></button>
+                            <div class="v-zoom-display" id="video-zoom-trigger"
+                                data-i18n-title="subtitle.video.zoom_select" title="缩放比例">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span id="video-zoom-percent">100%</span>
+                                <i class="fa-solid fa-chevron-down"
+                                    style="font-size: 8px; opacity: 0.5; margin-left: 4px;"></i>
+                            </div>
+                            <button class="v-zoom-btn" id="subtitle-btn-zoom-inc"
+                                data-i18n-title="subtitle.video.zoom_in" title="放大 (Alt++)"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <div style="flex: 1;"></div>
+                        <button class="btn-icon btn-sm" id="btn-mirror-video"
+                            data-i18n-title="subtitle.video.mirror_tip" title="镜像翻转">
+                            <i class="fa-solid fa-left-right"></i>
+                        </button>
+                        <button class="btn-icon btn-sm" id="btn-change-video"
+                            data-i18n-title="subtitle.video.change_video" title="更换视频"><i
+                                class="fa-solid fa-retweet"></i></button>
+                        <button class="btn-icon btn-sm danger" id="btn-clear-video"
+                            data-i18n-title="subtitle.video.clear_video" title="清除视频与字幕">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <button class="btn-icon btn-sm" id="btn-cinema-mode"
+                            data-i18n-title="subtitle.video.cinema_mode" title="影院模式"><i
+                                class="fa-solid fa-expand"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 右侧属性检查器 (Right Inspector) -->
+            <aside class="inspector-aside-pro">
+                <div class="layout-resizer horizontal" id="inspector-resizer"></div>
+                <nav class="inspector-tabs" id="subtitle-settings-tabs">
+                    <button class="inspector-tab tab-item active" data-tab="tab-general">
+                        <i class="fa-solid fa-sliders"></i> <span data-i18n="subtitle.tabs.basic">配置</span>
+                    </button>
+                    <button class="inspector-tab tab-item" data-tab="tab-style">
+                        <i class="fa-solid fa-palette"></i> <span data-i18n="subtitle.tabs.style">样式</span>
+                    </button>
+                    <button class="inspector-tab tab-item" data-tab="tab-process">
+                        <i class="fa-solid fa-microphone-lines"></i> <span data-i18n="subtitle.tabs.tts">配音</span>
+                    </button>
+                </nav>
+
+                <div class="inspector-content editor-scroll-pro">
+                    <!-- Tab 1: 基础配置 -->
+                    <div class="tab-content active" id="tab-general">
+                        <div class="v-stack-pro">
+                            <div class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-file-video"></i>
+                                    <span data-i18n="subtitle.settings.input_mode">输入模式</span></label>
+                                <div class="card-radio-group">
+                                    <label class="card-radio-item">
+                                        <input type="radio" name="input-mode" value="single" checked>
+                                        <div class="card-content">
+                                            <i class="fa-solid fa-file-lines"></i>
+                                            <span data-i18n="subtitle.settings.single_file">单一文件</span>
+                                        </div>
+                                    </label>
+                                    <label class="card-radio-item">
+                                        <input type="radio" name="input-mode" value="batch">
+                                        <div class="card-content">
+                                            <i class="fa-solid fa-layer-group"></i>
+                                            <span data-i18n="subtitle.settings.batch_mode">批量处理</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div id="batch-info-panel" class="batch-preview-summary" style="display: none; margin-top: 12px; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); background: rgba(255,255,255,0.03); gap: 6px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+                                        <span style="font-size: 12px; color: var(--text-muted);" data-i18n="subtitle.batch.queue_title">处理队列</span>
+                                        <span id="batch-count-value" style="font-size: 18px; font-weight: 700; color: var(--text-primary);">0</span>
+                                    </div>
+                                    <div id="batch-status-summary" style="font-size: 11px; color: var(--text-secondary);"></div>
+                                    <div class="batch-queue-actions" style="display: flex; gap: 6px; margin-top: 2px;">
+                                        <button type="button" class="btn btn-xs btn-outline" id="btn-batch-add-folder" title="继续添加文件夹">
+                                            <i class="fa-solid fa-folder-plus"></i>
+                                            <span data-i18n="subtitle.batch.add_folder">添加</span>
+                                        </button>
+                                        <button type="button" class="btn btn-xs btn-outline danger" id="btn-batch-clear-queue" title="清空批量队列">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                            <span data-i18n="subtitle.batch.clear_queue">清空队列</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="batch-file-list" class="batch-preview-list" style="display: none;"></div>
+                            </div>
+
+                            <div class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-microphone-lines"></i>
+                                    <span data-i18n="subtitle.settings.recognition">字幕识别</span></label>
+                                <div class="segmented-control">
+                                    <label><input type="radio" name="subtitle-mode" value="ai" checked><span
+                                            data-i18n="subtitle.settings.ai_auto">AI 自动</span></label>
+                                    <label><input type="radio" name="subtitle-mode" value="import"><span
+                                            data-i18n="subtitle.settings.import_srt">导入 SRT</span></label>
+                                    <label><input type="radio" name="subtitle-mode" value="manual"><span
+                                            data-i18n="subtitle.settings.manual_input">手工录入</span></label>
+                                </div>
+                                <button class="btn-secondary-pro btn-sm btn-full" id="btn-import-srt"
+                                    style="display: none; margin-top: 12px;">
+                                    <i class="fa-solid fa-file-import"></i> <span
+                                        data-i18n="subtitle.settings.select_srt">选择 SRT 文件</span>
+                                </button>
+                            </div>
+
+                            <div id="translation-settings" class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-language"></i>
+                                    <span data-i18n="subtitle.settings.auto_translate">自动翻译</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.settings.engine">识别/翻译引擎</span>
+                                    <select id="translation-engine" class="setting-select" data-i18n-title="subtitle.settings.engineHint" title="识别与后续翻译共用此引擎（需在设置中配置对应 API Key）">
+                                        <option value="groq" data-i18n="subtitle.settings.engineOptions.groq">Groq
+                                            (Fast)
+                                        </option>
+                                        <option value="openai" data-i18n="subtitle.settings.engineOptions.openai">OpenAI</option>
+                                        <option value="gemini" data-i18n="subtitle.settings.engineOptions.gemini">Gemini
+                                            (Recommended)</option>
+                                        <option value="siliconflow" data-i18n="subtitle.settings.engineOptions.siliconflow">SiliconFlow</option>
+                                    </select>
+                                    <div class="value-badge">AI</div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.settings.translation_concurrency">翻译并发</span>
+                                    <select id="translation-concurrency" class="setting-select" data-i18n-title="subtitle.settings.translation_concurrency_hint" title="同时请求的批次数。更高更快，但更容易触发 API 限流。">
+                                        <option value="1">1（稳）</option>
+                                        <option value="2" selected>2（推荐）</option>
+                                        <option value="3">3（快）</option>
+                                        <option value="4">4（激进）</option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.settings.lang_settings">语言设置</span>
+                                    <div class="lang-selector-grid">
+                                        <select id="source-language" class="setting-select">
+                                            <option value="auto" data-i18n="subtitle.settings.lang.auto">自动检测
+                                            </option>
+                                            <option value="zh" data-i18n="subtitle.settings.lang.zh">中文</option>
+                                            <option value="en" data-i18n="subtitle.settings.lang.en">英语</option>
+                                            <option value="ja" data-i18n="subtitle.settings.lang.ja">日本語</option>
+                                            <option value="ko" data-i18n="subtitle.settings.lang.ko">한국어</option>
+                                            <option value="fr" data-i18n="subtitle.settings.lang.fr">Français</option>
+                                            <option value="de" data-i18n="subtitle.settings.lang.de">Deutsch</option>
+                                            <option value="es" data-i18n="subtitle.settings.lang.es">Español</option>
+                                            <option value="ru" data-i18n="subtitle.settings.lang.ru">Русский</option>
+                                            <option value="it" data-i18n="subtitle.settings.lang.it">Italiano</option>
+                                            <option value="pt" data-i18n="subtitle.settings.lang.pt">Português</option>
+                                            <option value="vi" data-i18n="subtitle.settings.lang.vi">Tiếng Việt</option>
+                                            <option value="id" data-i18n="subtitle.settings.lang.id">Bahasa Indonesia
+                                            </option>
+                                            <option value="th" data-i18n="subtitle.settings.lang.th">ไทย</option>
+                                            <option value="tr" data-i18n="subtitle.settings.lang.tr">Türkçe</option>
+                                            <option value="ar" data-i18n="subtitle.settings.lang.ar">العربية</option>
+                                            <option value="hi" data-i18n="subtitle.settings.lang.hi">हिन्दी</option>
+                                        </select>
+                                        <i class="fa-solid fa-right-left"
+                                            style="color: var(--text-muted); font-size: 10px;"></i>
+                                        <select id="target-language" class="setting-select">
+                                            <option value="zh-Hans" data-i18n="subtitle.settings.lang.zhHans">简体中文
+                                            </option>
+                                            <option value="zh-Hant" data-i18n="subtitle.settings.lang.zhHant">繁体中文
+                                            </option>
+                                            <option value="en" data-i18n="subtitle.settings.lang.en">英语</option>
+                                            <option value="ja" data-i18n="subtitle.settings.lang.ja">日本語</option>
+                                            <option value="ko" data-i18n="subtitle.settings.lang.ko">한국어</option>
+                                            <option value="fr" data-i18n="subtitle.settings.lang.fr">Français</option>
+                                            <option value="de" data-i18n="subtitle.settings.lang.de">Deutsch</option>
+                                            <option value="es" data-i18n="subtitle.settings.lang.es">Español</option>
+                                            <option value="ru" data-i18n="subtitle.settings.lang.ru">Русский</option>
+                                            <option value="it" data-i18n="subtitle.settings.lang.it">Italiano</option>
+                                            <option value="nl" data-i18n="subtitle.tts.languages.nl">Nederlands</option>
+                                            <option value="pl" data-i18n="subtitle.tts.languages.pl">Polski</option>
+                                            <option value="pt" data-i18n="subtitle.settings.lang.pt">Português</option>
+                                            <option value="vi" data-i18n="subtitle.settings.lang.vi">Tiếng Việt</option>
+                                            <option value="id" data-i18n="subtitle.settings.lang.id">Bahasa Indonesia
+                                            </option>
+                                            <option value="th" data-i18n="subtitle.settings.lang.th">ไทย</option>
+                                            <option value="tr" data-i18n="subtitle.settings.lang.tr">Türkçe</option>
+                                            <option value="ar" data-i18n="subtitle.settings.lang.ar">العربية</option>
+                                            <option value="hi" data-i18n="subtitle.settings.lang.hi">हिन्दी</option>
+                                            <option value="none" data-i18n="subtitle.settings.lang.sourceOnly">仅转录
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.settings.style_hint">风格备注</span>
+                                    <input type="text" id="ai-style-hint" class="setting-input-pro"
+                                        data-i18n-placeholder="subtitle.settings.style_hint_placeholder"
+                                        placeholder="如：翻译得幽默点、口语化、学术风..." style="flex: 1;">
+                                </div>
+                                <div class="ctrl-row-pro no-label">
+                                    <label class="checkbox-item-pro"><input type="checkbox" id="keep-bilingual"><span
+                                            data-i18n="subtitle.settings.keep_bilingual">保留双语对照显示</span></label>
+                                </div>
+                                <div class="fixed-translation-section">
+                                    <div class="fixed-translation-header-row">
+                                        <label class="checkbox-item-pro fixed-translation-toggle">
+                                            <input type="checkbox" id="fixed-translations-enabled">
+                                            <span>固定翻译</span>
+                                        </label>
+                                        <span class="fixed-translation-count" id="fixed-translation-count" data-i18n="subtitle.fixedTranslations.count">0 条</span>
+                                    </div>
+                                    <div class="fixed-translation-help">当前视频里这些词优先按你指定的译法处理。</div>
+                                    <div class="fixed-translation-editor" id="fixed-translation-editor">
+                                        <div class="fixed-translation-toolbar">
+                                            <button class="btn-secondary-pro btn-sm" id="btn-add-fixed-translation" type="button">
+                                                <i class="fa-solid fa-plus"></i>
+                                                <span>新增词条</span>
+                                            </button>
+                                            <button class="btn-secondary-pro btn-sm" id="btn-toggle-fixed-translation-bulk" type="button">
+                                                <i class="fa-solid fa-paste"></i>
+                                                <span>批量粘贴</span>
+                                            </button>
+                                        </div>
+                                        <div class="fixed-translation-bulk hidden" id="fixed-translation-bulk">
+                                            <textarea id="fixed-translation-bulk-input" class="setting-input-pro fixed-translation-bulk-input" placeholder="每行一个，例如：&#10;大哥 => Big brother&#10;明镜与点点栏目 => Mirror and Dots column"></textarea>
+                                            <div class="fixed-translation-bulk-actions">
+                                                <button class="btn-secondary-pro btn-sm" id="btn-apply-fixed-translation-bulk" type="button">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    <span>导入词条</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="fixed-translation-list" id="fixed-translation-list"></div>
+                                        <div class="empty-hint-tiny" id="fixed-translation-empty">还没有固定翻译词条</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="section-header">
+                                    <label class="section-label"><i class="fa-solid fa-compress"></i>
+                                        <span data-i18n="subtitle.settings.length_optimize">长句处理</span></label>
+                                    <label class="section-switch"><input type="checkbox" id="length-optimize"><span
+                                            class="switch-slider"></span></label>
+                                </div>
+                                <div id="length-settings-row" style="display: none;" class="section-content-pro">
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label"
+                                            data-i18n="subtitle.settings.optimize_strategy">优化策略</span>
+                                        <select id="length-strategy" class="setting-select">
+                                            <option value="split" data-i18n="subtitle.settings.strategyOptions.split"
+                                                selected>智能分条</option>
+                                            <option value="wrap" data-i18n="subtitle.settings.strategyOptions.wrap">
+                                                强制折行</option>
+                                            <option value="scale" data-i18n="subtitle.settings.strategyOptions.scale">
+                                                视觉缩放</option>
+                                        </select>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.settings.max_chars">单行上限</span>
+                                        <input type="number" id="max-chars" class="setting-input-pro" value="30"
+                                            style="width: 70px;">
+                                        <div class="value-badge">LEN</div>
+                                    </div>
+                                    <div id="max-lines-row" class="ctrl-row-pro" style="display: none;">
+                                        <span class="ctrl-label" data-i18n="subtitle.settings.max_lines">最大行数</span>
+                                        <input type="number" id="max-lines" class="setting-input-pro" value="2"
+                                            style="width: 70px;">
+                                        <div class="value-badge">ROW</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: 处理/TTS -->
+                    <div class="tab-content" id="tab-process">
+                        <div class="v-stack-pro">
+                            <div class="settings-section">
+                                <div class="section-header">
+                                    <label class="section-label"><i class="fa-solid fa-volume-high"></i> <span
+                                            data-i18n="subtitle.tts.title">配音设置 (TTS)</span></label>
+                                    <label class="section-switch"><input type="checkbox" id="enable-tts"><span
+                                            class="switch-slider"></span></label>
+                                </div>
+                                <div id="tts-settings" style="display: none;" class="section-content-pro">
+                                    <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.tts.engine">引擎</span>
+                                        <select id="tts-engine" class="setting-select">
+                                            <option value="edge">Edge TTS (Free)</option>
+                                            <option value="openai">OpenAI TTS</option>
+                                            <option value="elevenlabs">ElevenLabs</option>
+                                        </select>
+                                    </div>
+                                    <div id="tts-openai-key-row" class="ctrl-row-pro" style="display: none;">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.openaiKey">OpenAI Key</span>
+                                        <input type="password" id="tts-openai-key" class="setting-input-pro"
+                                            placeholder="sk-..." style="flex: 1;">
+                                    </div>
+                                    <div id="tts-eleven-key-row" class="ctrl-row-pro" style="display: none;">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.elevenKey">Eleven Key</span>
+                                        <input type="password" id="tts-eleven-key" class="setting-input-pro"
+                                            placeholder="API Key" style="flex: 1;">
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.audio_process">音频处理</span>
+                                        <select id="audio-mode" class="setting-select">
+                                            <option value="remove" data-i18n="subtitle.tts.modes.remove">完全移除</option>
+                                            <option value="keep" data-i18n="subtitle.tts.modes.keepBgm">保留背景音乐
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.lang">语言</span>
+                                        <select id="tts-lang-filter" class="setting-select">
+                                            <!-- Dynamic options -->
+                                        </select>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.voice.label">音色声线</span>
+                                        <div class="h-flex-pro">
+                                            <select id="tts-voice" class="setting-select flex-1"></select>
+                                            <button class="btn-icon circle-btn" id="btn-preview-voice"
+                                                data-i18n-title="subtitle.tts.preview" title="试听"><i
+                                                    class="fa-solid fa-play"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.speed">播放语速</span>
+                                        <input type="range" id="tts-rate" min="50" max="250" value="100"
+                                            class="pro-slider">
+                                        <div class="value-badge" id="tts-rate-value">1.0x</div>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.pitch">音调调整</span>
+                                        <input type="range" id="tts-pitch" min="-10" max="10" value="0"
+                                            class="pro-slider">
+                                        <div class="value-badge" id="tts-pitch-value">0</div>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.voiceVolume">配音音量</span>
+                                        <input type="range" id="voice-volume" min="0" max="100" value="100"
+                                            class="pro-slider">
+                                        <div class="value-badge" id="voice-volume-value">100%</div>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.tts.bgmVolume">背景音量</span>
+                                        <input type="range" id="bgm-volume" min="0" max="100" value="30"
+                                            class="pro-slider">
+                                        <div class="value-badge" id="bgm-volume-value">30%</div>
+                                    </div>
+                                    <div class="ctrl-row-pro">
+                                        <span class="ctrl-label" data-i18n="subtitle.dubbing.controls.mode">配音适配</span>
+                                        <select id="dub-adaptation-mode" class="setting-select">
+                                            <option value="off" data-i18n="subtitle.dubbing.options.off">关闭</option>
+                                            <option value="balanced" data-i18n="subtitle.dubbing.options.balanced">平衡</option>
+                                            <option value="strict" data-i18n="subtitle.dubbing.options.strict">严格贴时长</option>
+                                            <option value="preserve" data-i18n="subtitle.dubbing.options.preserve">保留原意</option>
+                                        </select>
+                                    </div>
+                                    <div id="dub-adaptation-mode-hint" class="dub-adaptation-mode-hint" data-i18n="subtitle.dubbing.modes.balanced">默认模式。轻度超长时优先分句、轻压缩，并在必要时轻微加速。</div>
+                                    <div id="dub-adaptation-advanced" style="display: none;">
+                                        <div class="ctrl-row-pro ctrl-row-pro-switch">
+                                            <span class="ctrl-label" data-i18n="subtitle.dubbing.controls.autoCompress">自动压缩译文</span>
+                                            <label class="section-switch">
+                                                <input type="checkbox" id="dub-auto-compress" checked>
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="ctrl-row-pro ctrl-row-pro-switch">
+                                            <span class="ctrl-label" data-i18n="subtitle.dubbing.controls.allowSpeedUp">允许轻微加速语音</span>
+                                            <label class="section-switch">
+                                                <input type="checkbox" id="dub-auto-speedup" checked>
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                        <div class="ctrl-row-pro ctrl-row-pro-switch">
+                                            <span class="ctrl-label" data-i18n="subtitle.dubbing.controls.allowGapBorrow">允许借用前后空隙</span>
+                                            <label class="section-switch">
+                                                <input type="checkbox" id="dub-allow-gap-extension" checked>
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="dub-status-panel" class="dub-status-panel" style="display: none;" data-state="neutral">
+                                        <div class="dub-status-header">
+                                            <div>
+                                                <div id="dub-status-title" class="dub-status-title" data-i18n="subtitle.dubbing.panel.empty.title">当前未选中字幕</div>
+                                                <div id="dub-status-description" class="dub-status-description" data-i18n="subtitle.dubbing.panel.empty.description">选择一条字幕后，这里会显示配音适配结果。</div>
+                                            </div>
+                                        </div>
+                                        <div class="dub-status-stats">
+                                            <div class="dub-status-stat">
+                                                <span class="dub-status-stat-label" data-i18n="subtitle.dubbing.panel.labels.duration">时长预算</span>
+                                                <strong id="dub-status-duration" data-i18n="subtitle.dubbing.panel.stats.not_calculated">未计算</strong>
+                                            </div>
+                                            <div class="dub-status-stat">
+                                                <span class="dub-status-stat-label" data-i18n="subtitle.dubbing.panel.labels.borrow">借用空隙</span>
+                                                <strong id="dub-status-borrow">0.00s</strong>
+                                            </div>
+                                            <div class="dub-status-stat">
+                                                <span class="dub-status-stat-label" data-i18n="subtitle.dubbing.panel.labels.ratio">估算倍率</span>
+                                                <strong id="dub-status-ratio">--</strong>
+                                            </div>
+                                        </div>
+                                        <div id="dub-status-segmentation" class="dub-status-segmentation" data-i18n="subtitle.dubbing.panel.empty.segment">选中字幕后，这里会显示本句的配音分句方式。</div>
+                                        <div class="dub-status-copy-grid">
+                                            <div class="dub-status-copy-block">
+                                                <span class="dub-status-copy-label" data-i18n="subtitle.dubbing.panel.labels.source">当前译文</span>
+                                                <div id="dub-status-source" class="dub-status-copy" data-i18n="subtitle.dubbing.panel.stats.no_source">当前没有可展示的译文</div>
+                                            </div>
+                                            <div class="dub-status-copy-block">
+                                                <span class="dub-status-copy-label" data-i18n="subtitle.dubbing.panel.labels.adapted">配音文本</span>
+                                                <div id="dub-status-adapted" class="dub-status-copy" data-i18n="subtitle.dubbing.panel.stats.no_dub_text">当前没有生成配音版文本</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: 字幕外观 -->
+                    <div class="tab-content" id="tab-style">
+                        <div class="v-stack-pro">
+                            <div class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-font"></i>
+                                    <span data-i18n="subtitle.style.typography">排版字体</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.font_family">字体库</span>
+                                    <div class="h-flex-pro">
+                                        <select id="font-family" class="setting-select flex-1">
+                                            <option value="Microsoft YaHei"
+                                                data-i18n="subtitle.settings.fontOptions.msYaHei">MS YaHei</option>
+                                            <option value="SimHei" data-i18n="subtitle.settings.fontOptions.simHei">
+                                                SimHei
+                                            </option>
+                                            <option value="Arial" data-i18n="subtitle.settings.fontOptions.arial">Arial
+                                            </option>
+                                            <option value="load-system" data-i18n="subtitle.style.refresh_fonts">
+                                                读取系统字体</option>
+                                        </select>
+                                        <button class="btn-icon circle-btn" id="btn-refresh-fonts"
+                                            data-i18n-title="subtitle.style.refresh_fonts" title="读取系统字体">
+                                            <i class="fa-solid fa-sync"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.font_size">字体大小</span>
+                                    <div class="h-flex-pro">
+                                        <input type="number" id="font-size" class="setting-input-pro" value="32">
+                                        <div class="toggle-group-pro">
+                                            <button class="btn-toggle" id="btn-bold"
+                                                data-i18n-title="subtitle.style.bold" title="加粗"><i
+                                                    class="fa-solid fa-bold"></i></button>
+                                            <button class="btn-toggle" id="btn-italic"
+                                                data-i18n-title="subtitle.style.italic" title="倾斜"><i
+                                                    class="fa-solid fa-italic"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.position">位置</span>
+                                    <select id="subtitle-position" class="setting-select">
+                                        <option value="2" data-i18n="subtitle.settings.posOptions.bottomCenter">底部居中
+                                        </option>
+                                        <option value="8" data-i18n="subtitle.settings.posOptions.topCenter">顶部居中
+                                        </option>
+                                        <option value="5" data-i18n="subtitle.settings.posOptions.bottomCenter">屏幕居中
+                                        </option>
+                                        <option value="custom" data-i18n="subtitle.settings.posOptions.custom">自定义位置
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.margin_h">水平位置</span>
+                                    <input type="range" id="margin-h" min="0" max="100" value="50" class="pro-slider">
+                                    <div class="value-badge" id="margin-h-value">50</div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.margin_v">垂直位置</span>
+                                    <input type="range" id="margin-v" min="0" max="100" value="8" class="pro-slider">
+                                    <div class="value-badge" id="margin-v-value">8</div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.letter_spacing">字间距</span>
+                                    <input type="range" id="letter-spacing" min="-2" max="30" value="0"
+                                        class="pro-slider">
+                                    <div class="value-badge" id="letter-spacing-value">0</div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.line_height">行高</span>
+                                    <input type="range" id="line-height" min="0.8" max="2.5" step="0.1" value="1.4"
+                                        class="pro-slider">
+                                    <div class="value-badge" id="line-height-value">1.4</div>
+                                </div>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.fontWrap">允许折行</span>
+                                    <label class="section-switch">
+                                        <input type="checkbox" id="font-wrap" checked>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-palette"></i>
+                                    <span data-i18n="subtitle.style.effects">色值与特效</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.style.colors">颜色方案</span>
+                                    <div class="h-flex-pro" style="gap: 16px;">
+                                        <!-- Font Color -->
+                                        <div class="v-stack-tiny">
+                                            <span class="tiny-label" data-i18n="subtitle.style.color_font">文字色</span>
+                                            <div class="color-picker-pro" data-i18n-title="subtitle.style.color_font"
+                                                title="文字色">
+                                                <input type="color" id="font-color" value="#ffffff">
+                                            </div>
+                                        </div>
+
+                                        <!-- Outline Color -->
+                                        <div class="v-stack-tiny">
+                                            <span class="tiny-label" data-i18n="subtitle.style.color_outline">描边色</span>
+                                            <div class="color-picker-pro" data-i18n-title="subtitle.style.color_outline"
+                                                title="描边色">
+                                                <input type="color" id="outline-color" value="#000000">
+                                            </div>
+                                        </div>
+
+                                        <!-- Outline Width -->
+                                        <div class="v-stack-tiny">
+                                            <span class="tiny-label" data-i18n="subtitle.style.outline_width">描边度</span>
+                                            <input type="number" id="outline-width" class="setting-input-pro"
+                                                style="width: 50px; text-align: center;" value="0"
+                                                data-i18n-title="subtitle.style.outline_width" title="描边度">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border-top-thin">
+                                    <label class="checkbox-item-pro"><input type="checkbox" id="enable-background"><span
+                                            data-i18n="subtitle.style.bg_mask">背景遮罩</span></label>
+                                    <div id="bg-settings" style="display: none;" class="sub-section-bg">
+                                        <div class="h-flex-pro" style="gap: 16px;">
+                                            <div class="v-stack-tiny">
+                                                <span class="tiny-label" data-i18n="subtitle.style.bgColor">背景色</span>
+                                                <div class="color-picker-pro"><input type="color" id="bg-color"
+                                                        value="#000000"></div>
+                                            </div>
+                                            <div class="v-stack-tiny flex-1">
+                                                <span class="tiny-label"
+                                                    data-i18n="subtitle.style.opacity">不透明度</span>
+                                                <div class="h-flex-pro" style="gap: 8px;">
+                                                    <input type="range" id="bg-opacity" min="0" max="100" value="50"
+                                                        class="pro-slider flex-1">
+                                                    <span id="bg-opacity-value" class="v-badge">50%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="checkbox-item-pro"><input type="checkbox" id="enable-karaoke"><span
+                                            data-i18n="subtitle.style.karaoke">卡拉 OK 逐字亮显</span></label>
+                                    <div id="karaoke-settings" style="display: none;" class="sub-section-bg">
+                                        <div class="ctrl-row-pro" style="grid-template-columns: 110px 1fr;">
+                                            <span class="ctrl-label" data-i18n="subtitle.style.karaoke_style">卡拉 OK 样式</span>
+                                            <select id="karaoke-style" class="setting-select">
+                                                <option value="highlight">单词胶囊高亮</option>
+                                                <option value="adaptive">智能适配</option>
+                                                <option value="progress">整句渐亮</option>
+                                            </select>
+                                        </div>
+                                        <div class="ctrl-row-pro" style="grid-template-columns: 110px auto;">
+                                            <span class="ctrl-label" data-i18n="subtitle.style.karaoke_color">高亮色</span>
+                                            <div class="color-picker-pro"><input type="color" id="karaoke-color"
+                                                    value="#3d6eb8"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="section-header">
+                                    <label class="section-label"><i class="fa-solid fa-sparkles"></i> <span
+                                            data-i18n="subtitle.style.shadows">高级阴影</span></label>
+                                    <button class="btn-icon-sm-pro" id="btn-add-effect"
+                                        data-i18n-title="subtitle.panel.add_track_title"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div class="effects-list-scroll editor-scroll-pro" id="effects-list">
+                                    <!-- Dynamic items here -->
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="section-header">
+                                    <div class="h-flex-pro">
+                                        <label class="section-label"><i class="fa-solid fa-fill-drip"></i> <span
+                                                data-i18n="subtitle.style.blur_mask">视频模糊遮罩</span></label>
+                                        <label class="section-switch" style="margin-left: 8px;"><input type="checkbox"
+                                                id="blur-original"><span class="switch-slider"></span></label>
+                                    </div>
+                                    <button class="btn-icon-sm-pro" id="btn-add-blur-mask" style="display: none;"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <div id="blur-settings" style="display: none;" class="section-content-pro">
+                                    <div class="effects-list-scroll editor-scroll-pro" id="blur-masks-list">
+                                        <!-- Dynamic items here -->
+                                    </div>
+                                    <div class="empty-hint-tiny" id="blur-empty-hint" style="display: none;"
+                                        data-i18n="subtitle.style.blur_hint">
+                                        点击 + 添加模糊区域
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <label class="section-label"><i class="fa-solid fa-floppy-disk"></i>
+                                    <span data-i18n="subtitle.style.presets">风格预设</span></label>
+                                <div class="ctrl-row-pro">
+                                    <span class="ctrl-label" data-i18n="subtitle.settings.select_preset">选择模板</span>
+                                    <select id="style-template" class="setting-select">
+                                        <option value="default" data-i18n="subtitle.settings.templates.default">默认样式</option>
+                                        <option value="cinema" data-i18n="subtitle.settings.templates.cinema">电影质感</option>
+                                        <option value="yellow" data-i18n="subtitle.settings.templates.yellow">醒目黄字</option>
+                                        <option value="custom" data-i18n="subtitle.settings.templates.custom">自定义样式</option>
+                                    </select>
+                                </div>
+                                <div class="h-flex-pro" style="margin-top: 8px; gap: 6px;">
+                                    <button class="btn-secondary-pro btn-sm flex-1" id="btn-save-template"
+                                        data-i18n-title="subtitle.settings.save_preset" title="保存样式">
+                                        <i class="fa-solid fa-folder-plus"></i> <span
+                                            data-i18n="subtitle.settings.save_preset">保存样式</span>
+                                    </button>
+                                    <button class="btn-secondary-pro btn-sm flex-1" id="btn-import-template"
+                                        data-i18n-title="subtitle.settings.import_preset" title="导入模板">
+                                        <i class="fa-solid fa-file-import"></i> <span
+                                            data-i18n="subtitle.settings.import_preset">导入模板</span>
+                                    </button>
+                                    <button class="btn-secondary-pro btn-sm flex-1" id="btn-export-template"
+                                        data-i18n-title="subtitle.settings.export_preset" title="导出模板">
+                                        <i class="fa-solid fa-file-export"></i> <span
+                                            data-i18n="subtitle.settings.export_preset">导出</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 3. 底部全宽时间轴 (Full Width Timeline) -->
+            <div class="timeline-section-pro glass-panel" id="subtitle-timeline-container">
+                <div class="timeline-header">
+                    <div class="time-display" id="subtitle-timeline-current-time">00:00.000</div>
+                    <div class="timeline-controls">
+                        <button class="btn-icon" id="btn-toggle-timeline-content"
+                            data-i18n-title="subtitle.timeline.toggle_content">
+                            <i class="fa-solid fa-language"></i>
+                        </button>
+                        <button class="btn-icon" id="btn-split-sub" data-i18n-title="subtitle.video.split_sub"
+                            title="切割片段 (S)">
+                            <i class="fa-solid fa-scissors"></i>
+                        </button>
+                        <div class="v-sep"></div>
+                        <button class="btn-icon" id="btn-play-pause" data-i18n-title="subtitle.timeline.play"><i class="fa-solid fa-play"></i></button>
+                        <button class="btn-icon" id="btn-stop" data-i18n-title="subtitle.timeline.stop"><i class="fa-solid fa-stop"></i></button>
+                        <button class="btn-icon btn-xs" id="subtitle-btn-timeline-zoom-out"
+                            data-i18n-title="subtitle.video.zoom_out"><i class="fa-solid fa-minus"></i></button>
+                        <input type="range" id="subtitle-timeline-zoom" min="2" max="1000" value="100"
+                            class="pro-slider">
+                        <button class="btn-icon btn-xs" id="subtitle-btn-timeline-zoom-in"
+                            data-i18n-title="subtitle.video.zoom_in"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="timeline-body">
+                    <div class="timeline-playhead" id="subtitle-timeline-playhead"></div>
+                    <div class="timeline-sidebar-label ruler-label">
+                        <i class="fa-solid fa-clock"></i> <span data-i18n="subtitle.timeline.label">时间轴</span>
+                    </div>
+                    <div class="ruler-area" id="timeline-ruler">
+                        <canvas id="subtitle-timeline-ruler-canvas"></canvas>
+                    </div>
+                    <div class="timeline-sidebar-label waveform-label">
+                        <i class="fa-solid fa-waveform"></i> <span
+                            data-i18n="subtitle.timeline.waveform">波形图</span>
+                    </div>
+                    <div class="waveform-area" id="timeline-waveform">
+                        <canvas id="subtitle-timeline-waveform-canvas"></canvas>
+                    </div>
+                    <div class="tracks-viewport" id="tracks-viewport">
+                        <div class="timeline-track-headers" id="timeline-track-headers"></div>
+                        <div class="timeline-tracks-list" id="subtitle-timeline-tracks-list"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Removed bottom action bar entirely to save screen space -->
+        <div class="page-overlay-container">
+
+            <!-- 4. 进度蒙层 -->
+            <div class="progress-overlay hidden" id="progress-overlay">
+                <div class="progress-card glass-panel">
+                    <div class="spinner"></div>
+                    <h3 id="progress-title" data-i18n="subtitle.progress.processing">正在处理...</h3>
+                    <div class="progress-track-pro">
+                        <div class="progress-fill-pro" id="progress-fill"></div>
+                    </div>
+                    <p id="progress-text" class="progress-hint" data-i18n="subtitle.progress.hint">AI 正在同步片段与翻译</p>
+                    <button class="btn-outline-danger-pro" id="btn-cancel-process"><i class="fa-solid fa-stop"></i>
+                        <span data-i18n="subtitle.progress.stop">停止任务</span></button>
+                </div>
+            </div>
+
+            <!-- 5. 导出配置弹窗 (Export Modal) -->
+            <div class="modal-overlay-pro hidden" id="subtitle-export-modal" style="z-index: 10000; position: fixed; inset: 0; background: var(--overlay-scrim); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;">
+                <div class="modal-content-premium">
+                    <div class="modal-header-pro">
+                        <div class="modal-title-pro">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            <span data-i18n="subtitle.export.title">导出设置</span>
+                        </div>
+                        <button class="btn-close-pro" id="btn-close-export-modal"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body-pro">
+                        <!-- 格式选择 -->
+                        <div class="export-option-item">
+                            <label class="export-label" data-i18n="subtitle.export.format">视频格式</label>
+                            <div class="custom-select-wrapper">
+                                <select class="premium-select" id="export-format-select">
+                                    <option value="mp4">MP4 (H.264 / AAC)</option>
+                                    <option value="mkv">MKV (Matroska)</option>
+                                    <option value="mov">MOV (QuickTime)</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <!-- 导出类型 -->
+                        <div class="export-option-item">
+                            <label class="export-label" data-i18n="subtitle.export.type">内容类型</label>
+                            <div class="custom-select-wrapper">
+                                <select class="premium-select" id="export-type-select">
+                                    <option value="video_audio" data-i18n="subtitle.export.typeVideoAudio">视频 + AI 配音</option>
+                                    <option value="video_only" data-i18n="subtitle.export.typeVideoOnly">仅视频和字幕</option>
+                                    <option value="audio_only" data-i18n="subtitle.export.typeAudioOnly">仅导出 MP3</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+
+                        <!-- 输出路径 -->
+                        <div class="export-option-item">
+                            <label class="export-label" data-i18n="subtitle.export.path">输出目录</label>
+                            <div class="path-input-group-premium">
+                                <input type="text" class="premium-input" id="export-output-path" readonly data-i18n-placeholder="subtitle.placeholder.outputPath" placeholder="选择导出目录...">
+                                <button class="btn-path-change" id="btn-export-change-path">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                    <span data-i18n="subtitle.export.changePath">更改</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer-pro">
+                        <button class="btn-ghost-pro" id="btn-cancel-export" data-i18n="subtitle.export.cancelBtn">取消</button>
+                        <button class="btn-primary-premium" id="btn-confirm-export">
+                            <i class="fa-solid fa-fire"></i>
+                            <span data-i18n="subtitle.export.startBtn">开始合成</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

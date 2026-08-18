@@ -1,0 +1,566 @@
+/* Transition Preview Styles */
+.transition-preview-container {
+    width: 240px;
+    height: 135px;
+    /* 16:9 Aspect Ratio */
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-color, var(--bg-tertiary));
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.tp-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: white;
+}
+
+.tp-layer-1 {
+    background: linear-gradient(135deg, #2f5fad 0%, #3b82f6 100%);
+    z-index: 1;
+}
+
+.tp-layer-1::after {
+    content: '片段 A';
+    font-size: 24px;
+    font-weight: 800;
+    opacity: 0.3;
+}
+
+.tp-layer-2 {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    z-index: 2;
+    opacity: 0;
+}
+
+.tp-layer-2::after {
+    content: '片段 B';
+    font-size: 24px;
+    font-weight: 800;
+    opacity: 0.3;
+}
+
+/* Animations Trigger */
+.tp-animating .tp-layer-2 {
+    animation-duration: 1.5s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+}
+
+/* 1. Fade (Dissolve) */
+.tp-fade .tp-layer-2 {
+    animation-name: tp-kf-fade;
+}
+
+@keyframes tp-kf-fade {
+
+    0%,
+    20% {
+        opacity: 0;
+    }
+
+    50%,
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 2. Wipe Right */
+.tp-wiperight .tp-layer-2 {
+    animation-name: tp-kf-wiperight;
+}
+
+@keyframes tp-kf-wiperight {
+
+    0%,
+    20% {
+        clip-path: inset(0 100% 0 0);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: inset(0 0 0 100%);
+        opacity: 1;
+    }
+}
+
+/* 3. Wipe Left */
+.tp-wipeleft .tp-layer-2 {
+    animation-name: tp-kf-wipeleft;
+}
+
+@keyframes tp-kf-wipeleft {
+
+    0%,
+    20% {
+        clip-path: inset(0 0 0 100%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: inset(0 100% 0 0);
+        opacity: 1;
+    }
+}
+
+/* 4. Slide Right */
+.tp-slideright .tp-layer-2 {
+    animation-name: tp-kf-slideright;
+}
+
+@keyframes tp-kf-slideright {
+
+    0%,
+    20% {
+        transform: translateX(-100%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 1;
+    }
+}
+
+/* 5. Slide Left */
+.tp-slideleft .tp-layer-2 {
+    animation-name: tp-kf-slideleft;
+}
+
+@keyframes tp-kf-slideleft {
+
+    0%,
+    20% {
+        transform: translateX(100%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 1;
+    }
+}
+
+/* 6. Circle Crop (Zoom In Effect) */
+.tp-circlecrop .tp-layer-2 {
+    animation-name: tp-kf-circle;
+}
+
+@keyframes tp-kf-circle {
+
+    0%,
+    20% {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: circle(100% at 50% 50%);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: circle(0% at 50% 50%);
+        opacity: 1;
+    }
+}
+
+/* 7. Zoom In */
+.tp-zoomin .tp-layer-2 {
+    animation-name: tp-kf-zoom;
+}
+
+@keyframes tp-kf-zoom {
+
+    0%,
+    20% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50%,
+    80% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* 8. Pixelize (Simulated with Blur/Opacity) */
+.tp-pixelize .tp-layer-2 {
+    animation-name: tp-kf-pixel;
+}
+
+@keyframes tp-kf-pixel {
+
+    0%,
+    20% {
+        opacity: 0;
+        filter: blur(20px);
+    }
+
+    50%,
+    80% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    100% {
+        opacity: 0;
+        filter: blur(20px);
+    }
+}
+
+/* 9. Wipe Up */
+.tp-wipeup .tp-layer-2 {
+    animation-name: tp-kf-wipeup;
+}
+
+@keyframes tp-kf-wipeup {
+
+    0%,
+    20% {
+        clip-path: inset(100% 0 0 0);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: inset(0 0 100% 0);
+        opacity: 1;
+    }
+}
+
+/* 10. Wipe Down */
+.tp-wipedown .tp-layer-2 {
+    animation-name: tp-kf-wipedown;
+}
+
+@keyframes tp-kf-wipedown {
+
+    0%,
+    20% {
+        clip-path: inset(0 0 100% 0);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: inset(0 0 0 0);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: inset(100% 0 0 0);
+        opacity: 1;
+    }
+}
+
+/* 11. Slide Up */
+.tp-slideup .tp-layer-2 {
+    animation-name: tp-kf-slideup;
+}
+
+@keyframes tp-kf-slideup {
+
+    0%,
+    20% {
+        transform: translateY(100%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+}
+
+/* 12. Slide Down */
+.tp-slidedown .tp-layer-2 {
+    animation-name: tp-kf-slidedown;
+}
+
+@keyframes tp-kf-slidedown {
+
+    0%,
+    20% {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100%);
+        opacity: 1;
+    }
+}
+
+/* 13. Radial */
+.tp-radial .tp-layer-2 {
+    animation-name: tp-kf-radial;
+}
+
+@keyframes tp-kf-radial {
+
+    0%,
+    20% {
+        clip-path: polygon(50% 50%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+        opacity: 1;
+    }
+
+    50%,
+    80% {
+        clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 50% 0%);
+        opacity: 1;
+    }
+
+    100% {
+        clip-path: polygon(50% 50%, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+        opacity: 1;
+    }
+}
+
+/* 14. Horiz Blur */
+.tp-hblur .tp-layer-2 {
+    animation-name: tp-kf-hblur;
+}
+
+@keyframes tp-kf-hblur {
+
+    0%,
+    20% {
+        opacity: 0;
+        transform: scaleX(2);
+        filter: blur(10px);
+    }
+
+    50%,
+    80% {
+        opacity: 1;
+        transform: scaleX(1);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleX(2);
+        filter: blur(10px);
+    }
+}
+
+/* 15. Vertical Blur */
+.tp-vblur .tp-layer-2 {
+    animation-name: tp-kf-vblur;
+}
+
+@keyframes tp-kf-vblur {
+
+    0%,
+    20% {
+        opacity: 0;
+        transform: scaleY(2);
+        filter: blur(10px);
+    }
+
+    50%,
+    80% {
+        opacity: 1;
+        transform: scaleY(1);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleY(2);
+        filter: blur(10px);
+    }
+}
+
+/* ==================== 
+   Real-time Preview Overlay 
+   ==================== */
+.transition-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+}
+
+.transition-overlay.hidden {
+    display: none;
+}
+
+/* Base animation setup */
+[class*="-preview"].transition-overlay {
+    animation-duration: var(--transition-duration, 1s);
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+/* 1. Fade OUT */
+.tp-fade-preview {
+    animation-name: rt-kf-fade-out;
+}
+
+@keyframes rt-kf-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* 2. Wipe Right (Outgoing layer reveals background) */
+.tp-wiperight-preview {
+    animation-name: rt-kf-wipe-right;
+}
+
+@keyframes rt-kf-wipe-right {
+    from {
+        clip-path: inset(0 0 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 100%);
+    }
+}
+
+/* 3. Wipe Left */
+.tp-wipeleft-preview {
+    animation-name: rt-kf-wipe-left;
+}
+
+@keyframes rt-kf-wipe-left {
+    from {
+        clip-path: inset(0 0 0 0);
+    }
+
+    to {
+        clip-path: inset(0 100% 0 0);
+    }
+}
+
+/* 4. Slide Right */
+.tp-slideright-preview {
+    animation-name: rt-kf-slide-right;
+}
+
+@keyframes rt-kf-slide-right {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* 5. Slide Left */
+.tp-slideleft-preview {
+    animation-name: rt-kf-slide-left;
+}
+
+@keyframes rt-kf-slide-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* 6. Circle Crop */
+.tp-circlecrop-preview {
+    animation-name: rt-kf-circle-out;
+}
+
+@keyframes rt-kf-circle-out {
+    from {
+        clip-path: circle(100% at 50% 50%);
+    }
+
+    to {
+        clip-path: circle(0% at 50% 50%);
+    }
+}
+
+/* 7. Zoom In (Fragment A zooms into camera) */
+.tp-zoomin-preview {
+    animation-name: rt-kf-zoom-out;
+}
+
+@keyframes rt-kf-zoom-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}

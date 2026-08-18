@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>{{fileName}} - MediaFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #09090b;
+            color: #fafafa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 650;
+            color: #fafafa;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .file-name {
+            font-size: 14px;
+            color: #a1a1aa;
+            word-break: break-all;
+            padding: 0 10px;
+        }
+
+        .media-container {
+            width: 100%;
+            background: #18181b;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .media-player {
+            width: 100%;
+            display: block;
+        }
+
+        .media-player.audio {
+            padding: 20px;
+        }
+
+        .file-icon {
+            font-size: 80px;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #fafafa;
+            color: #18181b;
+        }
+
+        .btn-secondary {
+            background: #18181b;
+            color: #d4d4d8;
+            border: 1px solid #3f3f46;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: #fbbf24;
+            font-size: 13px;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .tip {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .compatible-mode {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <a href="/remote?tab=browser&path={{parentId}}"
+                    style="text-decoration: none; font-size: 24px; color: #a1a1aa; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 50%;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </a>
+
+                <div class="logo"
+                    style="margin-bottom: 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM10 16.5V7.5L16 12L10 16.5Z"
+                            fill="#d4d4d8" />
+                    </svg>
+                    MediaFlow
+                </div>
+
+                <div style="width: 40px;"></div> <!-- Spacer -->
+            </div>
+            <p class="file-name">{{fileName}}</p>
+        </div>
+
+        <div class="media-container">
+            {{mediaElement}}
+        </div>
+
+        <div class="actions">
+            <button onclick="castToPC()" class="btn btn-secondary"
+                style="background: #27272a; color: #d4d4d8; border-color: #d4d4d8;">{{mobile.preview.btnCast}}</button>
+            <a href="/download/{{fileId}}" class="btn btn-primary" download>{{mobile.preview.btnDownload}}</a>
+        </div>
+
+        <p class="tip">{{mobile.preview.poweredBy}}</p>
+    </div>
+    <script>
+        async function castToPC() {
+            try {
+                const res = await fetch('/api/files/cast?id={{fileId}}');
+                const data = await res.json();
+                if (data.success) {
+                    alert('{{mobile.preview.castSuccess}}');
+                } else {
+                    alert('{{mobile.preview.castFail}}: ' + (data.error || '{{common.errors.unknown}}'));
+                }
+            } catch (e) {
+                alert('{{mobile.preview.netError}}');
+            }
+        }
+
+        let isCompatibleMode = true; // 默认由于 HTML 设置已经是 /stream-compatible/，这里初始状态应为 true
+        const originalMimeType = '{{mimeType}}';
+
+        function switchMode() {
+            const player = document.getElementById('mainPlayer');
+            const btn = document.querySelector('.btn-text');
+            if (!player) return;
+
+            const originalSrc = '/stream/{{fileId}}';
+            const compatibleSrc = '/stream-compatible/{{fileId}}';
+            const currentTime = player.currentTime;
+
+            // 获取或创建 source 标签
+            let source = player.querySelector('source');
+            if (!source) {
+                source = document.createElement('source');
+                player.appendChild(source);
+            }
+
+            if (isCompatibleMode) {
+                // 切换到原画模式
+                btn.textContent = '{{mobile.preview.switchingOriginal}}';
+                source.src = originalSrc;
+                source.type = originalMimeType;
+                btn.textContent = '{{mobile.preview.switchCompatible}}';
+                btn.style.color = '#fbbf24'; // 黄色警告色
+                isCompatibleMode = false;
+            } else {
+                // 切换到兼容模式
+                btn.textContent = '{{mobile.preview.switchingCompatible}}';
+                source.src = compatibleSrc;
+                source.type = 'video/mp4';
+                btn.textContent = '{{mobile.preview.switchOriginal}}';
+                btn.style.color = '#22c55e'; // 绿色推荐色
+                isCompatibleMode = true;
+            }
+
+            // 重新加载视频源
+            player.load();
+
+            // 尝试恢复播放进度
+            player.onloadedmetadata = () => {
+                player.currentTime = currentTime;
+                player.play().catch(e => console.error(e));
+                player.onloadedmetadata = null; // 清除一次性监听器
+            };
+        }
+    </script>
+</body>
+
+</html>

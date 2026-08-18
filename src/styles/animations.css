@@ -1,0 +1,124 @@
+/* animations.css - 全局微动效 */
+
+/* 列表项进出动画 */
+.list-item-enter {
+    animation: slideUpFade 0.4s cubic-bezier(0.2, 0, 0.2, 1) forwards;
+}
+
+.list-item-leave {
+    animation: collapseHeight 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+    pointer-events: none;
+    /* 防止点击 */
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes collapseHeight {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        max-height: 200px;
+        margin-bottom: 12px;
+        padding: 16px;
+    }
+
+    40% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 0;
+        max-height: 0;
+        margin-bottom: 0;
+        padding: 0;
+        border: none;
+    }
+}
+
+/* 页面切换过渡 */
+.page-enter {
+    animation: pageFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 按钮点击波纹 (Ripple) - 可选，需 JS 配合，这里先做简单的 active 缩放 */
+.btn:active {
+    transform: scale(0.96);
+}
+
+/* 悬浮卡片微动效 */
+.hover-card {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.2s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px -10px var(--overlay-scrim);
+    border-color: var(--accent-primary);
+}
+
+/* 模态框弹出动画 */
+.modal-enter {
+    animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 字幕进场动画 (Entry Animations) */
+.anim-fade {
+    animation: subFadeIn var(--anim-dur, 300ms) ease-out forwards;
+}
+
+.anim-popup {
+    animation: subPopupIn var(--anim-dur, 300ms) cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+@keyframes subFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes subPopupIn {
+    from { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.6) !important;
+    }
+    to { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) !important;
+    }
+}

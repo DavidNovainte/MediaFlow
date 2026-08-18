@@ -1,0 +1,151 @@
+{
+    "name": "mediaflow",
+    "version": "2.4.4",
+    "description": "Media capture, audio-to-text conversion, and image compression — a multifunctional media tool.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "dev": "electron .",
+        "test": "jest",
+        "test:smoke": "jest tests/smoke --runInBand",
+        "test:ci": "npm run test:smoke && npm run test -- --runInBand",
+        "verify:mac-signing": "node scripts/verify-mac-signing-env.js",
+        "build:checked": "npm run test:ci && npm run build",
+        "build:win:checked": "npm run test:ci && npm run build:win",
+        "build:mac:checked": "npm run test:ci && npm run build:mac",
+        "build:mac:release": "npm run test:ci && npm run verify:mac-signing && npm run build:mac",
+        "build:linux:checked": "npm run test:ci && npm run build:linux",
+        "test:coverage": "jest --coverage",
+        "lint": "eslint src/**/*.js",
+        "format": "prettier --write src/**/*.js",
+        "build": "electron-builder",
+        "build:win": "electron-builder --win",
+        "build:mac": "electron-builder --mac",
+        "build:linux": "electron-builder --linux",
+        "bin:download": "node scripts/download-binaries.js"
+    },
+    "author": "MediaFlow",
+    "license": "GPL-3.0-only",
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.1006.0",
+        "@aws-sdk/lib-storage": "^3.1006.0",
+        "archiver": "^7.0.1",
+        "axios": "^1.13.2",
+        "cookie-parser": "^1.4.7",
+        "electron-log": "^5.4.3",
+        "electron-store": "^8.1.0",
+        "electron-updater": "^6.7.3",
+        "express": "^5.2.1",
+        "form-data": "^4.0.5",
+        "ip": "^2.0.1",
+        "multer": "^2.0.2",
+        "p-limit": "^7.2.0",
+        "qrcode": "^1.5.4",
+        "sharp": "^0.34.5",
+        "wavesurfer.js": "^7.12.1"
+    },
+    "devDependencies": {
+        "electron": "^28.3.3",
+        "electron-builder": "^24.9.1",
+        "eslint": "^9.39.2",
+        "eslint-plugin-jest": "^29.13.0",
+        "fs-extra": "^11.3.4",
+        "glob": "^13.0.6",
+        "globals": "^17.4.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "png-to-ico": "^3.0.1",
+        "png2icons": "^2.0.1",
+        "prettier": "^3.8.1"
+    },
+    "build": {
+        "appId": "com.mediaflow.app",
+        "productName": "MediaFlow",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "artifactName": "${productName} Setup ${version}.${ext}",
+            "target": [
+                "nsis"
+            ],
+            "icon": "assets/icons/mediaflow-studio-icon.ico",
+            "extraResources": [
+                {
+                    "from": "bin",
+                    "to": "bin",
+                    "filter": [
+                        "ffmpeg.exe",
+                        "ffprobe.exe",
+                        "yt-dlp.exe",
+                        "realcugan-ncnn-vulkan.exe",
+                        "realesrgan-ncnn-vulkan.exe",
+                        "vcomp140.dll",
+                        "vcomp140d.dll",
+                        "models/**/*",
+                        "models-nose/**/*",
+                        "models-pro/**/*",
+                        "models-se/**/*"
+                    ]
+                }
+            ]
+        },
+        "mac": {
+            "artifactName": "${productName} ${version}.${ext}",
+            "category": "public.app-category.video",
+            "target": "dmg",
+            "icon": "assets/icons/mediaflow-studio-icon.png",
+            "hardenedRuntime": true,
+            "gatekeeperAssess": false,
+            "entitlements": "build/entitlements.mac.plist",
+            "entitlementsInherit": "build/entitlements.mac.plist",
+            "notarize": {
+                "teamId": "${env.APPLE_TEAM_ID}"
+            },
+            "extraResources": [
+                {
+                    "from": "bin",
+                    "to": "bin",
+                    "filter": [
+                        "ffmpeg",
+                        "ffprobe",
+                        "yt-dlp",
+                        "realcugan-ncnn-vulkan",
+                        "realesrgan-ncnn-vulkan",
+                        "models/**/*",
+                        "models-nose/**/*",
+                        "models-pro/**/*",
+                        "models-se/**/*"
+                    ]
+                }
+            ]
+        },
+        "linux": {
+            "extraResources": []
+        },
+        "asarUnpack": [
+            "services/python/*",
+            "src/handlers/subtitle/tts/*"
+        ],
+        "files": [
+            "**/*",
+            "!bin/models*",
+            "!bin/models-nose*",
+            "!bin/models-pro*",
+            "!bin/models-se*",
+            "!extension/**",
+            "!extension.zip",
+            "!scripts/*"
+        ],
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
+        },
+        "publish": [
+            {
+                "provider": "generic",
+                "url": "https://pub-e5d657b6a1234015991d4efd11c3efb8.r2.dev/downloads"
+            }
+        ]
+    }
+}

@@ -1,0 +1,182 @@
+<section class="page" id="page-editor">
+    <div class="editor-scope">
+        <div class="editor-workbench">
+            <input type="file" id="editor-file-input" accept="video/*,audio/*,image/*" multiple hidden>
+
+            <div class="editor-shell-grid">
+                <div class="editor-work-area">
+                    <aside class="editor-panel editor-assets-panel">
+                        <div class="editor-panel-head">
+                            <div class="editor-head-copy">
+                                <h3><span data-i18n="editor.assets">素材</span> <span class="editor-panel-count" id="editor-assets-count">0</span></h3>
+                                <span data-i18n="editor.assetsHint">先在这里预览，再拖入或插入时间线。</span>
+                            </div>
+                            <div class="editor-assets-head-actions">
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-btn-icon-only" id="btn-editor-import" type="button" data-i18n-title="editor.importTitle" aria-label="导入素材" title="导入素材">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span data-i18n="editor.importAssets">导入素材</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="editor-panel-body" id="editor-asset-list"></div>
+                        <div class="editor-col-resizer editor-col-resizer-assets" id="editor-assets-resizer" role="separator" aria-orientation="vertical" aria-label="调整素材栏宽度" title="拖动调整素材栏宽度" tabindex="0"></div>
+                    </aside>
+                    <section class="editor-preview-shell">
+                        <div class="editor-preview-canvas">
+                            <div class="editor-preview-stage">
+                                <div class="editor-preview-safe-frame" aria-hidden="true"></div>
+                                <div id="editor-preview-empty" class="editor-preview-empty">
+                                    <i class="fa-solid fa-clapperboard"></i>
+                                    <span data-i18n="editor.previewEmpty">导入素材后开始搭建时间线。</span>
+                                </div>
+                                <video id="editor-preview-video" class="editor-preview-media hidden"></video>
+                                <audio id="editor-preview-audio" class="editor-preview-media hidden"></audio>
+                                <img id="editor-preview-image" class="editor-preview-media hidden" alt="已选素材预览">
+                            </div>
+                            <div class="editor-preview-footer">
+                                <div class="editor-preview-status">
+                                    <div class="editor-preview-status-line" aria-live="polite">
+                                        <span id="editor-preview-context" data-i18n="editor.preview">预览</span>
+                                        <span id="editor-preview-selection" data-i18n="editor.noMedia">未加载素材</span>
+                                        <span id="editor-preview-meta" data-i18n="editor.previewMetaIdle">导入素材后开始编辑。</span>
+                                    </div>
+                                    <div class="editor-preview-timecode" aria-live="polite">
+                                        <span id="editor-preview-current-time">00:00.000</span>
+                                        <span class="editor-preview-timecode-sep">/</span>
+                                        <span id="editor-preview-duration">00:00.000</span>
+                                    </div>
+                                </div>
+                                <button class="editor-preview-play-toggle" id="btn-editor-play-toggle" type="button" data-i18n-title="editor.playPreview" aria-label="播放预览" title="播放预览">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <div class="editor-preview-footer-actions">
+                                    <div class="editor-preview-mode-dropdown" id="editor-preview-mode-dropdown">
+                                        <button type="button"
+                                            class="editor-preview-mode-trigger"
+                                            id="editor-preview-mode-trigger"
+                                            aria-haspopup="listbox"
+                                            aria-expanded="false"
+                                            data-i18n-title="editor.previewMode"
+                                            title="预览显示模式">
+                                            <span class="editor-preview-mode-label" id="editor-preview-mode-label" data-i18n="editor.fit">适应</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div class="editor-preview-mode-menu" id="editor-preview-mode-menu" role="listbox" hidden>
+                                            <button type="button" class="editor-preview-mode-option is-active" role="option" data-mode="fit" data-i18n="editor.fit">适应</button>
+                                            <button type="button" class="editor-preview-mode-option" role="option" data-mode="fill" data-i18n="editor.fill">填充</button>
+                                            <button type="button" class="editor-preview-mode-option" role="option" data-mode="actual" data-i18n="editor.actual">100%</button>
+                                        </div>
+                                        <!-- hidden select kept for any legacy listeners -->
+                                        <select id="editor-preview-mode" class="editor-preview-mode-native" aria-hidden="true" tabindex="-1">
+                                            <option value="fit" selected>fit</option>
+                                            <option value="fill">fill</option>
+                                            <option value="actual">actual</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <aside class="editor-panel editor-inspector-panel">
+                        <div class="editor-panel-head">
+                            <div class="editor-head-copy">
+                                <h3 data-i18n="editor.params">参数</h3>
+                            </div>
+                        </div>
+                        <div class="editor-panel-body" id="editor-inspector-body"></div>
+                        <div class="editor-col-resizer editor-col-resizer-inspector" id="editor-inspector-resizer" role="separator" aria-orientation="vertical" aria-label="调整参数栏宽度" title="拖动调整参数栏宽度" tabindex="0"></div>
+                    </aside>
+                </div>
+
+                <div class="editor-layout-resizer" id="editor-layout-resizer" role="separator" aria-orientation="horizontal" data-i18n-title="editor.resizeLayout" aria-label="调整预览区和时间线高度" title="拖动调整预览区和时间线高度" tabindex="0"></div>
+
+                <div class="editor-timeline-shell">
+                    <div class="editor-panel-head editor-panel-head-strong">
+                        <div class="editor-timeline-head-main">
+                            <button class="editor-btn editor-btn-secondary editor-btn-compact editor-btn-icon-only" id="btn-editor-back-to-creator" type="button" data-i18n-title="editor.backToCreator" aria-label="返回创作器" title="返回创作器">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span data-i18n="editor.back">返回</span>
+                            </button>
+                            <div class="editor-head-copy editor-timeline-head-copy">
+                                <h3 id="editor-project-name" data-i18n="editor.workbench">精修工作台</h3>
+                                <span id="editor-project-meta"></span>
+                                <span id="editor-project-status" data-i18n="editor.draft">草稿</span>
+                                <span id="editor-playhead-time">00:00.000</span>
+                            </div>
+                        </div>
+                        <div class="editor-timeline-actions">
+                            <div class="editor-timeline-toolbar-group" role="group" data-i18n-aria-label="editor.structure" aria-label="时间线结构">
+                                <span class="editor-timeline-toolbar-group-label" data-i18n="editor.structure">结构</span>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-add-track" type="button" data-i18n-title="editor.addTrack" aria-label="添加轨道" title="添加轨道">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span data-i18n="editor.track">轨道</span>
+                                </button>
+                            </div>
+                            <div class="editor-timeline-toolbar-group" role="group" data-i18n-aria-label="editor.edit" aria-label="时间线编辑">
+                                <span class="editor-timeline-toolbar-group-label" data-i18n="editor.edit">编辑</span>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-undo" type="button" data-i18n-title="editor.undo" aria-label="撤销" title="撤销 · Ctrl/Cmd+Z">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    <span data-i18n="editor.undo">撤销</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-redo" type="button" data-i18n-title="editor.redo" aria-label="重做" title="重做 · Ctrl+Y / Cmd+Shift+Z">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span data-i18n="editor.redo">重做</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-insert-selected" type="button" data-i18n-title="editor.insertTitle" aria-label="加入时间线" title="在播放头加入选中素材">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                    <span data-i18n="editor.insert">加入</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-merge-clip" type="button" data-i18n-title="editor.mergeTitle" aria-label="合并片段" title="合并选中的两个连续片段">
+                                    <i class="fa-solid fa-object-group"></i>
+                                    <span data-i18n="editor.merge">合并</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-split-clip" type="button" aria-label="分割片段" title="分割片段 · S">
+                                    <i class="fa-solid fa-scissors"></i>
+                                    <span>分割</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-delete-clip" type="button" aria-label="删除片段" title="删除片段">
+                                    <i class="fa-solid fa-trash"></i>
+                                    <span>删除</span>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-timeline-tool" id="btn-editor-ripple-delete-clip" type="button" aria-label="波纹删除" title="波纹删除并接上后续片段">
+                                    <i class="fa-solid fa-delete-left"></i>
+                                    <span data-i18n="editor.ripple">波纹</span>
+                                </button>
+                            </div>
+                            <div class="editor-timeline-toolbar-group editor-timeline-toolbar-group-view" role="group" data-i18n-aria-label="editor.view" aria-label="时间线缩放">
+                                <span class="editor-timeline-toolbar-group-label" data-i18n="editor.view">视图</span>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-btn-icon-only editor-timeline-tool" id="btn-editor-fit-timeline" type="button" data-i18n-title="editor.fitTimeline" aria-label="适配时间线" title="适配时间线">
+                                    <i class="fa-solid fa-arrows-left-right-to-line"></i>
+                                </button>
+                                <button class="editor-btn editor-btn-secondary editor-btn-compact editor-btn-icon-only editor-timeline-tool is-active" id="btn-editor-toggle-snap" type="button" aria-pressed="true" data-i18n-title="editor.snapOnToast" aria-label="切换吸附" title="时间线吸附已开启 · 快捷键 N">
+                                    <i class="fa-solid fa-magnet"></i>
+                                </button>
+                                <div class="editor-zoom-control" role="group" aria-label="时间线缩放">
+                                    <button type="button" class="editor-zoom-step" id="btn-editor-zoom-out" title="缩小" aria-label="缩小时间线">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input id="editor-timeline-zoom" type="range" min="5" max="400" step="5" value="100" title="时间线缩放">
+                                    <button type="button" class="editor-zoom-step" id="btn-editor-zoom-in" title="放大" aria-label="放大时间线">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                    <span class="editor-zoom-value" id="editor-timeline-zoom-value">100%</span>
+                                </div>
+                            </div>
+                            <div class="editor-timeline-toolbar-group editor-timeline-toolbar-group-export" role="group" data-i18n-aria-label="editor.export" aria-label="导出">
+                                <button class="editor-btn editor-btn-primary editor-btn-compact" id="btn-editor-export" type="button" disabled>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    <span data-i18n="editor.exportMp4">导出 MP4</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="editor-timeline-body" id="editor-timeline-body">
+                        <div class="editor-timeline-playhead-overlay" id="editor-timeline-playhead-overlay" aria-hidden="true"></div>
+                        <div class="editor-timeline-ruler" id="editor-timeline-ruler"></div>
+                        <div id="editor-timeline-tracks"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

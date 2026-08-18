@@ -1,0 +1,648 @@
+<!-- 图片压缩页面 (PixelFlow) - 双栏布局版本 -->
+<section class="page" id="page-compress">
+    <div class="page-header">
+        <h1 class="page-title" data-i18n="compress.title">图片压缩</h1>
+        <p class="page-desc" data-i18n="compress.desc">压缩图片，减小文件大小</p>
+    </div>
+    <div class="compress-area">
+        <!-- 上传区域 -->
+        <div class="upload-zone" id="upload-zone-image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <p data-i18n="compress.dropzone">拖放图片到这里，或点击选择</p>
+            <p class="upload-hint" data-i18n="compress.uploadHint">支持 JPG, PNG, WebP, HEIC, AVIF 等格式</p>
+            <input type="file" id="image-file" accept="image/*" multiple hidden>
+        </div>
+
+        <!-- 压缩选项区 (双栏布局) -->
+        <div id="compress-options" class="compress-options hidden">
+
+            <!-- 双栏布局容器 -->
+            <div class="pixelflow-layout">
+
+                <!-- 左栏：预览区域 -->
+                <div class="pixelflow-preview-panel">
+                    <!-- 图片队列 (横向滚动) -->
+                    <div class="image-queue-horizontal" id="image-queue">
+                        <!-- 图片项将通过 JS 动态插入 -->
+                    </div>
+
+                    <!-- [NEW] 对比模式切换 Tab -->
+                    <div class="compare-tabs-wrapper">
+                        <div class="compare-tabs" id="compare-mode-tabs">
+                            <button class="compare-tab active" data-mode="standard"
+                                data-i18n="compress.compareBasic">基础对比</button>
+                            <button type="button" class="compare-tab" id="btn-enable-pro-compare" data-mode="pro">
+                                <span data-i18n="compress.comparePro">专业对比</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Before/After 对比 -->
+                    <div class="compare-container" id="compare-container">
+                        <div class="compare-slider">
+                            <img id="compare-before" class="compare-img" src="" alt="Before">
+                            <img id="compare-after" class="compare-img compare-after" src="" alt="After">
+                            <div class="compare-handle" id="compare-handle">
+                                <div class="handle-line"></div>
+                                <div class="handle-circle">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="15 18 9 12 15 6" />
+                                        <polyline points="9 18 15 12 9 6" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <!-- Labels for Split View -->
+                            <span class="preview-badge badge-before" data-i18n="compress.labelOriginal">Original</span>
+                            <span class="preview-badge badge-after" data-i18n="compress.labelCompressed">Compressed</span>
+
+                            <!-- Preview Toolbar -->
+                            <div class="preview-toolbar">
+                                <button class="preview-tool-btn" id="btn-view-slider" data-i18n-title="compress.sliderMode" title="Slider Mode">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="16" height="16">
+                                        <line x1="12" y1="1" x2="12" y2="23" />
+                                        <polyline points="8 8 12 12 8 16" />
+                                        <polyline points="16 8 12 12 16 16" />
+                                    </svg>
+                                </button>
+                                <button class="preview-tool-btn" id="btn-view-split" data-i18n-title="compress.splitMode" title="Split Mode">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="16" height="16">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <line x1="12" y1="3" x2="12" y2="21" />
+                                    </svg>
+                                </button>
+                                <div class="tool-divider"></div>
+                                <button class="preview-tool-btn" id="btn-zoom-out" data-i18n-title="compress.zoomOut" title="Zoom Out">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="16" height="16">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        <line x1="8" y1="11" x2="14" y2="11" />
+                                    </svg>
+                                </button>
+                                <span class="zoom-level" id="zoom-percentage">100%</span>
+                                <button class="preview-tool-btn" id="btn-zoom-in" data-i18n-title="compress.zoomIn" title="Zoom In">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="16" height="16">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        <line x1="11" y1="8" x2="11" y2="14" />
+                                        <line x1="8" y1="11" x2="14" y2="11" />
+                                    </svg>
+                                </button>
+                                <div class="tool-divider"></div>
+                                <button class="preview-tool-btn" id="btn-preview-reset" data-i18n-title="compress.resetView" title="Reset View">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="16" height="16">
+                                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                        <path d="M3 3v5h5" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 文件大小统计 + 工具栏 (已移动到底部) -->
+                </div>
+
+                <!-- [NEW] 拖动调整宽度的把手 -->
+                <div id="layout-resizer" class="layout-resizer"></div>
+
+                <!-- 右栏：设置面板 -->
+                <div class="pixelflow-settings-panel">
+                    <!-- [NEW] 参数配置切换 Tab -->
+                    <div class="settings-tabs-group hidden" id="pro-settings-tabs">
+                        <button class="settings-tab active" data-config="A" data-i18n="compress.configA">配置 A</button>
+                        <button class="settings-tab" data-config="B" data-i18n="compress.configB">配置 B</button>
+                    </div>
+
+                    <!-- [NEW] 功能分类导航 Tab -->
+                    <div class="category-tabs" id="settings-category-tabs">
+                        <button type="button" class="category-tab active" data-category="basic">
+                            <span data-i18n="compress.tabBasic">基础</span>
+                        </button>
+                        <button type="button" class="category-tab" data-category="advanced">
+                            <span data-i18n="compress.tabAdvanced">高级</span>
+                        </button>
+                        <button type="button" class="category-tab" data-category="watermark">
+                            <span data-i18n="compress.tabWatermark">水印</span>
+                        </button>
+                    </div>
+
+                    <div class="settings-scroll-content">
+                        <!-- 基础配置 -->
+                        <div class="settings-section basic-section category-content" id="cat-basic">
+                            <div class="section-content">
+                                <!-- 处理模式预设 -->
+                                <div class="preset-row">
+                                    <label class="option-label" data-i18n="compress.processingMode">处理模式</label>
+                                    <div class="preset-group">
+                                        <button type="button" class="preset-btn" data-quality="100" data-preset="convert">
+                                            <span class="preset-label" data-i18n="compress.modeConvert">仅转格式</span>
+                                        </button>
+                                        <button type="button" class="preset-btn" data-quality="60" data-preset="fast">
+                                            <span class="preset-label" data-i18n="compress.modeFast">快速</span>
+                                        </button>
+                                        <button type="button" class="preset-btn active" data-quality="80" data-preset="balanced">
+                                            <span class="preset-label" data-i18n="compress.modeBalanced">平衡</span>
+                                        </button>
+                                        <button type="button" class="preset-btn" data-quality="95" data-preset="extreme">
+                                            <span class="preset-label" data-i18n="compress.modeExtreme">极致</span>
+                                        </button>
+                                        <button type="button" class="preset-btn" id="btn-save-preset" title="存为预设"
+                                            data-i18n-title="compress.savePreset">
+                                            <span class="preset-label" data-i18n="compress.save">保存预设</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 自定义预设列表容器 -->
+                                <div id="custom-presets-wrapper" class="preset-row hidden">
+                                    <label class="option-label" data-i18n="compress.myPresets">我的预设</label>
+                                    <div id="custom-presets-container" class="preset-group">
+                                        <!-- Presets injected here -->
+                                    </div>
+                                </div>
+
+                                <!-- 格式 + 质量 -->
+                                <div class="param-row">
+                                    <div class="option-group">
+                                        <label class="option-label" data-i18n="compress.outputFormat">输出格式</label>
+                                        <select id="compress-format" class="setting-select">
+                                            <option value="original" data-i18n="compress.fmtOriginal">保持原格式</option>
+                                            <option value="jpeg">JPEG</option>
+                                            <option value="png">PNG</option>
+                                            <option value="webp" selected data-i18n="compress.fmtWebpRecommended">WebP
+                                                (推荐)</option>
+                                            <option value="avif">AVIF</option>
+                                            <option value="gif">GIF</option>
+                                            <option value="tiff">TIFF</option>
+                                        </select>
+                                    </div>
+                                    <div class="option-group">
+                                        <label class="option-label"><span data-i18n="compress.quality">质量</span>: <span
+                                                id="quality-value">80</span>%</label>
+                                        <input type="range" id="compress-quality" class="quality-slider" min="10"
+                                            max="100" value="80">
+                                    </div>
+                                </div>
+
+                                <!-- 尺寸限制 -->
+                                <div class="param-row">
+                                    <div class="option-group">
+                                        <label class="option-label" data-i18n="compress.maxWidth">最大宽度 (px)</label>
+                                        <input type="number" id="max-width" class="setting-input" placeholder="不限制"
+                                            data-i18n-placeholder="compress.noLimit">
+                                    </div>
+                                    <div class="option-group">
+                                        <label class="option-label" data-i18n="compress.maxHeight">最大高度 (px)</label>
+                                        <input type="number" id="max-height" class="setting-input" placeholder="不限制"
+                                            data-i18n-placeholder="compress.noLimit">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 高级选项 -->
+                        <div class="settings-section advanced-section category-content hidden" id="cat-advanced">
+                            <div class="section-content">
+                                <div id="advanced-options-content">
+                                    <!-- AI 画质增强（图片压缩内功能；独立 Enhance 页仍为 Pro 产品） -->
+                                    <div class="toggle-row">
+                                        <div class="toggle-info">
+                                            <div class="label-with-badge">
+                                                <span class="toggle-label" data-i18n="compress.aiUpscale">AI 画质增强</span>
+                                            </div>
+                                            <span class="toggle-hint" data-i18n="compress.aiUpscaleDesc">提升至 4 倍清晰度
+                                                (Real-ESRGAN)</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="enable-ai-upscale">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-row">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label" data-i18n="compress.stripExif">移除拍摄信息
+                                                (EXIF)</span>
+                                            <span class="toggle-hint"
+                                                data-i18n="compress.stripExifDesc">保护隐私，去除GPS、相机参数</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="strip-exif" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-row compress-concurrency-row">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label" data-i18n="compress.concurrency">批量并发</span>
+                                            <span class="toggle-hint" data-i18n="compress.concurrencyHint">越大越快，也更吃 CPU/内存；大批量或 AI 增强建议 1–2</span>
+                                        </div>
+                                        <select id="compress-concurrency" class="setting-select compress-concurrency-select" aria-label="concurrency">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3" selected data-i18n="compress.concurrency3">3 (Recommended)</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="toggle-row">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label" data-i18n="compress.keepICC">保留色彩配置 (ICC)</span>
+                                            <span class="toggle-hint"
+                                                data-i18n="compress.keepICCDesc">防止颜色变灰，但会增加体积</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="keep-icc">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-row">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label" data-i18n="compress.limitSize">限制文件大小</span>
+                                            <span class="toggle-hint"
+                                                data-i18n="compress.limitSizeDesc">自动调整质量以达到目标大小</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="enable-target-size">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="target-size-input hidden" id="target-size-row">
+                                        <input type="number" id="target-size" class="setting-input" placeholder="200"
+                                            min="10" max="10000">
+                                        <select id="target-size-unit" class="setting-select">
+                                            <option value="kb" selected>KB</option>
+                                            <option value="mb">MB</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 输出文件名 -->
+                                    <div class="settings-group rename-group">
+                                        <div class="group-label" data-i18n="compress.outputFilename">输出文件名</div>
+                                        <div class="rename-options">
+                                            <div class="toggle-row compact">
+                                                <div class="toggle-info">
+                                                    <span class="toggle-label"
+                                                        data-i18n="compress.keepOriginalName">保留原文件名</span>
+                                                </div>
+                                                <label class="toggle-switch small">
+                                                    <input type="checkbox" id="rename-keep-name" checked>
+                                                    <span class="toggle-slider"></span>
+                                                </label>
+                                            </div>
+                                            <div class="toggle-row compact">
+                                                <div class="toggle-info">
+                                                    <span class="toggle-label"
+                                                        data-i18n="compress.addSuffix">添加后缀</span>
+                                                </div>
+                                                <div class="toggle-controls">
+                                                    <input type="text" id="rename-suffix" class="inline-input"
+                                                        value="_compressed">
+                                                    <label class="toggle-switch small">
+                                                        <input type="checkbox" id="rename-add-suffix" checked>
+                                                        <span class="toggle-slider"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-row-grid">
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="rename-add-index">
+                                                    <span data-i18n="compress.addIndex">添加序号</span>
+                                                </label>
+                                                <label class="checkbox-option">
+                                                    <input type="checkbox" id="rename-add-date">
+                                                    <span data-i18n="compress.addDate">添加日期</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="rename-preview">
+                                            <span class="preview-label" data-i18n="compress.preview">预览:</span>
+                                            <span class="preview-text" id="rename-preview">photo_compressed.webp</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 水印设置 -->
+                        <div class="settings-section watermark-section category-content hidden" id="cat-watermark">
+                            <div class="section-content">
+                                <!-- [NEW] 总开关已移除，逻辑改为自动判断 -->
+
+
+                                <!-- 水印设置内容 (默认显示配置项，开关决定是否应用) -->
+                                <div class="watermark-options" id="watermark-settings">
+                                    <!-- 基础设置组 -->
+                                    <div class="settings-group">
+                                        <div class="group-label" data-i18n="compress.wmBasic">基础设置</div>
+                                        <div class="option-group">
+                                            <label class="option-label" data-i18n="compress.wmText">水印文字</label>
+                                            <input type="text" id="watermark-text" class="setting-input"
+                                                placeholder="例如: @MyCopyright 或 © 2024"
+                                                data-i18n-placeholder="compress.wmTextPlaceholder">
+                                        </div>
+                                        <div class="param-row" style="margin-top: 12px;">
+                                            <div class="option-group">
+                                                <label class="option-label" data-i18n="compress.wmFont">字体</label>
+                                                <select id="watermark-font" class="setting-select">
+                                                    <!-- 通用字体 (Universal) -->
+                                                    <option value="sans-serif">Sans Serif</option>
+                                                    <option value="serif">Serif</option>
+                                                    <option value="monospace">Monospace</option>
+                                                    <!-- 风格字体 (Stylized) -->
+                                                    <option value="script">Script / Handwriting</option>
+                                                    <option value="display">Display / Impact</option>
+                                                    <option value="rounded">Rounded</option>
+                                                    <option value="condensed">Condensed</option>
+                                                    <option value="elegant">Elegant / Didot</option>
+                                                    <option value="modern">Modern / Geometric</option>
+                                                    <option value="slab">Slab Serif</option>
+                                                </select>
+                                            </div>
+                                            <div class="option-group">
+                                                <label class="option-label"><span
+                                                        data-i18n="compress.rotation">旋转</span>:
+                                                    <span id="watermark-rotation-value">0</span>°</label>
+                                                <input type="range" id="watermark-rotation" class="quality-slider"
+                                                    min="-45" max="45" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 文字样式组 -->
+                                    <div class="settings-group">
+                                        <div class="group-label" data-i18n="compress.wmAppearance">文字样式</div>
+                                        <div class="param-row">
+                                            <div class="option-group">
+                                                <label class="option-label" data-i18n="compress.color">颜色</label>
+                                                <div class="color-picker-wrapper">
+                                                    <input type="color" id="watermark-color" value="#ffffff">
+                                                    <span id="watermark-color-hex">#ffffff</span>
+                                                </div>
+                                            </div>
+                                            <div class="option-group">
+                                                <label class="option-label"><span
+                                                        data-i18n="compress.textOpacity">文字不透明度</span>:
+                                                    <span id="watermark-text-opacity-value">80</span>%</label>
+                                                <input type="range" id="watermark-text-opacity" class="quality-slider"
+                                                    min="10" max="100" value="80">
+                                            </div>
+                                        </div>
+                                        <div class="option-group" style="margin-top: 12px;">
+                                            <label class="option-label"><span data-i18n="compress.textSize">文字大小</span>:
+                                                <span id="watermark-text-size-value">48</span>px</label>
+                                            <input type="range" id="watermark-text-size" class="quality-slider" min="10"
+                                                max="200" value="48">
+                                        </div>
+                                        <!-- 阴影和描边复选框 -->
+                                        <div class="checkbox-row" style="margin-top: 12px;">
+                                            <label class="checkbox-option">
+                                                <input type="checkbox" id="watermark-shadow" checked>
+                                                <span data-i18n="compress.wmShadow">文字阴影</span>
+                                            </label>
+                                            <label class="checkbox-option">
+                                                <input type="checkbox" id="watermark-outline">
+                                                <span data-i18n="compress.wmOutline">文字描边</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- 位置布局组 -->
+                                    <div class="settings-group">
+                                        <div class="group-label" data-i18n="compress.positionLayout">位置布局</div>
+                                        <div class="param-row position-row" style="margin-top: 16px;">
+                                            <div class="option-group" id="position-group">
+                                                <label class="option-label" data-i18n="compress.position">位置</label>
+                                                <div class="position-grid" id="watermark-position-grid">
+                                                    <button class="pos-btn" data-pos="northwest"></button>
+                                                    <button class="pos-btn" data-pos="north"></button>
+                                                    <button class="pos-btn" data-pos="northeast"></button>
+                                                    <button class="pos-btn" data-pos="west"></button>
+                                                    <button class="pos-btn active" data-pos="center"></button>
+                                                    <button class="pos-btn" data-pos="east"></button>
+                                                    <button class="pos-btn" data-pos="southwest"></button>
+                                                    <button class="pos-btn" data-pos="south"></button>
+                                                    <button class="pos-btn" data-pos="southeast"></button>
+                                                </div>
+                                            </div>
+                                            <div class="option-group">
+                                                <label class="option-label" data-i18n="compress.margin">边距
+                                                    (px)</label>
+                                                <input type="number" id="watermark-margin" class="setting-input"
+                                                    value="20" min="0" max="200" placeholder="20">
+
+                                                <!-- 平铺模式移动到这里，作为右列的一部分 -->
+                                                <div class="toggle-row compact"
+                                                    style="margin-top: auto; border: none; padding: 0;">
+                                                    <div class="toggle-info">
+                                                        <span class="toggle-label" data-i18n="compress.wmTile">平铺</span>
+                                                    </div>
+                                                    <label class="toggle-switch small">
+                                                        <input type="checkbox" id="watermark-tile">
+                                                        <span class="toggle-slider"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 图片水印组 -->
+                                    <div class="settings-group">
+                                        <div class="group-label" data-i18n="compress.wmImage">图片水印 (可选)</div>
+                                        <div class="image-upload-zone" id="watermark-image-zone">
+                                            <input type="file" id="watermark-image-input"
+                                                accept="image/png,image/svg+xml" hidden>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                width="24" height="24">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                <circle cx="8.5" cy="8.5" r="1.5" />
+                                                <polyline points="21 15 16 10 5 21" />
+                                            </svg>
+                                            <span data-i18n="compress.wmUpload">点击上传 Logo (PNG/SVG)</span>
+                                        </div>
+                                        <div class="watermark-image-preview hidden" id="watermark-image-preview">
+                                            <img id="watermark-image-thumb" alt="Logo Preview">
+                                            <button class="btn btn-icon" id="remove-watermark-image" title="Remove"
+                                                data-i18n-title="common.remove">✕</button>
+                                        </div>
+
+                                        <!-- 图片水印独立控制项 -->
+                                        <div class="param-row" style="margin-top: 12px;">
+                                            <div class="option-group">
+                                                <label class="option-label"><span
+                                                        data-i18n="compress.imageOpacity">图片透明度</span>:
+                                                    <span id="watermark-image-opacity-value">100</span>%</label>
+                                                <input type="range" id="watermark-image-opacity" class="quality-slider"
+                                                    min="10" max="100" value="100">
+                                            </div>
+                                            <div class="option-group">
+                                                <label class="option-label"><span
+                                                        data-i18n="compress.imageSize">图片大小</span>:
+                                                    <span id="watermark-image-size-value">60</span>px</label>
+                                                <input type="range" id="watermark-image-size" class="quality-slider"
+                                                    min="10" max="300" value="60">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> <!-- End scroll content -->
+                        <!-- 输出目录 (侧栏) -->
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部统一工具栏 -->
+            <div class="pixelflow-footer hidden">
+                <div class="footer-left">
+                    <span class="toolbar-label" data-i18n="compress.adjust">调整:</span>
+                    <button class="toolbar-btn" id="btn-rotate-left" title="向左旋转90°"
+                        data-i18n-title="compress.rotateLeft">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 4v6h6" />
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="btn-rotate-right" title="向右旋转90°"
+                        data-i18n-title="compress.rotateRight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6" />
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="btn-flip-h" title="水平翻转" data-i18n-title="compress.flipH">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3" />
+                            <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="btn-flip-v" title="垂直翻转" data-i18n-title="compress.flipV">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 8V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3" />
+                            <path d="M3 16v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3" />
+                            <line x1="4" y1="12" x2="20" y2="12" />
+                        </svg>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <!-- 抠图按钮 (右键选择模型) -->
+                    <button class="toolbar-btn ai-btn" id="btn-remove-bg"
+                        data-i18n-title="compress.removeBgTooltip">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </button>
+                    <!-- 抠图模型选择弹出菜单 -->
+                    <div id="rembg-model-menu" class="rembg-context-menu hidden">
+                        <div class="menu-title" data-i18n="compress.rembgTitle">选择抠图模型</div>
+                        <div class="menu-item active" data-model="u2net" data-i18n="compress.rembgU2net">通用 (u2net)
+                        </div>
+                        <div class="menu-item" data-model="u2net_human_seg" data-i18n="compress.rembgHuman">人像
+                            (human_seg)
+                        </div>
+                        <div class="menu-item" data-model="isnet-general-use" data-i18n="compress.rembgIsnet">通用增强
+                            (isnet)
+                        </div>
+                        <div class="menu-item" data-model="isnet-anime" data-i18n="compress.rembgAnime">动漫 (anime)
+                        </div>
+                        <div class="menu-item" data-model="silueta" data-i18n="compress.rembgSilueta">轻量快速 (silueta)
+                        </div>
+                    </div>
+                    <!-- 文件大小显示 -->
+                    <div class="toolbar-size-stats">
+                        <span class="size-before"><b id="before-size">-</b></span>
+                        <span class="size-arrow">→</span>
+                        <span class="size-after"><b id="after-size">-</b></span>
+                        <span class="size-savings">(<b id="savings-percent">-</b>)</span>
+                    </div>
+
+                </div>
+
+                <div class="footer-right">
+                    <button class="btn btn-secondary" id="btn-save-current">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                            <polyline points="17 21 17 13 7 13 7 21" />
+                            <polyline points="7 3 7 8 15 8" />
+                        </svg>
+                        <span data-i18n="compress.saveCurrent">保存当前</span>
+                    </button>
+                    <button class="btn btn-primary" id="btn-compress-images">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                        <span data-i18n="compress.compressAllSave">压缩全部并保存</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 压缩进度 -->
+        <div id="compress-progress" class="compress-progress hidden">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="compress-progress-fill"></div>
+                </div>
+                <p id="compress-status" data-i18n="compress.compressing">正在压缩...</p>
+            </div>
+
+            <!-- 压缩结果 -->
+            <div id="compress-result" class="compress-result hidden">
+                <div class="result-summary">
+                    <span class="result-icon">✓</span>
+                    <span id="compress-result-text" data-i18n="compress.compressMore">已完成压缩</span>
+                </div>
+                <button class="btn btn-primary" id="btn-new-compress" data-i18n="compress.compressMore">压缩更多图片</button>
+            </div>
+        <!-- Preset Name Modal -->
+        <div id="preset-name-modal" class="modal-overlay hidden">
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3 data-i18n="compress.savePreset">保存预设</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label data-i18n="compress.presetNameLabel">预设名称</label>
+                        <input type="text" id="preset-name-input" class="full-width-input" placeholder="例如: 证件照专用"
+                            data-i18n-placeholder="compress.wmTextPlaceholder" maxlength="20">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary modal-close-btn" data-i18n="common.actions.cancel">取消</button>
+                    <button class="btn-primary" id="confirm-save-preset" data-i18n="common.actions.save">保存</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Preset Modal -->
+        <div id="preset-delete-modal" class="modal-overlay hidden">
+            <div class="modal-content small-modal">
+                <div class="modal-header">
+                    <h3 data-i18n="compress.confirmDelete">确认删除</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="delete-preset-confirm-msg" data-i18n="compress.deletePresetHint">确定要删除此预设吗？操作无法撤销。</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary modal-close-btn" data-i18n="common.actions.cancel">取消</button>
+                    <button class="btn-primary danger" id="confirm-delete-preset" data-i18n="common.actions.remove"
+                        style="background: var(--error); border-color: var(--error);">删除</button>
+                </div>
+            </div>
+        </div>
+</section>

@@ -1,0 +1,29 @@
+{
+  "donation": {
+    "subtitle": "MediaFlow 現已完全免費開源，所有功能對所有人開放，沒有任何付費牆。",
+    "opensource": "如果你覺得它有用，歡迎用一杯咖啡的價格支持作者 —— 你的支持是專案持續維護的最大動力。",
+    "methods": {
+      "cta": "前往捐贈",
+      "lemon": {
+        "title": "Lemon Squeezy",
+        "desc": "一次性或按月捐贈，支援全球支付（銀行卡 / 多種方式）。"
+      },
+      "github": {
+        "title": "GitHub Sponsors",
+        "desc": "在 GitHub 上按月贊助，長期支持開源專案發展。"
+      },
+      "kofi": {
+        "title": "Ko-fi · 請我喝杯咖啡",
+        "desc": "在 Ko-fi 上一次性或月度打賞，金額隨意，非常感謝。"
+      }
+    },
+    "footerThanks": "感謝每一位支持者，你們讓這個專案能繼續走下去。",
+    "footerProject": "專案首頁：",
+    "github": "GitHub 開源倉庫",
+    "title": "支持 MediaFlow",
+    "badge_free": "永久免費",
+    "badge_opensource": "GPLv3 開源",
+    "badge_nolock": "無功能鎖定",
+    "scan": "手機掃碼捐贈"
+  }
+}

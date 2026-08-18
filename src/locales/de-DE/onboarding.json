@@ -1,0 +1,18 @@
+{
+  "onboarding": {
+    "welcomeTitle": "Willkommen bei MediaFlow",
+    "welcomeBody": "Offline-Downloads, lokale Transkription und Bildkompression — alle Funktionen sind kostenlos und offen, keine Aktivierung nötig.",
+    "downloadTitle": "Ihre erste Download",
+    "downloadBody": "Fügen Sie auf der Download-Seite eine öffentliche Video-URL ein → Analysieren → Herunterladen. Einzel-Link-Download ist kostenlos; legen Sie den Speicherordner jederzeit in den Einstellungen fest.",
+    "clipboardTitle": "Zwischenablage-Überwachung (optional)",
+    "clipboardBody": "MediaFlow can detect video links you copy and offer a quick download. This is off by default — enable only if you want it. Change anytime in Settings → Privacy.",
+    "clipboardEnableLabel": "Zwischenablage-Linkerkennung aktivieren",
+    "enginesTitle": "Kern-Engines installieren",
+    "enginesBody": "Fehlende Tools: {{list}}. Öffnen Sie Einstellungen → Kern-Engines zur Behebung oder installieren Sie die App neu.",
+    "doneTitle": "Sie sind startklar",
+    "doneBody": "Beginnen Sie mit einem einzelnen Download. Nutzen Sie erweiterte Tools bei Bedarf — einige sind experimentell.",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "getStarted": "Loslegen"
+  }
+}

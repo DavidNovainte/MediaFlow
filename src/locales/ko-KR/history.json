@@ -1,0 +1,53 @@
+{
+  "history": {
+    "title": "다운로드 히스토리",
+    "clear": "히스토리 삭제",
+    "confirmClear": "정말로 전체 히스토리를 삭제하시겠습니까?",
+    "confirmDelete": "이 항목을 삭제하시겠습니까?",
+    "historyCleared": "히스토리 삭제됨",
+    "searchPlaceholder": "비디오 제목 검색...",
+    "noResults": "일치하는 기록을 찾을 수 없습니다",
+    "empty": "다운로드 히스토리가 없습니다",
+    "openFile": "재생",
+    "openFolder": "폴더에서 보기",
+    "copyLink": "링크 복사",
+    "shareMobile": "모바일로 공유",
+    "showQRCode": "QR 코드 보기",
+    "delete": "삭제",
+    "fileDeleted": "파일 삭제됨",
+    "deletedTag": "삭제됨",
+    "qrTip": "📱 모바일에서 QR 코드를 스캔하여 동기화",
+    "close": "닫기",
+    "filter": {
+      "allPlatforms": "전체 플랫폼",
+      "other": "기타",
+      "allTime": "전체 기간",
+      "today": "오늘",
+      "week": "이번 주",
+      "month": "이번 달"
+    },
+    "batch": {
+      "selectAll": "전체 선택",
+      "selected": "{count}개 선택됨",
+      "delete": "삭제",
+      "copy": "파일 복사",
+      "confirmDelete": "선택한 {count}개 항목을 삭제하시겠습니까?",
+      "deleteSuccess": "성공적으로 삭제되었습니다",
+      "noLocalFile": "선택한 항목에 로컬 파일이 없습니다",
+      "copySuccess": "{count}개 파일 복사됨, 붙여넣기 준비 완료",
+      "copyFail": "복사 실패"
+    },
+    "stats": {
+      "filtered": "{filtered} / {total} 표시 중",
+      "total": "총 {total}개 기록"
+    },
+    "noResultsTitle": "결과를 찾을 수 없습니다",
+    "noResultsDesc": "다른 키워드로 검색해 보세요",
+    "clearSearchBtn": "검색 초기화",
+    "emptyTitle": "기록이 없습니다",
+    "emptyDesc": "보관한 미디어 자산이 여기에 표시되어<br>쉽게 추적하고 관리할 수 있습니다.",
+    "goDownload": "Get started with your first archive",
+    "qrProOnly": "QR / 모바일 공유는 Pro 기능입니다. 업그레이드로 잠금 해제.",
+    "showQRCodePro": "QR 코드 표시 · Pro"
+  }
+}

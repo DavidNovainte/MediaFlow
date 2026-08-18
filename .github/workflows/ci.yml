@@ -1,0 +1,25 @@
+# MediaFlow CI (fully free & open source)
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Unit tests
+        run: npm test -- --runInBand
+      - name: Lint (non-blocking)
+        run: npm run lint --if-present
+        continue-on-error: true
