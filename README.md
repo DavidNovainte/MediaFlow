@@ -39,6 +39,8 @@ MediaFlow is a free desktop application built with Electron. It brings common me
   <img src="docs/screenshots/download-progress.png" alt="MediaFlow download progress view" width="100%">
 </p>
 
+> The media shown in these screenshots is used for interface demonstration only. Any third-party media remains subject to the rights and license terms of its respective creators and platforms.
+
 ## Development
 
 ### Requirements
