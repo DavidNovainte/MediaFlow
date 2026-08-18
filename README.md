@@ -31,7 +31,10 @@ MediaFlow is a free desktop application built with Electron. It brings common me
 
 ## Screenshots
 
-Product screenshots will be added here as the interface documentation is finalized.
+<p align="center">
+  <img src="docs/screenshots/media-download.png" alt="MediaFlow media download workflow" width="49%">
+  <img src="docs/screenshots/download-progress.png" alt="MediaFlow download progress view" width="49%">
+</p>
 
 ## Development
 
