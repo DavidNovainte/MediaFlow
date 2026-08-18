@@ -4,9 +4,9 @@
   <img src="assets/icons/mediaflow-studio-icon-256.png" width="128" alt="MediaFlow icon">
 </p>
 
-<h1 align="center">MediaFlow</h1>
+<h1 align="center">MediaFlow — Free Video Downloader & Media Toolkit</h1>
 
-<p align="center">An open-source desktop media toolkit for downloading, processing, transcribing, enhancing, and creating with media.</p>
+<p align="center">An open-source desktop media toolkit for downloading videos (YouTube, TikTok, Bilibili, Douyin and more), processing, transcribing, enhancing, and creating with media.</p>
 
 <p align="center"><a href="https://mediaflowing.com/">Visit the official website</a></p>
 
