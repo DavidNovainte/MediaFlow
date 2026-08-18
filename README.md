@@ -8,6 +8,8 @@
 
 <p align="center">An open-source desktop media toolkit for downloading, processing, transcribing, enhancing, and creating with media.</p>
 
+<p align="center"><a href="https://mediaflowing.com/">Visit the official website</a></p>
+
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="GPLv3 license"></a>
   <img src="https://img.shields.io/badge/Platform-Windows-lightgrey.svg" alt="Windows">
@@ -29,7 +31,7 @@ MediaFlow is a free desktop application built with Electron. It brings common me
 
 ## Screenshots
 
-Screenshots will be added as the interface documentation is finalized.
+Product screenshots will be added here as the interface documentation is finalized.
 
 ## Development
 
@@ -72,6 +74,11 @@ The official website and the optional browser extension are separate proprietary
 ## Contributing
 
 Issues and pull requests are welcome. Please do not include cookies, private credentials, access tokens, signing keys, downloaded binaries, personal media, or production logs in an issue or pull request.
+
+## Links
+
+- [Official website](https://mediaflowing.com/)
+- [Source code](https://github.com/DavidNovainte/MediaFlow)
 
 ## License
 
