@@ -1,6 +1,7 @@
 /** @jest-environment node */
 
 const { EventEmitter } = require('events');
+const path = require('path');
 
 const handlers = {};
 const mockIpcHandle = jest.fn((name, fn) => {
@@ -130,7 +131,7 @@ describe('subtitleHandler source segment burn path', () => {
         const ffmpegArgs = mockSpawn.mock.calls[0][1];
         expect(ffmpegArgs).toEqual(expect.arrayContaining([
             '-i',
-            'C:\\tmp\\mediaflow-subtitle-trim\\trimmed_source.mp4',
+            path.normalize('C:/tmp/mediaflow-subtitle-trim/trimmed_source.mp4'),
             '-i',
             'C:/tmp/overlay.mp4'
         ]));
